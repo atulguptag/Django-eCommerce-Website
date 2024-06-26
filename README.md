@@ -20,6 +20,26 @@ This project is a full-fledged eCommerce website built using Django, a high-leve
 - **Responsive Design:** Mobile-friendly UI ensuring a consistent experience across devices.
 - **Admin Panel:** Manage products, orders, and users efficiently through Django's admin interface.
 
+## Screenshots
+
+### Homepage
+![Homepage Screenshot](downloads/Django-eCommerce-Website/Django-Ecommerce-Website-Home-Page.png)
+
+### Product Page
+![Product Page Screenshot](downloads/Django-eCommerce-Website/Django-Ecommerce-Website-Product-Page.png)
+
+### Cart Page
+![Cart Page Screenshot](downloads/Django-eCommerce-Website/Django-Ecommerce-Website-Cart-Page-With-Items.png)
+
+### Login Page
+![Product Page Screenshot](downloads/images/Django-Ecommerce-Website-Login-Page.png)
+
+### Register Page
+![Product Page Screenshot](downloads/images/Django-Ecommerce-Website-Register-Page.png)
+
+## Project Demo Video
+<video controls src="downloads/Django-eCommerce-Website/Project-Video.mp4" title="Title"></video>
+
 ## Technologies Used
 - **Django:** Python-based web framework for backend development.
 - **HTML/CSS/JavaScript:** Frontend development for a responsive and interactive UI.
