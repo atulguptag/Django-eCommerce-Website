@@ -38,7 +38,8 @@ This project is a full-fledged eCommerce website built using Django, a high-leve
 ![Product Page Screenshot](Screenshots/Django-Ecommerce-Website-Register-Page.png)
 
 ## Project Demo Video
-<video controls src="Screenshots/Project-Video.mp4" title="Title"></video>
+[![Project Demo](https://img.youtube.com/vi/PywuBtSJrp8/0.jpg)](https://www.youtube.com/watch?v=PywuBtSJrp8)
+
 
 ## Technologies Used
 - **Django:** Python-based web framework for backend development.
