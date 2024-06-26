@@ -1,0 +1,218 @@
+{% extends "base/base.html" %} {% block start %} {% load static %}
+
+<section class="section-content padding-y">
+  <div class="container">
+    <div class="row">
+      <main class="col-md-9">
+        <div class="card">
+          <table class="table table-borderless table-shopping-cart">
+            <thead class="text-muted">
+              <tr class="small text-uppercase">
+                <th scope="col">Product</th>
+                <th scope="col" width="120">Quantity</th>
+                <th scope="col" width="120">Price</th>
+                <th scope="col" class="text-right" width="200"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for cart_item in cart.cart_items.all %}
+              <tr>
+                <td>
+                  <figure class="itemside">
+                    <div class="aside">
+                      <img
+                        src="/media/{{ cart_item.product.product_images.first.image }}"
+                        class="img-sm"
+                      />
+                    </div>
+                    <figcaption class="info">
+                      <a
+                        href="{% url 'get_product' cart_item.product.slug %}"
+                        class="title text-dark"
+                      >
+                        {{ cart_item.product.product_name }}
+                      </a>
+                      {% if cart_item.size_variant %}
+                      
+                      <p class="text-muted small">
+                        Size: {{ cart_item.size_variant.size_name }}<br />
+                        {% endif %} 
+                        
+                        {% if cart_item.color_variant %} 
+                        Color: {{ cart_item.color_variant.color_name }}<br />
+                        {% endif %} 
+                        Brand: Nike
+                      </p>
+                    </figcaption>
+                  </figure>
+                </td>
+                <td>
+                  <select class="form-control">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                  </select>
+                </td>
+                <td>
+                  <div class="price-wrap">
+                    <var class="price">₹{{ cart_item.get_product_price }} </var>
+                  </div>
+                  <!-- price-wrap .// -->
+                </td>
+                <td class="text-right">
+                  <a
+                    data-original-title="Save to Wishlist"
+                    title=""
+                    href=""
+                    class="btn btn-light"
+                    data-toggle="tooltip"
+                  >
+                    <i class="fa fa-heart"></i
+                  ></a>
+                  <a
+                    href="{% url 'remove_cart' cart_item.uid %}"
+                    class="btn btn-light"
+                  >
+                    Remove</a
+                  >
+                </td>
+              </tr>
+
+              {% endfor %}
+            </tbody>
+          </table>
+
+          <div class="card-body border-top">
+            <button id="rzp-button1" class="btn btn-primary float-md-right">
+              Make Purchase <i class="fa fa-chevron-right"></i>
+            </button>
+
+            <a href="{% url 'index' %}" class="btn btn-light">
+              <i class="fa fa-chevron-left"></i> Continue Shopping
+            </a>
+          </div>
+        </div>
+        <!-- card.// -->
+
+        <div class="alert alert-success mt-3">
+          <p class="icontext">
+            <i class="icon text-success fa fa-truck"></i> Free Delivery within
+            1-2 weeks
+          </p>
+        </div>
+      </main>
+      <!-- col.// -->
+      <aside class="col-md-3">
+        <div class="card mb-3">
+          <div class="card-body">
+            <form method="POST">
+              {% include 'base/alert.html' %} {% csrf_token %}
+              <div class="form-group">
+                <label>Have coupon?</label>
+                <div class="input-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="coupon"
+                    placeholder="Coupon code"
+                  />
+                  <span class="input-group-append">
+                    <button type="submit" class="btn btn-primary">Apply</button>
+                  </span>
+                </div>
+              </div>
+
+              {% if cart.coupon %}
+
+              <a
+                href="{% url 'remove_coupon' cart.uid %}"
+                class="btn btn-success"
+              >
+                {{ cart.coupon.coupon_code }}
+              </a>
+
+              {% endif %}
+            </form>
+          </div>
+          <!-- card-body.// -->
+        </div>
+        <!-- card .// -->
+        <div class="card">
+          <div class="card-body">
+            <dl class="dlist-align">
+              <dt>Total price:</dt>
+              <dd class="text-right">
+                <strong>₹{{ cart.get_cart_total }}</strong>
+              </dd>
+            </dl>
+            {% if cart.coupon %}
+            <dl class="dlist-align">
+              <dt>Discount:</dt>
+              <dd class="text-right">₹{{ cart.coupon.discount_amount }}</dd>
+            </dl>
+            <dl class="dlist-align">
+              <dt>Total:</dt>
+              <dd class="text-right h5">
+                <strong>₹{{ cart.get_cart_total_price_after_coupon }}</strong>
+              </dd>
+            </dl>
+            {% endif %}
+            <hr />
+            <p class="text-center mb-3">
+              <img src="{% static 'images/misc/payments.png' %}" height="26" />
+            </p>
+          </div>
+          <!-- card-body.// -->
+        </div>
+        <!-- card .// -->
+      </aside>
+      <!-- col.// -->
+    </div>
+  </div>
+  <!-- container .//  -->
+</section>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+  var options = {
+    key: "rzp_test_5XxorWz3z1N2m5",
+    amount: "{{ payment.amount }}",
+    currency: "INR",
+    name: "Django Ecommerce Site",
+    description: "Purchased",
+    order_id: "{{ payment.id }}",
+
+    handler: function (response) {
+      console.log("Success");
+      window.location.href = `http://127.0.0.1:8000/accounts/success/?order_id={{ payment.id }}`;
+    },
+    prefill: {
+      name: "Gaurav Kumar",
+      email: "gaurav.kumar@example.com",
+      contact: "9000090000",
+    },
+    notes: {
+      address: "Razorpay Corporate Office",
+    },
+    theme: {
+      color: "#3399cc",
+    },
+  };
+  var rzp1 = new Razorpay(options);
+  rzp1.on("payment.failed", function (response) {
+    alert(response.error.code);
+    alert(response.error.description);
+    alert(response.error.source);
+    alert(response.error.step);
+    alert(response.error.reason);
+    alert(response.error.metadata.order_id);
+    alert(response.error.metadata.payment_id);
+  });
+  document.getElementById("rzp-button1").onclick = function (e) {
+    rzp1.open();
+    e.preventDefault();
+  };
+</script>
+{% endblock %}

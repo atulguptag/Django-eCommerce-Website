@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %}
+
+{% block start %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="text-center">
+            <h1 class="mb-4">Payment Successful!🎉</h1>
+            <p>Your order with Order ID: <strong>{{ order_id }} </strong> has been successfully processed.</p>
+            <p>Thank you for shopping with us!</p>
+            <a href="{% url 'index' %}" class="btn btn-primary mt-3">Continue Shopping</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

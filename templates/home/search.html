@@ -1,0 +1,41 @@
+{% extends "base/base.html"%} {% block start %}
+
+<section class="section-content padding-y">
+  <div class="container">
+
+    <h2>Search Results</h2>
+    {% if query %}
+    <p>Showing results for '{{ query }}':</p>
+    {% else %}
+
+    <p>No search query entered.</p>
+    {% endif %}
+
+    <div class="row">
+      {% if products %} {% for product in products %}
+
+      <div class="col-md-3">
+        <figure class="card card-product-grid">
+          <div class="img-wrap">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" />
+          </div>
+
+          <figcaption class="info-wrap">
+            <a href="{% url 'product_detail' product.id %}" class="title"
+              >{{ product.name }}</a
+            >
+            <div class="price mt-1">{{ product.price }}</div>
+          </figcaption>
+        </figure>
+      </div>
+
+      {% endfor %} {% else %}
+      <div class="col-md-12">
+        <p>No products found.</p>
+      </div>
+      {% endif %}
+      
+    </div>
+  </div>
+</section>
+{% endblock %}
