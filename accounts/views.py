@@ -66,8 +66,10 @@ def register_page(request):
     return render(request, 'accounts/register.html')
 
 
+@login_required
 def user_logout(request):
     logout(request)
+    messages.info(request, "Logged Out Successfully!")
     return redirect('index')
 
 
@@ -176,7 +178,6 @@ def cart(request):
     return render(request, 'accounts/cart.html', context)
 
 
-@login_required
 def remove_cart(request, uid):
     try:
         cart_item = get_object_or_404(CartItem, uid=uid)
