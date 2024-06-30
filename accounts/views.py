@@ -79,7 +79,7 @@ def activate_email_account(request, email_token):
         user.is_email_verified = True
         user.save()
         messages.success(request, 'Account verification successful.')
-        return redirect('/')
+        return redirect('login')
     except Exception as e:
         return HttpResponse('Invalid email token.')
 
