@@ -32,15 +32,14 @@
                       >
                         {{ cart_item.product.product_name }}
                       </a>
-                      {% if cart_item.size_variant %}
                       
                       <p class="text-muted small">
-                        Size: {{ cart_item.size_variant.size_name }}<br />
-                        {% endif %} 
-                        
-                        {% if cart_item.color_variant %} 
-                        Color: {{ cart_item.color_variant.color_name }}<br />
-                        {% endif %} 
+                        {% comment %} Size: {{ cart_item.size_variant.size_name }}<br /> {% endcomment %}
+
+                        {% for color in cart_item.product.color_variant.all %}
+                        Color: {{ color.color_name }}<br />
+                        {% endfor %} 
+
                         Brand: Nike
                       </p>
                     </figcaption>
