@@ -1,4 +1,4 @@
-{% extends "base/base.html" %} {% block start %}
+{% extends "base/base.html" %} {% block start %} {% load static %} {% load socialaccount %}
 
 <section class="section-conten padding-y" style="min-height: 84vh">
   <!-- ============================ COMPONENT LOGIN   ================================= -->
@@ -6,8 +6,7 @@
     <div class="card-body">
       <h4 class="card-title mb-4">Sign in</h4>
       <form method="POST">
-        {% csrf_token %} 
-        {% include "base/alert.html" %}
+        {% csrf_token %} {% include "base/alert.html" %}
 
         <div class="form-group">
           <input
@@ -37,21 +36,42 @@
             <div class="custom-control-label">Remember</div>
           </label>
         </div>
-        <!-- form-group form-check .// -->
+
+        <!-- form-group// -->
         <div class="form-group">
           <button type="submit" class="btn btn-primary btn-block">Login</button>
         </div>
-        <!-- form-group// -->
+
+        <p class="text-center mt-4">
+          Don't have account? <a href="{% url 'register' %}">Sign up</a>
+        </p>
+
+        <div class="line"></div>
+
+        <div class="media-options">
+          <a href="#" class="field facebook">
+            <i class="bx bxl-facebook facebook-icon"></i>
+            <span>Login with Facebook</span>
+          </a>
+        </div>
+
+        <div class="media-options">
+          <a href="{% provider_login_url 'google' %}?next=/" class="field google">
+            <img
+              src="{% static 'images/google.png' %}"
+              alt=""
+              class="google-img"
+            />
+            <span>Login with Google</span>
+          </a>
+        </div>
       </form>
     </div>
     <!-- card-body.// -->
   </div>
   <!-- card .// -->
 
-  <p class="text-center mt-4">
-    Don't have account? <a href="{% url 'register' %}">Sign up</a>
-  </p>
-  <br /><br />
+  {% comment %} <br /><br /> {% endcomment %}
   <!-- ============================ COMPONENT LOGIN  END.// ================================= -->
 </section>
 
