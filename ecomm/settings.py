@@ -51,7 +51,12 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook', # Added this line for facebook authentication
 ]
+
+# Facebook API KEYS
+SOCIAL_AUTH_FACEBOOK_KEY = config('SOCIAL_AUTH_FACEBOOK_KEY')
+SOCIAL_AUTH_FACEBOOK_SECRET = config('3137cbebbb7618f402792013eda8d123')
 
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
@@ -60,6 +65,34 @@ SOCIALACCOUNT_PROVIDERS = {
             "email"
         ],
         "AUTH_PARAMS": {"access_type": "online"}
+    },
+
+    # Added below lines for facebook authentication
+    "facebook": {
+        'APP': {
+            # Facebook API KEYS
+            'client_id': SOCIAL_AUTH_FACEBOOK_KEY,
+            'secret': SOCIAL_AUTH_FACEBOOK_SECRET,
+        },
+        'METHOD': 'oauth2',  # Set to 'js_sdk' to use the Facebook connect SDK
+        'SDK_URL': '//connect.facebook.net/{locale}/sdk.js',
+        'SCOPE': ['email', 'public_profile'],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'INIT_PARAMS': {'cookie': True},
+        'FIELDS': [
+            'id',
+            'first_name',
+            'last_name',
+            'middle_name',
+            'name',
+            'name_format',
+            'picture',
+            'short_name',
+        ],
+        'EXCHANGE_TOKEN': True,
+        'VERIFIED_EMAIL': False,
+        'VERSION': 'v17.0',
+        'GRAPH_API_URL': 'https://graph.facebook.com/v17.0',
     }
 }
 
@@ -87,6 +120,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request', # Added this line for authentication purpose
             ],
         },
     },
@@ -174,9 +208,13 @@ RAZORPAY_SECRET_KEY = config('RAZORPAY_SECRET_KEY')
 #added below lines
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
-    "allauth.account.auth_backends.AuthenticationBackend"
+    "allauth.account.auth_backends.AuthenticationBackend",
 )
 
 LOGIN_URL = "/accounts/login/"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
+
+# Auto signup
+SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_LOGIN_ON_GET = True

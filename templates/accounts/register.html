@@ -14,7 +14,8 @@
             required
             placeholder="Username"
             name="username"
-            type="text"/>
+            type="text"
+            autocomplete="username"/>
         </div>
 
         <div class="form-group">
@@ -23,7 +24,8 @@
             required
             placeholder="First Name"
             name="first_name"
-            type="text"/>
+            type="text"
+            autocomplete="given-name"/>
         </div>
 
         <div class="form-group">
@@ -32,7 +34,8 @@
             required
             placeholder="Last Name"
             name="last_name"
-            type="text"/>
+            type="text"
+            autocomplete="family-name"/>
         </div>
 
         <div class="form-group">
@@ -41,7 +44,8 @@
             required
             placeholder="Email"
             name="email"
-            type="text"/>
+            type="text"
+            autocomplete="email"/>
         </div>
 
         <!-- form-group// -->
@@ -68,7 +72,7 @@
           <div class="line"></div>
 
           <div class="media-options">
-            <a href="#" class="field facebook">
+            <a href="{% provider_login_url 'facebook' %}" class="field facebook">
               <i class="bx bxl-facebook facebook-icon"></i>
               <span>Login with Facebook</span>
             </a>

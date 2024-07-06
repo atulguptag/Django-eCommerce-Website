@@ -15,6 +15,7 @@
             placeholder="Username"
             name="username"
             type="text"
+            autocomplete="username"
           />
         </div>
         <!-- form-group// -->
@@ -49,7 +50,7 @@
         <div class="line"></div>
 
         <div class="media-options">
-          <a href="#" class="field facebook">
+          <a href="{% provider_login_url 'facebook' %}" class="field facebook">
             <i class="bx bxl-facebook facebook-icon"></i>
             <span>Login with Facebook</span>
           </a>
