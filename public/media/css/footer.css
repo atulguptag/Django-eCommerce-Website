@@ -4,6 +4,9 @@
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+ @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");html {
+    scroll-behavior: smooth
+}
 :root {
     --bs-blue: #0d6efd;
     --bs-indigo: #6610f2;
@@ -13975,9 +13978,6 @@ iframe.wait-autoplay {
     }
 }
 
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");html {
-    scroll-behavior: smooth
-}
 
 body {
     font-family: Manrope,sans-serif;
