@@ -103,9 +103,9 @@
                         <!-- brand-wrap.// -->
                     </div>
                     <div class="col-lg-6 col-sm-12">
-                        <form action="{% url 'product_search' %}" class="search">
+                        <form method="GET" action="{% url 'product_search' %}" class="search">
                             <div class="input-group w-100">
-                                <input type="text" class="form-control" name="search" placeholder="Search" />
+                                <input type="text" class="form-control" name="q" placeholder="Search" value="{{ query|default:"" }}"/>
                                 <div class="input-group-append">
                                     <button class="btn btn-primary" type="submit">
                                         <i class="fa fa-search"></i>
@@ -262,7 +262,7 @@
                         </div>
                         <div class="col-lg-4 col-12">
                             <div class="copyright">
-                                <p>Designed and Developed by ❤️<a href="https://www.linkedin.com/in/atulguptag/" rel="nofollow" target="_blank">Atul Gupta</a></p>
+                                <p>Designed and Developed by ❤️<a href="https://atulguptag.github.io/" rel="nofollow" target="_blank">Atul Gupta</a></p>
                             </div>
                         </div>
                         <div class="col-lg-4 col-12">
