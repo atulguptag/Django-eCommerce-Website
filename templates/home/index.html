@@ -1,6 +1,64 @@
 {% extends "base/base.html"%} {% block start %}
+<style>
+  .filter-section {
+      margin-bottom: 20px;
+  }
 
-<div class="container mt-5 pt-5">
+  .form-group {
+      margin-bottom: 10px;
+  }
+
+  .product-list {
+      display: flex;
+      flex-wrap: wrap;
+  }
+
+  .product-item {
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin: 10px;
+      width: calc(33.333% - 20px);
+      box-sizing: border-box;
+  }
+  
+  .product-item h3 {
+      font-size: 1.2em;
+  }
+
+  .product-item p {
+      color: #666;
+  }
+</style>
+<div class="container mt-3 pt-3">
+  <!-- Filter Section -->
+  <div class="filter-section mb-3">
+    <form method="GET" class="row">
+      <div class="form-group col-md-6">
+        <label for="category">Category:</label>
+        <select id="category" name="category" class="form-control" onchange="this.form.submit()">
+          <option value="">All</option>
+          {% for category in categories %}
+          <option value="{{ category.category_name }}" {% if selected_category == category.category_name %} selected {% endif %}>
+            {{ category.category_name }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+      
+      <!-- Sort Section -->
+      <div class="form-group col-md-6">
+        <label for="sort">Sort by:</label>
+        <select id="sort" name="sort" class="form-control" onchange="this.form.submit()">
+          <option value="">Select</option>
+          {% comment %} <option value="popular" {% if selected_sort == 'popular' %}selected{% endif %}>Popular</option> {% endcomment %}
+          <option value="priceAsc" {% if selected_sort == 'priceAsc' %}selected{% endif %}>Price: Low to High</option>
+          <option value="priceDesc" {% if selected_sort == 'priceDesc' %}selected{% endif %}>Price: High to Low</option>
+        </select>
+      </div>
+    </form>
+  </div>
+
+  <!-- Product List -->
   <div class="row">
     {% for product in products %}
     <div class="col-md-3">
@@ -10,15 +68,11 @@
         </div>
         <figcaption class="info-wrap border-top">
           <a href="{% url 'get_product' product.slug %}" class="title">
-            <b>{{ product.product_name }}</b></a
-          >
+            <b>{{ product.product_name }}</b></a>
           <div class="price mt-2">₹{{product.price}}.00</div>
-          <!-- price-wrap.// -->
         </figcaption>
       </figure>
-      <!-- card // -->
     </div>
-    <!-- col.// -->
 
     {% endfor %}
   </div>
