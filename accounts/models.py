@@ -50,18 +50,17 @@ class Cart(BaseModel):
         for cart_item in cart_items:
             total_price += cart_item.get_product_price()
 
-        if self.coupon and total_price >= self.coupon.minimum_amount:
-            total_price -= self.coupon.discount_amount
         return total_price
 
 
     def get_cart_total_price_after_coupon(self):
         total = self.get_cart_total()
 
-        if total < self.coupon.minimum_amount:
-            return total
-        
-        return total - self.coupon.discount_amount
+        if self.coupon and total >= self.coupon.minimum_amount:
+            total -= self.coupon.discount_amount
+                    
+        return total
+
 
 
 class CartItem(BaseModel):

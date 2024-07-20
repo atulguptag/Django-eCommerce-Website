@@ -158,7 +158,7 @@ def cart(request):
 
     if cart_obj:
         
-        cart_total_in_paise = int(cart_obj.get_cart_total() * 100)
+        cart_total_in_paise = int(cart_obj.get_cart_total_price_after_coupon() * 100)
         
         if cart_total_in_paise < 100:
             print('Total amount is less than the minimum required amount (1.00 INR).')

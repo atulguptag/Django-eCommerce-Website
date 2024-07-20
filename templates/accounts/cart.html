@@ -177,7 +177,7 @@
 <script>
   var options = {
     key: "rzp_test_5XxorWz3z1N2m5",
-    amount: "{{ payment.amount }}",
+    amount: "{{ cart.get_cart_total_price_after_coupon|floatformat:0 }}",
     currency: "INR",
     name: "Django Ecommerce Site",
     description: "Purchased",
@@ -190,7 +190,7 @@
     prefill: {
       name: "Gaurav Kumar",
       email: "gaurav.kumar@example.com",
-      contact: "9000090000",
+      contact: "9876543210",
     },
     notes: {
       address: "Razorpay Corporate Office",
