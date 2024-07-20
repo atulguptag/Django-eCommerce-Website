@@ -1,40 +1,38 @@
 {% extends "base/base.html"%} {% block start %}
-
+<style>
+  h3{
+    margin-bottom: 20px;
+  }
+</style>
 <section class="section-content padding-y">
   <div class="container">
-
-    <h2>Search Results</h2>
     {% if query %}
-    <p>Showing results for '{{ query }}':</p>
+    <h3>Showing results for '{{ query }}':</h3>
     {% else %}
-
-    <p>No search query entered.</p>
+    <h3>No search query entered.</h3>
     {% endif %}
 
     <div class="row">
       {% if products %} {% for product in products %}
-
       <div class="col-md-3">
         <figure class="card card-product-grid">
           <div class="img-wrap">
-            <img src="{{ product.image.url }}" alt="{{ product.name }}" />
+            <img src="/media/{{product.product_images.first.image}}" />
           </div>
-
-          <figcaption class="info-wrap">
-            <a href="{% url 'product_detail' product.id %}" class="title"
-              >{{ product.name }}</a
-            >
-            <div class="price mt-1">{{ product.price }}</div>
+          <figcaption class="info-wrap border-top">
+            <a href="{% url 'get_product' product.slug %}" class="title">
+              <b>{{ product.product_name }}</b></a>
+            <div class="price mt-2">₹{{ product.price }}.00</div>
           </figcaption>
         </figure>
       </div>
 
-      {% endfor %} {% else %}
+      {% endfor %} {% elif query %}
       <div class="col-md-12">
         <p>No products found.</p>
       </div>
       {% endif %}
-      
+
     </div>
   </div>
 </section>
