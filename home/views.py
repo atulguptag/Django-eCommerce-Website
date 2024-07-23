@@ -15,7 +15,10 @@ def index(request):
         query = query.filter(category__category_name=selected_category)
 
     if selected_sort:
-        if selected_sort == 'priceAsc':
+        if selected_sort == 'newest':
+            query = query.filter(newest_product=True).order_by('category_id')
+
+        elif selected_sort == 'priceAsc':
             query = query.order_by('price')
 
         elif selected_sort == 'priceDesc':

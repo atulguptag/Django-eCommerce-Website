@@ -50,9 +50,9 @@
         <label for="sort">Sort by:</label>
         <select id="sort" name="sort" class="form-control" onchange="this.form.submit()">
           <option value="">Select</option>
-          {% comment %} <option value="popular" {% if selected_sort == 'popular' %}selected{% endif %}>Popular</option> {% endcomment %}
-          <option value="priceAsc" {% if selected_sort == 'priceAsc' %}selected{% endif %}>Price: Low to High</option>
-          <option value="priceDesc" {% if selected_sort == 'priceDesc' %}selected{% endif %}>Price: High to Low</option>
+          <option value="newest" {% if selected_sort == 'newest' %}selected{% endif %}>Newest</option>
+          <option value="priceAsc" {% if selected_sort == 'priceAsc' %}selected{% endif %}>Price: Low-High</option>
+          <option value="priceDesc" {% if selected_sort == 'priceDesc' %}selected{% endif %}>Price: High-Low</option>
         </select>
       </div>
     </form>

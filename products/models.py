@@ -44,6 +44,7 @@ class Product(BaseModel):
     product_desription = models.TextField()
     color_variant = models.ManyToManyField(ColorVariant, blank=True)
     size_variant = models.ManyToManyField(SizeVariant, blank=True)
+    newest_product = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.product_name)
