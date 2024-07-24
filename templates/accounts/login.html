@@ -2,7 +2,7 @@
 
 <section class="section-conten padding-y" style="min-height: 84vh">
   <!-- ============================ COMPONENT LOGIN   ================================= -->
-  <div class="card mx-auto" style="max-width: 380px; margin-top: 100px">
+  <div class="card-2 mx-auto" style="max-width: 480px; margin-top: 100px">
     <div class="card-body">
       <h4 class="card-title mb-4">Sign in</h4>
       <form method="POST">
@@ -31,7 +31,7 @@
         <!-- form-group// -->
 
         <div class="form-group">
-          <a href="#" class="float-right">Forgot password?</a>
+          <a href="{% url 'password_reset' %}" class="float-right">Forgot password?</a>
           <label class="float-left custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" checked="" />
             <div class="custom-control-label">Remember</div>
@@ -71,8 +71,6 @@
     <!-- card-body.// -->
   </div>
   <!-- card .// -->
-
-  {% comment %} <br /><br /> {% endcomment %}
   <!-- ============================ COMPONENT LOGIN  END.// ================================= -->
 </section>
 
