@@ -4,6 +4,7 @@ This project is a full-fledged eCommerce website built using Django, a high-leve
 
 ## Table of Contents
 - [Features](#features)
+- [Screenshots](#screenshots)
 - [Technologies Used](#technologies-used)
 - [Setup Instructions](#setup-instructions)
 - [Usage](#usage)
@@ -11,7 +12,7 @@ This project is a full-fledged eCommerce website built using Django, a high-leve
 - [License](#license)
 
 ## Features
-- **User Authentication:** Secure user registration, login, and profile management.
+- **User Authentication:** Secure user registration, login, reset password, and profile management.
 - **Product Catalog:** Browse and search products with detailed descriptions and images.
 - **Shopping Cart:** Add, update, and remove items from the cart seamlessly.
 - **Checkout Process:** Smooth checkout flow with order summary and address management.
@@ -22,14 +23,17 @@ This project is a full-fledged eCommerce website built using Django, a high-leve
 
 ## Screenshots
 
-### Homepage
-![Homepage Screenshot](Screenshots/Django-Ecommerce-Website-Home-Page.png)
+### Home Page
+![Homepage Screenshot](Screenshots/Django-Ecommerce-Website-Front-Page.png)
 
 ### Product Page
 ![Product Page Screenshot](Screenshots/Django-Ecommerce-Website-Product-Page.png)
 
 ### Cart Page
-![Cart Page Screenshot](Screenshots/Django-Ecommerce-Website-Cart-Page-With-Items.png)
+![Cart Page Screenshot](Screenshots/Django-Ecommerce-Website-Cart-Page.png)
+
+### Footer
+![Footer Page Screenshot](Screenshots/Django-Ecommerce-Website-Footer-Page.png)
 
 ### Login Page
 ![Product Page Screenshot](Screenshots/Django-Ecommerce-Website-Login-Page.png)
@@ -37,8 +41,8 @@ This project is a full-fledged eCommerce website built using Django, a high-leve
 ### Register Page
 ![Product Page Screenshot](Screenshots/Django-Ecommerce-Website-Register-Page.png)
 
-## Project Demo Video
-[![Project Demo](https://img.youtube.com/vi/PywuBtSJrp8/0.jpg)](https://www.youtube.com/watch?v=PywuBtSJrp8)
+### Forgot Password Page
+![Product Page Screenshot](Screenshots/Django-Ecommerce-Website-ForgotPassword-Page.png)
 
 
 ## Technologies Used
@@ -99,7 +103,7 @@ To run this project locally, follow these steps:
 ## Usage
 - **Admin Panel:** Access the admin panel at `http://127.0.0.1:8000/admin/` to manage products, orders, and users.
 - **Shopping:** Browse products, add items to the cart, proceed to checkout, and make payments using Razorpay.
-- **Profile:** Users can register, login, view their order history, and update their profiles.
+- **Profile:** Users can register, login, reset their password, view their order history, and update their profiles.
 
 ## Contributing
 Contributions are welcome! Please fork this repository and create a pull request with your proposed features, enhancements, or bug fixes.
