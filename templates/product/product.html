@@ -2,24 +2,24 @@
 
 <section class="section-content padding-y bg">
   <div class="container">
-    <!-- ============================ COMPONENT 1 ================================= -->
+    <!-- ============================ COMPONENT Product Details ================================= -->
     <div class="card">
       <div class="row no-gutters">
         <aside class="col-md-6">
           <article class="gallery-wrap">
             <div class="img-big-wrap">
-              <div>
-                <a href="#"
-                  ><img src="/media/{{product.product_images.first.image}}"
-                /></a>
+              <div class="text-center mt-5" style="transform: scale(1);">
+                  <p>
+                    <img src="/media/{{product.product_images.first.image}}"/>
+                  </p>
               </div>
             </div>
             <!-- slider-product.// -->
             <div class="thumbs-wrap">
               {% for image in product.product_images.all %}
-              <a href="#" class="item-thumb">
-                <img src="/media/{{image.image}}"
-              /></a>
+              <p class="item-thumb">
+                <img src="/media/{{image.image}}"/>
+              </p>
 
               {% endfor %}
             </div>
@@ -105,14 +105,12 @@
                   </div>
                 </div>
               </div>
-              <!-- col.// -->
-              {% comment %} {% if product.size_variant.count %} {% endcomment %}
+
               {% if sorted_size_variants %}
               <div class="form-group col-md">
                 <label>Select size</label>
                 <div class="mt-1">
                   {% for size in sorted_size_variants %}
-                  {% comment %} {% for size in product.size_variant.all %} {% endcomment %}
                   
                   <label class="custom-control custom-radio custom-control-inline">
                     <input type="radio" name="selected_size"
@@ -128,9 +126,8 @@
                 </div>
               </div>
               {% endif %}
-              <!-- col.// -->
+
             </div>
-            <!-- row.// -->
 
             <a href="#" class="btn btn-primary"> Buy now </a>
             <a
@@ -141,14 +138,14 @@
               <i class="fas fa-shopping-cart"></i>
             </a>
           </article>
-          <!-- product-info-aside .// -->
+
         </main>
-        <!-- col.// -->
+
       </div>
-      <!-- row.// -->
+
     </div>
-    <!-- card.// -->
-    <!-- ============================ COMPONENT 1 END .// ================================= -->
+    
+    <!-- ============================ COMPONENT Product Details End ================================= -->
   </div>
 </section>
 
