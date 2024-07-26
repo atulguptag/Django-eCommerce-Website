@@ -1,0 +1,97 @@
+{% extends "base/base.html" %} {% block start %}
+
+<section class="section-content padding-bottom">
+  <div class="mx-auto" style="max-width: 85rem; margin-top: 50px">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5 mr-auto">
+          <h2 style="text-align: left">Contact Us</h2>
+          <p
+            class="mb-5"
+            style="margin-top: revert; text-align: justify; line-height: 2rem"
+          >
+            Have questions or need help with your order? Our dedicated support
+            team is here to assist you with any inquiries you may have. Whether
+            you need help tracking an order, have questions about a product, or
+            need assistance with a return, we're here to help. Don't hesitate to
+            reach out to us anytime!
+          </p>
+          <ul class="contact-info list-unstyled pl-md-5 mb-5">
+            <li class="d-flex text-black mb-2">
+              <span class="mr-3"><i class="fas fa-map-marker-alt"></i></span>
+              123 E-commerce St., Shopping City, USA
+            </li>
+            <li class="d-flex text-black mb-2">
+              <span class="mr-3"><i class="fas fa-phone"></i></span>
+              +1 (800) 123-4567
+            </li>
+            <li class="d-flex text-black">
+              <span class="mr-3"><i class="fas fa-envelope"></i></span>
+              <a href="mailto:support@ecommerce.com">support@ecommerce.com</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-6">
+          <form method="POST" class="mb-5">
+            {% csrf_token %} {% include "base/alert.html" %}
+            <div class="row">
+              <div class="col-md-12 form-group">
+                <label for="name" class="col-form-label">First Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="message-name"
+                  required
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 form-group">
+                <label for="name" class="col-form-label">Last Name</label>
+                <input type="text" class="form-control" name="message-lname" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 form-group">
+                <label for="email" class="col-form-label">Email</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="message-email"
+                  required
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 form-group">
+                <label for="message" class="col-form-label">Message</label
+                ><textarea
+                  class="form-control"
+                  name="message"
+                  cols="30"
+                  rows="7"
+                ></textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <input
+                  type="submit"
+                  value="Send Message"
+                  class="btn btn-primary rounded-0 py-2 px-4"
+                /><span class="submitting"></span>
+              </div>
+            </div>
+          </form>
+          {% if message_name %}
+          <div id="form-message-success">
+            Hii, {{ message_name }}!<br />
+            Thank you for your message. We will get back to you soon..
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
