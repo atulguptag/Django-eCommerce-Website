@@ -8,6 +8,7 @@
             <p>Your order with Order ID: <strong>{{ order_id }} </strong> has been successfully processed.</p>
             <p>Thank you for shopping with us!</p>
             <a href="{% url 'index' %}" class="btn btn-primary mt-3 mb-3">Continue Shopping</a>
+            <a href="{% url 'download_invoice' razorpay_order_id=order_id %}" class="btn btn-secondary mt-3 mb-3" download="invoice_{{ order_id }}.pdf">Download Invoice</a>
         </div>
     </div>
 </section>

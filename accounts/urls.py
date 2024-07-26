@@ -23,4 +23,5 @@ urlpatterns = [
     path('remove-cart/<uid>/', remove_cart, name="remove_cart"),
     path('remove-coupon/<cart_id>/', remove_coupon, name="remove_coupon"),
     path('success/', success, name="success"),
+    path('success/download_invoice/<razorpay_order_id>/', download_invoice, name='download_invoice'),
 ]

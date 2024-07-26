@@ -9,6 +9,11 @@ import razorpay
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 
+import uuid
+from io import BytesIO
+import xhtml2pdf.pisa as pisa
+from django.template.loader import get_template
+
 # Create your views here.
 
 
@@ -202,10 +207,47 @@ def remove_coupon(request, cart_id):
 
 def success(request):
     order_id = request.GET.get('order_id')
-    cart = Cart.objects.get(razorpay_order_id = order_id)
+    # cart = Cart.objects.get(razorpay_order_id = order_id)
     cart = get_object_or_404(Cart, razorpay_order_id = order_id)
     cart.is_paid = True
     cart.save()
 
     context = {'order_id': order_id}
     return render(request, 'payment_success/payment_success.html', context)
+
+
+# HTML to PDF
+def render_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)
+    html = template.render(context_dict)
+    response = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode('UTF-8')), response)
+
+    file_name = uuid.uuid4()
+
+    try:
+        with open(str(settings.BASE_DIR) + f"/public/media/{file_name}.pdf", 'wb+') as output:
+            pdf = pisa.pisaDocument(BytesIO(html.encode('UTF-8')), output)
+    except Exception as e:
+        print(e)
+
+    if pdf.err:
+        return HttpResponse("Invalid PDF", status_code=400, content_type='text/plain')
+    
+    return file_name, True
+    
+
+def download_invoice(request, razorpay_order_id):
+    order = get_object_or_404(Cart, razorpay_order_id=razorpay_order_id)
+    context = {
+        'order': order,
+        'data': {
+            'order_date': order.created_at,
+            'name': order.user.get_full_name(),
+            'user_email': order.user.email
+        }
+    }
+    pdf = render_to_pdf('pdfs/invoice.html', context)
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="invoice_{razorpay_order_id}.pdf"'
+    return response
