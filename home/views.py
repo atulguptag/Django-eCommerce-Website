@@ -75,3 +75,6 @@ def contact(request):
 
     context = {'message_name': message_name}
     return render(request, 'home/contact.html', context)
+
+def about(request):
+    return render(request, 'home/about.html')

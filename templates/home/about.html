@@ -1,0 +1,86 @@
+{% extends "base/base.html" %} {% block start %} {% load static%}
+
+<style>
+  p,
+  li {
+    line-height: 2rem;
+    margin-top: revert;
+    text-align: justify;
+  }
+  .values-list {
+    margin-top: revert;
+  }
+</style>
+
+<section class="section-content padding-bottom">
+  <div class="mx-auto" style="max-width: 85rem; margin-top: 50px">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+            <img src="{% static 'images/about-us.png' %}" alt="About Logo" class="img-fluid mb-4">
+          <h2>About Us</h2>
+          <p class="about-description">
+            Welcome to our e-Commerce website! We are dedicated to providing you
+            with the best online shopping experience. Our journey began with a
+            simple idea: to make shopping easy, accessible, and enjoyable for
+            everyone. Over the years, we have grown into a trusted online
+            retailer, offering a wide range of products to meet your needs.
+          </p>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col-md-6">
+          <h3>Our Mission</h3>
+          <p>
+            Our mission is to provide our customers with high-quality products
+            at competitive prices, backed by exceptional customer service. We
+            strive to create a seamless shopping experience, from browsing to
+            delivery, ensuring that you receive the best value and satisfaction.
+          </p>
+        </div>
+        <div class="col-md-6">
+          <h3>Our Vision</h3>
+          <p>
+            Our vision is to be the leading online retailer, known for our
+            commitment to quality, innovation, and customer satisfaction. We aim
+            to continuously expand our product range and improve our services to
+            meet the evolving needs of our customers.
+          </p>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col-md-12">
+          <h3>Our Values</h3>
+          <ul class="values-list">
+            <li>
+              <i class="fas fa-check-circle"></i>
+              <strong>Customer First:</strong> We prioritize our customers'
+              needs and strive to exceed their expectations with every
+              interaction.
+            </li>
+            <li>
+              <i class="fas fa-check-circle"></i>
+              <strong>Quality:</strong> We are committed to offering products of
+              the highest quality and stand behind everything we sell.
+            </li>
+            <li>
+              <i class="fas fa-check-circle"></i>
+              <strong>Integrity:</strong> We conduct our business with honesty
+              and transparency
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="row mt-5">
+          <p>
+            We hope you enjoy our products as much as we enjoy offering them to
+            you. If you have any questions or comments, please don't hesitate to
+            <a href="{% url 'contact' %}"> contact us. </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
