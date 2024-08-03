@@ -166,7 +166,7 @@ def cart(request):
         cart_total_in_paise = int(cart_obj.get_cart_total_price_after_coupon() * 100)
         
         if cart_total_in_paise < 100:
-            print('Total amount is less than the minimum required amount (1.00 INR).')
+            messages.warning(request, 'Total amount in cart is less than the minimum required amount (1.00 INR).')
             return redirect('index') 
         
         client = razorpay.Client(auth = (settings.RAZORPAY_KEY_ID, settings.RAZORPAY_SECRET_KEY))
