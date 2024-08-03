@@ -2,6 +2,7 @@
 
 <section class="section-content padding-y bg">
   <div class="container">
+    {% include 'base/alert.html' %}
     <!-- ============================ COMPONENT Product Details ================================= -->
     <div class="card">
       <div class="row no-gutters">
@@ -29,7 +30,6 @@
         </aside>
         <main class="col-md-6 border-left">
           <article class="content-body">
-            {% include 'base/alert.html' %}
             <h2 class="title">{{product.product_name}}</h2>
             <h6 class="text-muted">{{product.category}}</h6>
 
