@@ -147,7 +147,17 @@
       </div>
 
     </div>
-    
+
+    <!-- Related Products Section -->
+    <h2 class="title" style="margin-block: revert;">Related products</h2>
+    {% if related_products%}
+      {% with related_products as list_products %}
+        {% include 'product_parts/product_list.html' %}
+      {% endwith %}
+    {% else %}
+      <p>No related products found.</p>
+    {% endif %}
+    <hr>
     <!-- ============================ COMPONENT Product Details End ================================= -->
   </div>
 </section>

@@ -1,0 +1,18 @@
+<!-- Product List -->
+<div class="row">
+    {% for product in list_products %}
+    <div class="col-md-3">
+      <figure class="card card-product-grid">
+        <div class="img-wrap">
+          <img src="/media/{{product.product_images.first.image}}" />
+        </div>
+        <figcaption class="info-wrap border-top">
+          <a href="{% url 'get_product' product.slug %}" class="title">
+            <b>{{ product.product_name }}</b></a>
+          <div class="price mt-2">₹{{product.price}}.00</div>
+        </figcaption>
+      </figure>
+    </div>
+
+    {% endfor %}
+  </div>
