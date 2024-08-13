@@ -1,0 +1,34 @@
+{% extends "base/base.html" %} {% load static %} {% block start %} 
+
+<section class="section-content padding-bottom">
+  <div class="mx-auto" style="max-width: 85rem; margin-top: 50px">
+    <div class="container my-4">
+      {% include "base/alert.html" %}
+      <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+          <legend class="border-bottom mb-4" style="padding-bottom: 20px">
+            <h2>Shipping Address</h2>
+          </legend>
+
+          {% include "home/shipping_address_form.html" %}
+
+        </fieldset>
+        <div class="form-group" style="text-align: -webkit-right">
+          <button
+            class="btn btn-primary"
+            type="submit">
+            Update Shipping Address
+          </button>
+          <a
+            class="btn btn-warning"
+            href="{% url 'index' %}">
+            Back to Home Page
+        </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
