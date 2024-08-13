@@ -46,11 +46,10 @@
                   </figure>
                 </td>
                 <td>
-                  <select class="form-control">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
+                  <select class="form-control" onchange="updateCartItem(this, '{{ cart_item.uid }}')">
+                    {% for i in quantity_range %}
+                      <option value="{{ i }}" {% if cart_item.quantity == i %}selected{% endif %}>{{ i }}</option>
+                    {% endfor %}
                   </select>
                 </td>
                 <td>
@@ -213,5 +212,29 @@
     rzp1.open();
     e.preventDefault();
   };
+
+  function updateCartItem(selectElement, cartItemId) {
+    const quantity = selectElement.value;
+
+    fetch("{% url 'update_cart_item' %}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": "{{ csrf_token }}"
+        },
+        body: JSON.stringify({
+            "cart_item_id": cartItemId,
+            "quantity": quantity
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.location.reload();
+        } else {
+            alert("Error updating cart");
+        }
+    });
+}
 </script>
 {% endblock %}
