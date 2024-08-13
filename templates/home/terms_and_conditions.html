@@ -1,0 +1,57 @@
+{% extends "base/base.html" %} {% load static %} {% block start %}
+
+<style>
+    p{
+        font-size: 20px;
+        font-family: "Gill Sans", sans-serif;
+        padding-bottom: 30px;
+        text-align: justify;
+    }
+</style>
+
+<section class="section-content padding-bottom">
+    <div class="mx-auto" style="max-width: 85rem; margin-top: 30px">
+        <div class="container my-5">
+            <h2 class="text-center mb-4">Terms and Conditions</h2>
+            
+            <div class="card p-4">
+                <h4 class="text-left mb-2">1. Introduction</h4>
+                <p>
+                These terms and conditions outline the rules and regulations for the use
+                of our website. By accessing this website we assume you accept these terms
+                and conditions. Do not continue to use this website if you do not agree
+                to take all of the terms and conditions stated on this page.
+                </p>
+
+                <h4 class="text-left mb-2">2. Cookies</h4>
+                <p>
+                We employ the use of cookies. By accessing this website, you agreed to
+                use cookies in agreement with this website Privacy Policy.
+                </p>
+
+                <h4 class="text-left mb-2">3. License</h4>
+                <p>
+                Unless otherwise stated, this website and/or its licensors own the
+                intellectual property rights for all material on this website. All
+                intellectual property rights are reserved. You may access this from
+                djangoecommerwebsite for your own personal use subjected to restrictions set in
+                these terms and conditions.
+                </p>
+
+                <h4 class="text-left mb-2">4. User Comments</h4>
+                <p>
+                Certain parts of this website offer the opportunity for users to post and
+                exchange opinions and information in certain areas of the website.
+                This website does not filter, edit, publish or review Comments prior to
+                their presence on the website.
+                </p>
+
+                <p>If you have any questions or concerns about these Terms, please <a href="{% url 'contact' %}">contact us.</a></p>
+
+                <!-- Add more sections as needed -->
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
