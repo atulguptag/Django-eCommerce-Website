@@ -6,6 +6,8 @@ urlpatterns = [
     path('login/', login_page, name="login"),
     path('register/', register_page, name="register"),
     path('logout/', user_logout, name='logout'),
+    path('profile/<str:username>/', profile_view, name='profile'),
+    path('change-password/', change_password, name='change_password'),
     path('activate/<email_token>/', activate_email_account, name="activate_email"),
     path('password_reset/', auth_views.PasswordResetView.as_view(
         template_name='registration/password_reset_form.html'), name='password_reset'),
@@ -20,6 +22,7 @@ urlpatterns = [
         template_name='registration/password_reset_complete.html'), name='password_reset_complete'),
     path('cart/', cart, name="cart"),
     path('add-to-cart/<uid>/', add_to_cart, name="add_to_cart"),
+    path('update_cart_item/', update_cart_item, name='update_cart_item'),
     path('remove-cart/<uid>/', remove_cart, name="remove_cart"),
     path('remove-coupon/<cart_id>/', remove_coupon, name="remove_coupon"),
     path('success/', success, name="success"),
