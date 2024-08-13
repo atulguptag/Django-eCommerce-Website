@@ -33,19 +33,20 @@
 
     <!-- custom javascript -->
     <script src="/media/js/script.js" type="text/javascript"></script>
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-    <script type="text/javascript">
-        /// some script
+    <!-- Popper.js, needed for Bootstrap's JavaScript components -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"></script>
 
-        // jquery ready start
-        $(document).ready(function() {
-            // jQuery code
-        });
-        // jquery end
-    </script>
+    <!-- Include Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </head>
 
 <body>
+    <!-- Slider Header Banner -->
   <div class="header-banner slide-up" aria-hidden="false">
     <div class="container">
         <div class="d-flex justify-content-center">
@@ -53,9 +54,7 @@
                 <input type="hidden" id="endTime" value="null">
                 <div class="content">
                     <marquee direction="left" width="100%" scrollamount="10" onmouseover="this.stop();" onmouseout="this.start();">
-
                         <span class="header-promotion marquee-span">Use Code NEW10 and get 10% OFF* on non-discounted Shoes over Rs. 4499. Maximum Discount: Rs. 1200. T&amp;C Apply.</span>
-
                     </marquee>
                 </div>
             </div>
@@ -63,33 +62,29 @@
     </div>
 </div>
     <header class="section-header">
-        <nav class="navbar navbar-dark navbar-expand p-0 bg-dark">
+        <nav class="navbar navbar-dark navbar-expand-md bg-dark">
             <div class="container">
-                <ul class="navbar-nav d-none d-md-flex mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'index' %}">Home</a>
-                    </li>
-                    <li class="nav-item"><a class="nav-link" href="#">Delivery</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Payment</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact Us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
-                </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link"> Call: +91 9812345678 </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                            English
-                        </a>
-                    </li>
-                </ul>
-                <!-- list-inline //  -->
+                <button 
+                    class="navbar-toggler ml-auto" 
+                    type="button" 
+                    data-toggle="collapse" 
+                    data-target="#navbarCollapse" 
+                    aria-controls="navbarCollapse" 
+                    aria-expanded="false" 
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'shipping-address' %}">Delivery</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Payment</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact Us</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+                    </ul>
+                </div>
             </div>
-            <!-- navbar-collapse .// -->
-            <!-- container //  -->
         </nav>
-        <!-- header-top-light.// -->
 
         <section class="header-main border-bottom">
             <div class="container">
@@ -100,7 +95,6 @@
                                 <img class="logo" src="{% static 'images/logo.png' %}" />
                             </a>
                         </div>
-                        <!-- brand-wrap.// -->
                     </div>
                     <div class="col-lg-6 col-sm-12">
                         <form method="GET" action="{% url 'product_search' %}" class="search">
@@ -113,9 +107,8 @@
                                 </div>
                             </div>
                         </form>
-                        <!-- search-wrap .end// -->
                     </div>
-                    <!-- col.// -->
+
                     <div class="col-lg-4 col-sm-6 col-8">
                         <div class="widgets-wrap float-md-right">
                             <div class="widget-header mr-3">
@@ -127,7 +120,17 @@
                                 </span>
                             </div>
                             <div class="widget-header icontext">
-                                <a href="#" class="icon icon-sm rounded-circle border"><i class="fa fa-user"></i></a>
+                                {% if user.is_authenticated %}
+                                    {% if user.profile.profile_image %}
+                                        <a href="{% url 'profile' username=user.username %}" class="icon icon-sm rounded-circle border">
+                                            <img src="{{ user.profile.profile_image.url }}" alt="Profile Image" class="rounded-circle" width="42" height="42">
+                                        </a>
+                                    {% else %}
+                                        <a href="{% url 'profile' username=user.username %}" class="icon icon-sm rounded-circle border"><i class="fa fa-user"></i></a>
+                                    {% endif %}
+                                {% else %}
+                                    <a href="{% url 'login' %}" class="icon icon-sm rounded-circle border"><i class="fa fa-user"></i></a>
+                                {% endif %}
                                 <div class="text">
                                     {% if request.user.is_authenticated %}
                                     <span class="text-muted">Welcome, {{ request.user }}!</span>
@@ -144,140 +147,12 @@
                             </div>
                         </div>
                     </div>
-                    <!-- widgets-wrap.// -->
                 </div>
-                <!-- col.// -->
             </div>
-            <!-- row.// -->
-            </div>
-            <!-- container.// -->
         </section>
-        <!-- header-main .// -->
     </header>
 
     {% block start %} {% endblock %}
-    <footer class="footer">
-        <a href="#" class="scroll-top" style="display: flex;"><i class="lni lni-chevron-up"></i></a>
-        <div class="footer-top">
-            <div class="container">
-                <div class="inner-content">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-4 col-12 mb-2">
-                            <div class="footer-logo text-center">
-                                <a href="/"><img src="{% static 'images/logo-white.png' %}" alt="Logo" class="mx-2">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-lg-9 col-md-8 col-12">
-                            <div class="footer-newsletter">
-                                <h4 class="title mb-4">Subscribe to our Newsletter<span>Get all the latest information, Sales and Offers.</span>
-                                </h4>
-                                <div class="newsletter-form-head">
-                                    <form class="newsletter-form">
-                                        <input class="mb-2" name="email" placeholder="Email address here..." type="email" required="" value="" autocomplete="email">
-                                        <div class="button mb-4">
-                                            <button class="btn">Subscribe<span class="dir-part"></span></button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-        <div class="footer-middle">
-            <div class="container">
-                <div class="bottom-inner">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6 col-12">
-                            <div class="single-footer f-contact">
-                                <h3>Get In Touch With Us</h3>
-                                <p class="phone">Phone: +1 (900) 33 169 7720</p>
-                                <ul>
-                                    <li><span>Monday-Friday: </span> 9.00 am - 8.00 pm</li>
-                                    <li><span>Saturday: </span> 10.00 am - 6.00 pm</li>
-                                </ul>
-                                <p class="mail"><a href="#">support@ecommerce.com</a></p>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-12">
-                            <div class="single-footer our-app">
-                                <h3>Our Mobile App</h3>
-                                <ul class="app-btn">
-                                    <li>
-                                        <a href="#"><i class="lni lni-apple"></i>
-                                          <span class="small-title">Download on the</span>
-                                          <span class="big-title">App Store</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><i class="lni lni-play-store"></i>
-                                            <span class="small-title">Download on the</span>
-                                            <span class="big-title">Google Play</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-12">
-                            <div class="single-footer f-link">
-                                <h3>Information</h3>
-                                <ul>
-                                    <li><a href="{% url 'about' %}">About Us</a></li>
-                                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
-                                    <li><a href="#">Terms and Conditions</a></li>
-                                    <li><a href="#">Privacy Policy</a></li>
-                                    <li><a href="#">FAQs Page</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-12">
-                            <div class="single-footer f-link">
-                                <h3>Shop Departments</h3>
-                                <ul>
-                                    <li><a href="#">Clothes &amp; Shoes</a></li>
-                                    <li><a href="#">Smartphones &amp; Tablets</a></li>
-                                    <li><a href="#">TV, Video &amp; Speaker</a></li>
-                                    <li><a href="#">Cameras, Photo &amp; Video</a></li>
-                                    <li><a href="#">Headphones</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="container">
-                <div class="inner-content">
-                    <div class="row align-items-center">
-                        <div class="col-lg-4 col-12">
-                            <div class="payment-gateway"><span>We Accept:</span>
-                              <img src="{% static 'images/credit-cards-footer.png' %}" alt="#">
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-12">
-                            <div class="copyright">
-                                <p>Designed and Developed by ❤️<a href="https://atulguptag.github.io/" rel="nofollow" target="_blank">Atul Gupta</a></p>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-12">
-                            <ul class="socila">
-                                <li><span>Follow Me On:</span></li>
-                                <li><a href="https://www.linkedin.com/in/atulguptag/" rel="nofollow" target="_blank"><i class="lni lni-linkedin"></i></a></li>
-                                <li><a href="https://github.com/atulguptag/" rel="nofollow" target="_blank"><i class="lni lni-github"></i></a></li>
-                                <li><a href="https://instagram.com/itsatulguptag/" rel="nofollow" target="_blank"><i class="lni lni-instagram"></i></a></li>
-                                <li><a href="https://facebook.com/itsatulguptag/" rel="nofollow" target="_blank"><i class="lni lni-facebook-filled"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    {% include 'home/footer.html' %}
 </body>
 </html>
