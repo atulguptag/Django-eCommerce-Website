@@ -305,7 +305,7 @@ def profile_view(request, username):
             user_form.save()
             profile_form.save()
             messages.success(request, 'Your profile has been updated successfully!')
-            return redirect('profile')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
         address_form = ShippingAddressForm(request.POST, instance=shipping_address)
         if address_form.is_valid():
@@ -314,14 +314,14 @@ def profile_view(request, username):
             shipping_address.current_address = True
             shipping_address.save()
             messages.success(request, 'Your shipping address has been updated successfully!')
-            return redirect('profile')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
         password_form = CustomPasswordChangeForm(user, request.POST)
         if password_form.is_valid():
             user = password_form.save()
             update_session_auth_hash(request, user)
             messages.success(request, 'Your password has been successfully updated!')
-            return redirect('profile')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     context = {
         'user_name' : user_name,
@@ -342,7 +342,7 @@ def change_password(request):
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
             messages.success(request, 'Your password was successfully updated!')
-            return redirect('profile')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         else:
             messages.warning(request, 'Please correct the error below.')
     else:
