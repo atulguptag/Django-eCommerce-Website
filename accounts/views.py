@@ -13,6 +13,14 @@ import uuid
 from io import BytesIO
 import xhtml2pdf.pisa as pisa
 from django.template.loader import get_template
+from django.contrib.auth import update_session_auth_hash
+from accounts.forms import UserUpdateForm, UserProfileForm, ShippingAddressForm, CustomPasswordChangeForm
+from home.models import ShippingAddress
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+import json
+from base.emails import send_account_activation_email
+
 
 # Create your views here.
 
@@ -36,7 +44,7 @@ def login_page(request):
         if user_obj:
             login(request, user_obj)
             messages.success(request, 'Login Successfull.')
-            return redirect('/')
+            return redirect('index')
 
         messages.warning(request, 'Invalid credentials.')
         return HttpResponseRedirect(request.path_info)
@@ -53,7 +61,7 @@ def register_page(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
 
-        user_obj = User.objects.filter(username=username)
+        user_obj = User.objects.filter(username=username, email=email)
 
         if user_obj.exists():
             messages.warning(request, 'Account already exists.')
@@ -65,7 +73,10 @@ def register_page(request):
         user_obj.set_password(password)
         user_obj.save()
 
-        messages.success(request, 'An email has been sent to your mail.')
+        email_token = str(uuid.uuid4())
+        Profile.objects.create(user=user_obj, email_token=email_token)
+
+        send_account_activation_email(email, email_token)
         return HttpResponseRedirect(request.path_info)
 
     return render(request, 'accounts/register.html')
@@ -115,10 +126,10 @@ def add_to_cart(request, uid):
         cart_item.save()
 
         messages.success(request, 'Item added to cart successfully.')
-        
+
     except Exception as e:
         print(e)
-        messages.error(request, 'Error adding item to cart.')
+        messages.warning(request, 'Error adding item to cart.')
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
@@ -127,9 +138,9 @@ def add_to_cart(request, uid):
 def cart(request):
     cart_obj = None
     payment = None
-    
+
     try:
-        cart_obj = Cart.objects.get(is_paid = False, user = request.user)
+        cart_obj = Cart.objects.get(is_paid=False, user=request.user)
 
     except Cart.DoesNotExist:
         cart_obj = None
@@ -166,11 +177,13 @@ def cart(request):
         cart_total_in_paise = int(cart_obj.get_cart_total_price_after_coupon() * 100)
         
         if cart_total_in_paise < 100:
-            messages.warning(request, 'Total amount in cart is less than the minimum required amount (1.00 INR).')
+            messages.warning(
+                request, 'Total amount in cart is less than the minimum required amount (1.00 INR) Please add a product to the cart.')
             return redirect('index') 
         
         client = razorpay.Client(auth = (settings.RAZORPAY_KEY_ID, settings.RAZORPAY_SECRET_KEY))
-        payment = client.order.create({'amount': cart_total_in_paise, 'currency': 'INR', 'payment_capture': 1})
+        payment = client.order.create(
+            {'amount': cart_total_in_paise, 'currency': 'INR', 'payment_capture': 1})
         cart_obj.razorpay_order_id = payment['id']
         cart_obj.save()
 
@@ -179,8 +192,26 @@ def cart(request):
         print("**********************")
 
 
-    context = {'cart': cart_obj, 'payment': payment}
+    context = {'cart': cart_obj, 'payment': payment, 'quantity_range': range(1, 6),}
     return render(request, 'accounts/cart.html', context)
+
+
+
+@require_POST
+@login_required
+def update_cart_item(request):
+    try:
+        data = json.loads(request.body)
+        cart_item_id = data.get("cart_item_id")
+        quantity = int(data.get("quantity"))
+
+        cart_item = CartItem.objects.get(uid=cart_item_id, cart__user=request.user, cart__is_paid=False)
+        cart_item.quantity = quantity
+        cart_item.save()
+
+        return JsonResponse({"success": True})
+    except Exception as e:
+        return JsonResponse({"success": False, "error": str(e)})
 
 
 def remove_cart(request, uid):
@@ -191,7 +222,7 @@ def remove_cart(request, uid):
 
     except Exception as e:
         print(e)
-        messages.error(request, 'Error removing item from cart.')
+        messages.warning(request, 'Error removing item from cart.')
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
@@ -251,3 +282,69 @@ def download_invoice(request, razorpay_order_id):
     response = HttpResponse(pdf, content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="invoice_{razorpay_order_id}.pdf"'
     return response
+
+
+
+@login_required
+def profile_view(request, username):
+    user_name = get_object_or_404(User, username=username)
+    user = request.user
+    profile = user.profile
+    shipping_address = ShippingAddress.objects.filter(user=user, current_address=True).first()
+
+     # Initialize all forms
+    user_form = UserUpdateForm(instance=user)
+    profile_form = UserProfileForm(instance=profile)
+    address_form = ShippingAddressForm(instance=shipping_address)
+    password_form = CustomPasswordChangeForm(user)
+
+    if request.method == 'POST':
+        user_form = UserUpdateForm(request.POST, instance=user)
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Your profile has been updated successfully!')
+            return redirect('profile')
+
+        address_form = ShippingAddressForm(request.POST, instance=shipping_address)
+        if address_form.is_valid():
+            shipping_address = address_form.save(commit=False)
+            shipping_address.user = user
+            shipping_address.current_address = True
+            shipping_address.save()
+            messages.success(request, 'Your shipping address has been updated successfully!')
+            return redirect('profile')
+
+        password_form = CustomPasswordChangeForm(user, request.POST)
+        if password_form.is_valid():
+            user = password_form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Your password has been successfully updated!')
+            return redirect('profile')
+
+    context = {
+        'user_name' : user_name,
+        'user_form': user_form,
+        'profile_form': profile_form,
+        'address_form': address_form,
+        'password_form': password_form,
+    }
+
+    return render(request, 'accounts/profile.html', context)
+
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = CustomPasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('profile')
+        else:
+            messages.warning(request, 'Please correct the error below.')
+    else:
+        form = CustomPasswordChangeForm(request.user)
+    return render(request, 'accounts/change_password.html', {'form': form})
