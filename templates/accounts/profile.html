@@ -1,0 +1,54 @@
+{% extends "base/base.html" %} 
+{% block title %}Profile Page{% endblock title %}
+{% load crispy_forms_tags %} {% load static %} {% block start %}
+
+<style>
+  h4{
+    padding-bottom: 1rem;
+  }
+</style>
+
+<section class="section-content padding-bottom">
+  <div class="mx-auto" style="max-width: 85rem; margin-top: 30px">
+    <h3 style="text-align: left;">Welcome, {{ request.user.first_name }} {{ request.user.last_name }}!😀</h3>
+    <hr>
+    <div class="container mt-4">
+      {% include "base/alert.html" %}
+
+      <div class="row">
+        <!-- User Basic Information Section -->
+        <div class="col-md-4">
+            <h4>Profile Section</h4>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ user_form|crispy }}
+                {{ profile_form|crispy }}
+                <button type="submit" class="btn btn-primary">Update Profile</button>
+            </form>
+        </div>
+
+        <!-- Shipping Address Section -->
+        <div class="col-md-4">
+            <h4>Shipping Address</h4>
+            <form method="POST">
+                {% csrf_token %}
+                {{ address_form|crispy }}
+                <button type="submit" class="btn btn-primary">Update Address</button>
+            </form>
+        </div>
+
+        <!-- Change Password Section -->
+        <div class="col-md-4">
+            <h4>Change Password</h4>
+            <form method="POST" action="{% url 'change_password' %}">
+                {% csrf_token %}
+                {{ password_form|crispy }}
+                <button type="submit" class="btn btn-primary">Change Password</button>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
