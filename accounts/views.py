@@ -36,7 +36,7 @@ def login_page(request):
             return HttpResponseRedirect(request.path_info)
 
         if not user_obj[0].profile.is_email_verified:
-            messages.warning(request, 'Account not verified!')
+            messages.error(request, 'Account not verified!')
             return HttpResponseRedirect(request.path_info)
 
         # then authenticate user
@@ -64,7 +64,7 @@ def register_page(request):
         user_obj = User.objects.filter(username=username, email=email)
 
         if user_obj.exists():
-            messages.warning(request, 'Account already exists.')
+            messages.info(request, 'Account already exists.')
             return HttpResponseRedirect(request.path_info)
 
         # if user not registered
@@ -129,7 +129,7 @@ def add_to_cart(request, uid):
 
     except Exception as e:
         print(e)
-        messages.warning(request, 'Error adding item to cart.')
+        messages.error(request, 'Error adding item to cart.')
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
