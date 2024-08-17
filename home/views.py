@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from home.models import ShippingAddressForm
 from home.models import ShippingAddress
+from django.core.validators import validate_email
 
 # Create your views here.
 
@@ -55,29 +56,37 @@ def product_search(request):
 
 
 def contact(request):
-    message_name = ""
-    if request.method == "POST":
-        message_name = request.POST.get('message-name')
-        message_lname = request.POST.get('message-lname')
-        message_email = request.POST.get('message-email')
-        message = request.POST.get('message')
+    try:
+        message_name = ""
+        if request.method == "POST":
+            message_name = request.POST.get('message-name')
+            message_lname = request.POST.get('message-lname')
+            message_email = request.POST.get('message-email')
+            message = request.POST.get('message')
+            validate_email(message_email)
 
-        subject = f"Message from {message_name} {message_lname}"
-        email_from = settings.DEFAULT_FROM_EMAIL
 
-        send_mail(
-            subject,
-            message,
-            email_from,
-            [message_email],
-            fail_silently=False,
-        )
+            subject = f"Message from {message_name} {message_lname}"
+            email_from = settings.DEFAULT_FROM_EMAIL
 
-        messages.success(request, 'Thank you for your message. We will get back to you soon..')
-        return HttpResponseRedirect(request.path_info)
+            send_mail(
+                subject,
+                message,
+                email_from,
+                [message_email],
+                fail_silently=False,
+            )
 
-    context = {'message_name': message_name}
-    return render(request, 'home/contact.html', context)
+            messages.success(request, 'Thank you for your message. We will get back to you soon..')
+            return HttpResponseRedirect(request.path_info)
+
+        context = {'message_name': message_name}
+        return render(request, 'home/contact.html', context)
+    
+    except Exception:
+        messages.error(request, 'Invalid Email Address!')
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def about(request):
     return render(request, 'home/about.html')
