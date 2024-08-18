@@ -34,11 +34,19 @@
                       </a>
                       
                       <p class="text-muted small">
-                        {% comment %} Size: {{ cart_item.size_variant.size_name }}<br /> {% endcomment %}
-
-                        {% for color in cart_item.product.color_variant.all %}
-                        Color: {{ color.color_name }}<br />
-                        {% endfor %} 
+                        {% if cart_item.size_variant %}
+                          Size: {{ cart_item.size_variant.size_name }}<br />
+                        {% else %}
+                          Size : N/A <br />
+                        {% endif %} 
+                        
+                        {% if cart_item.product.color_variant.exists %}
+                          {% for color in cart_item.product.color_variant.all %}
+                            Color: {{ color.color_name }}<br />
+                          {% endfor %}
+                        {% else %}
+                          Color: N/A<br />
+                        {% endif %} 
 
                         Brand: Nike
                       </p>
