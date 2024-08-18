@@ -92,30 +92,6 @@ def about(request):
     return render(request, 'home/about.html')
 
 
-@login_required
-def update_shipping_address(request):
-    shipping_address = ShippingAddress.objects.filter(
-        user=request.user, current_address=True).first()
-
-    if request.method == 'POST':
-        form = ShippingAddressForm(request.POST, instance=shipping_address)
-        if form.is_valid():
-            shipping_address = form.save(commit=False)
-            shipping_address.user = request.user
-            shipping_address.current_address = True
-            shipping_address.save()
-
-            messages.success(request, "The Address Has Been Successfully Saved/Updated!")
-            
-            form = ShippingAddressForm()
-        else:
-            form = ShippingAddressForm(request.POST, instance=shipping_address)
-    else:
-        form = ShippingAddressForm(instance=shipping_address)
-
-    return render(request, 'home/billing.html', {'form': form})
-
-
 def terms_and_conditions(request):
     return render(request, 'home/terms_and_conditions.html')
 
