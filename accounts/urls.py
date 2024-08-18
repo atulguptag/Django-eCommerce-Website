@@ -8,6 +8,7 @@ urlpatterns = [
     path('logout/', user_logout, name='logout'),
     path('profile/<str:username>/', profile_view, name='profile'),
     path('change-password/', change_password, name='change_password'),
+    path('shipping-address/', update_shipping_address, name='shipping-address'),
     path('activate/<email_token>/', activate_email_account, name="activate_email"),
     path('password_reset/', auth_views.PasswordResetView.as_view(
         template_name='registration/password_reset_form.html'), name='password_reset'),
