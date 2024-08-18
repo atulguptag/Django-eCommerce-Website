@@ -293,8 +293,6 @@ def profile_view(request, username):
      # Initialize all forms
     user_form = UserUpdateForm(instance=user)
     profile_form = UserProfileForm(instance=profile)
-    address_form = ShippingAddressForm(instance=shipping_address)
-    password_form = CustomPasswordChangeForm(user)
 
     if request.method == 'POST':
         user_form = UserUpdateForm(request.POST, instance=user)
@@ -305,28 +303,10 @@ def profile_view(request, username):
             messages.success(request, 'Your profile has been updated successfully!')
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-        address_form = ShippingAddressForm(request.POST, instance=shipping_address)
-        if address_form.is_valid():
-            shipping_address = address_form.save(commit=False)
-            shipping_address.user = user
-            shipping_address.current_address = True
-            shipping_address.save()
-            messages.success(request, 'Your shipping address has been updated successfully!')
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-        password_form = CustomPasswordChangeForm(user, request.POST)
-        if password_form.is_valid():
-            user = password_form.save()
-            update_session_auth_hash(request, user)
-            messages.success(request, 'Your password has been successfully updated!')
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
     context = {
         'user_name' : user_name,
         'user_form': user_form,
-        'profile_form': profile_form,
-        'address_form': address_form,
-        'password_form': password_form,
+        'profile_form': profile_form
     }
 
     return render(request, 'accounts/profile.html', context)
@@ -346,3 +326,26 @@ def change_password(request):
     else:
         form = CustomPasswordChangeForm(request.user)
     return render(request, 'accounts/change_password.html', {'form': form})
+
+@login_required
+def update_shipping_address(request):
+    shipping_address = ShippingAddress.objects.filter(
+        user=request.user, current_address=True).first()
+
+    if request.method == 'POST':
+        form = ShippingAddressForm(request.POST, instance=shipping_address)
+        if form.is_valid():
+            shipping_address = form.save(commit=False)
+            shipping_address.user = request.user
+            shipping_address.current_address = True
+            shipping_address.save()
+
+            messages.success(request, "The Address Has Been Successfully Saved/Updated!")
+            
+            form = ShippingAddressForm()
+        else:
+            form = ShippingAddressForm(request.POST, instance=shipping_address)
+    else:
+        form = ShippingAddressForm(instance=shipping_address)
+
+    return render(request, 'accounts/shipping_address_form.html', {'form': form})
