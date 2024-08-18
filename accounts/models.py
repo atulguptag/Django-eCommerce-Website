@@ -4,7 +4,8 @@ from django.contrib.auth.models import User
 from base.models import BaseModel
 from products.models import Product, ColorVariant, SizeVariant, Coupon
 from home.models import ShippingAddress
-
+from django.conf import settings
+import os
 # Create your models here.
 
 
@@ -22,6 +23,17 @@ class Profile(BaseModel):
 
     def get_cart_count(self):
         return CartItem.objects.filter(cart__is_paid=False, cart__user=self.user).count()
+    
+    def save(self, *args, **kwargs):
+        # Check if the profile image is being updated
+        if self.pk:
+            old_profile = Profile.objects.get(pk=self.pk)
+            if old_profile.profile_image and old_profile.profile_image != self.profile_image:
+                old_image_path = os.path.join(settings.MEDIA_ROOT, old_profile.profile_image.path)
+                if os.path.exists(old_image_path):
+                    os.remove(old_image_path)
+
+        super(Profile, self).save(*args, **kwargs)
 
 
 
