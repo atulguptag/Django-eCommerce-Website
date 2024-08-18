@@ -134,16 +134,19 @@ def add_to_cart(request, uid):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-@login_required
+# @login_required
 def cart(request):
     cart_obj = None
     payment = None
+    user = request.user
 
     try:
-        cart_obj = Cart.objects.get(is_paid=False, user=request.user)
+        cart_obj = Cart.objects.get(is_paid=False, user=user)
 
-    except Cart.DoesNotExist:
-        cart_obj = None
+    except Exception as e:
+        print(e)
+        messages.warning(request, "Your cart is empty. Please sign in or create an account to use it.")
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     if request.method == 'POST':
         coupon = request.POST.get('coupon')
@@ -186,11 +189,6 @@ def cart(request):
             {'amount': cart_total_in_paise, 'currency': 'INR', 'payment_capture': 1})
         cart_obj.razorpay_order_id = payment['id']
         cart_obj.save()
-
-        print("**********************")
-        print(payment)
-        print("**********************")
-
 
     context = {'cart': cart_obj, 'payment': payment, 'quantity_range': range(1, 6),}
     return render(request, 'accounts/cart.html', context)
