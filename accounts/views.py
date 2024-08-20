@@ -288,9 +288,7 @@ def profile_view(request, username):
     user_name = get_object_or_404(User, username=username)
     user = request.user
     profile = user.profile
-    shipping_address = ShippingAddress.objects.filter(user=user, current_address=True).first()
 
-     # Initialize all forms
     user_form = UserUpdateForm(instance=user)
     profile_form = UserProfileForm(instance=profile)
 
