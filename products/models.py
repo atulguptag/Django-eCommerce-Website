@@ -2,6 +2,7 @@ from django.db import models
 from base.models import BaseModel
 from django.utils.text import slugify
 from django.utils.html import mark_safe
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -30,7 +31,7 @@ class ColorVariant(BaseModel):
 class SizeVariant(BaseModel):
     size_name = models.CharField(max_length=100)
     price = models.IntegerField(default=0)
-    order = models.IntegerField(default=0)  
+    order = models.IntegerField(default=0)
 
     def __str__(self) -> str:
         return self.size_name
@@ -56,6 +57,14 @@ class Product(BaseModel):
 
     def get_product_price_by_size(self, size):
         return self.price + SizeVariant.objects.get(size_name=size).price
+    
+    def get_rating(self):
+        total = sum(int(review['stars']) for review in self.reviews.values())
+
+        if self.reviews.count() > 0:
+            return total / self.reviews.count()
+        else:
+            return 0
 
 
 class ProductImage(BaseModel):
@@ -72,3 +81,13 @@ class Coupon(BaseModel):
     is_expired = models.BooleanField(default=False)
     discount_amount = models.IntegerField(default=100)
     minimum_amount = models.IntegerField(default=500)
+
+
+class ProductReview(BaseModel):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews')
+
+    stars = models.IntegerField(default=3, choices=[(i, i) for i in range(1, 6)])
+    content = models.TextField(blank=True, null=True)
+
+    date_added = models.DateTimeField(auto_now_add=True)

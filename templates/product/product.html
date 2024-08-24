@@ -1,6 +1,7 @@
 {% extends "base/base.html"%} {% block start %}
+{% load crispy_forms_tags %}
 
-<section class="section-content padding-y bg">
+<section class="section-content padding-bottom-sm bg">
   <div class="container">
     {% include 'base/alert.html' %}
     <!-- ============================ COMPONENT Product Details ================================= -->
@@ -34,8 +35,9 @@
             <h6 class="text-muted">{{product.category}}</h6>
 
             <div class="rating-wrap my-3">
+              <small class="label-rating text-muted">{{ product.get_rating }}</small>
               <ul class="rating-stars">
-                <li style="width: 80%" class="stars-active">
+                <li style="width: {{ rating_percentage }}%" class="stars-active">
                   <i class="fa fa-star"></i> <i class="fa fa-star"></i>
                   <i class="fa fa-star"></i> <i class="fa fa-star"></i>
                   <i class="fa fa-star"></i>
@@ -46,7 +48,7 @@
                   <i class="fa fa-star"></i>
                 </li>
               </ul>
-              <small class="label-rating text-muted">132 reviews</small>
+              <small class="label-rating text-muted">{{ product.reviews.count }} reviews</small>
               <small class="label-rating text-success">
                 <i class="fa fa-clipboard-check"></i> 154 orders
               </small>
@@ -149,7 +151,7 @@
     </div>
 
     <!-- Related Products Section -->
-    <h2 class="title" style="margin-block: revert;">Related products</h2>
+    <h3 class="title padding-y-sm" >Related products</h3>
     {% if related_products%}
       {% with related_products as list_products %}
         {% include 'product_parts/product_list.html' %}
@@ -157,7 +159,45 @@
     {% else %}
       <p>No related products found.</p>
     {% endif %}
+    <!-- Related Products Section End -->
+    
     <hr>
+    
+    <!-- Product Review Section -->
+    <h3 class="title padding-bottom-sm">Reviews</h3>
+    
+    {% for review in product.reviews.all %}
+    <div class="card mb-3" style="background-color: #59ee8d91;">
+      <div class="card-body">
+          <div class="form-group">
+            <p>
+              <strong>Posted on: </strong>{{ review.date_added|date:"Y-m-d" }} by <strong>{{ review.user.get_full_name }}</strong><br>
+              <strong>Rating: </strong>{{ review.stars }}/5<br>
+              <strong>Comment: </strong>{{ review.content }}
+            </p>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p class="padding-bottom-sm">No reviews yet...</p>
+    {% endfor %}
+      
+    <div class="card mb-3">
+      <div class="card-body">
+        <div class="form-group">
+          {% if request.user.is_authenticated %}
+            <form method="POST" action="">
+              {% csrf_token %}
+              {{ review_form|crispy }}
+              <button class="btn btn-success">Submit</button>
+            </form>
+          {% else %}
+            <p>Please <a href="{% url 'login' %}"> sign in </a> to add review!</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <!-- Product Review Section End-->
     <!-- ============================ COMPONENT Product Details End ================================= -->
   </div>
 </section>
