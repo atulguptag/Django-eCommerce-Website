@@ -17,8 +17,8 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Delivery</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Payment</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'wishlist' %}">Wishlist ({{ request.user.wishlist.count }})</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact Us</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
         </ul>
@@ -52,48 +52,46 @@
 
         <div class="col-lg-4 col-sm-6 col-8">
           <div class="widgets-wrap float-md-right">
+
             <div class="widget-header mr-3">
-              <a
-                href="{% url 'cart' %}"
-                class="icon icon-sm rounded-circle border"
-              >
+              <a href="{% url 'cart' %}" class="icon icon-sm rounded-circle border">
                 <i class="fa fa-shopping-cart"></i>
               </a>
               {% if user.is_authenticated %}
-              <span class="badge badge-pill badge-danger notify">
-                {{request.user.profile.get_cart_count}}
-              </span>
+                <span class="badge badge-pill badge-danger notify">
+                  {{request.user.profile.get_cart_count}}
+                </span>
               {% else %}
-              <span class="badge badge-pill badge-danger notify"></span>
+                <span class="badge badge-pill badge-danger notify"></span>
               {% endif %}
             </div>
+
             <div class="widget-header icontext">
-              {% if user.is_authenticated %} {% if user.profile.profile_image %}
-              <a
-                href="{% url 'profile' username=user.username %}"
-                class="icon icon-sm rounded-circle border"
-              >
-                <img
-                  src="{{ user.profile.profile_image.url }}"
-                  alt="Profile Image"
-                  class="rounded-circle"
-                  width="42"
-                  height="42"
-                />
-              </a>
+              {% if user.is_authenticated %}
+                {% if user.profile.profile_image %}
+                  <a href="{% url 'profile' username=user.username %}" 
+                  class="icon icon-sm rounded-circle border">
+                    <img
+                      src="{{ user.profile.profile_image.url }}"
+                      alt="Profile Image"
+                      class="rounded-circle"
+                      width="42"
+                      height="42"
+                    />
+                  </a>
+                {% else %}
+                  <a
+                    href="{% url 'profile' username=user.username %}"
+                    class="icon icon-sm rounded-circle border">
+                    <i class="fa fa-user"></i>
+                  </a>
+                {% endif %}
               {% else %}
-              <a
-                href="{% url 'profile' username=user.username %}"
-                class="icon icon-sm rounded-circle border"
-                ><i class="fa fa-user"></i
-              ></a>
-              {% endif %} {% else %}
-              <a
-                href="{% url 'login' %}"
-                class="icon icon-sm rounded-circle border"
-                ><i class="fa fa-user"></i
-              ></a>
+                <a href="{% url 'login' %}" class="icon icon-sm rounded-circle border">
+                  <i class="fa fa-user"></i>
+                </a>
               {% endif %}
+
               <div class="text">
                 {% if request.user.is_authenticated %}
                 <span class="text-muted">Welcome, {{ request.user }}!</span>
