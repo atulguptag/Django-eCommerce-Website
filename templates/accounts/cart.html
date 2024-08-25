@@ -74,14 +74,11 @@
                     class="btn btn-light"
                     data-toggle="tooltip"
                   >
-                    <i class="fa fa-heart"></i
-                  ></a>
-                  <a
-                    href="{% url 'remove_cart' cart_item.uid %}"
-                    class="btn btn-light"
-                  >
-                    Remove</a
-                  >
+                    <i class="fa fa-heart"></i>
+                  </a>
+                  <a href="{% url 'remove_cart' cart_item.uid %}" class="btn btn-danger">
+                    Remove
+                  </a>
                 </td>
               </tr>
 
@@ -131,10 +128,7 @@
 
               {% if cart.coupon %}
 
-              <a
-                href="{% url 'remove_coupon' cart.uid %}"
-                class="btn btn-success"
-              >
+              <a href="{% url 'remove_coupon' cart.uid %}" class="btn btn-success">
                 {{ cart.coupon.coupon_code }}
               </a>
 
