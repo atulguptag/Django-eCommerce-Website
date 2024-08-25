@@ -91,3 +91,17 @@ class ProductReview(BaseModel):
     content = models.TextField(blank=True, null=True)
 
     date_added = models.DateTimeField(auto_now_add=True)
+
+
+class Wishlist(BaseModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="wishlist")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="wishlisted_by")
+
+    added_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'product')
+
+    def __str__(self) -> str:
+        return f'{self.user.username} - {self.product.product_name}'
+    
