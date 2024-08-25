@@ -85,6 +85,7 @@ def register_page(request):
         Profile.objects.create(user=user_obj, email_token=email_token)
 
         send_account_activation_email(email, email_token)
+        messages.success(request, "An email has been sent to your mail.")
         return HttpResponseRedirect(request.path_info)
 
     return render(request, 'accounts/register.html')
