@@ -20,12 +20,15 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 import json
 from base.emails import send_account_activation_email
+from django.utils.http import url_has_allowed_host_and_scheme
+from django.urls import reverse
 
 
 # Create your views here.
 
 
 def login_page(request):
+    next_url = request.GET.get('next')  # Default to 'index' if 'next' is not provided
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -44,7 +47,12 @@ def login_page(request):
         if user_obj:
             login(request, user_obj)
             messages.success(request, 'Login Successfull.')
-            return redirect('index')
+            
+            # Check if the next URL is safe
+            if url_has_allowed_host_and_scheme(url=next_url, allowed_hosts=request.get_host()):
+                return redirect(next_url)
+            else:
+                return redirect('index')
 
         messages.warning(request, 'Invalid credentials.')
         return HttpResponseRedirect(request.path_info)
@@ -85,7 +93,7 @@ def register_page(request):
 @login_required
 def user_logout(request):
     logout(request)
-    messages.info(request, "Logged Out Successfully!")
+    messages.warning(request, "Logged Out Successfully!")
     return redirect('index')
 
 
@@ -131,10 +139,10 @@ def add_to_cart(request, uid):
         print(e)
         messages.error(request, 'Error adding item to cart.')
 
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    return redirect(reverse('cart'))
 
 
-# @login_required
+@login_required
 def cart(request):
     cart_obj = None
     payment = None
@@ -145,7 +153,7 @@ def cart(request):
 
     except Exception as e:
         print(e)
-        messages.warning(request, "Your cart is empty. Please sign in or create an account to use it.")
+        messages.warning(request, "Your cart is empty. Please sign in or add a product to cart.")
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     if request.method == 'POST':
