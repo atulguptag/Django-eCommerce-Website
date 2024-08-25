@@ -25,13 +25,17 @@ class Profile(BaseModel):
         return CartItem.objects.filter(cart__is_paid=False, cart__user=self.user).count()
     
     def save(self, *args, **kwargs):
-        # Check if the profile image is being updated
-        if self.pk:
-            old_profile = Profile.objects.get(pk=self.pk)
-            if old_profile.profile_image and old_profile.profile_image != self.profile_image:
-                old_image_path = os.path.join(settings.MEDIA_ROOT, old_profile.profile_image.path)
-                if os.path.exists(old_image_path):
-                    os.remove(old_image_path)
+        # Check if the profile image is being updated and profile exists
+        if self.pk:  # Only if profile exists
+            try:
+                old_profile = Profile.objects.get(pk=self.pk)
+                if old_profile.profile_image and old_profile.profile_image != self.profile_image:
+                    old_image_path = os.path.join(settings.MEDIA_ROOT, old_profile.profile_image.path)
+                    if os.path.exists(old_image_path):
+                        os.remove(old_image_path)
+            except Profile.DoesNotExist:
+                # Profile does not exist, so nothing to do
+                pass
 
         super(Profile, self).save(*args, **kwargs)
 
