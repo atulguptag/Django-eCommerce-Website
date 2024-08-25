@@ -81,7 +81,7 @@ def add_to_wishlist(request, uid):
     wishlist, created = Wishlist.objects.get_or_create(user=request.user, product=product)
 
     if created:
-        messages.success(request, "Product addedd to Wishlist!")
+        messages.success(request, "Product added to Wishlist!")
 
     if not created:
         wishlist.delete()
