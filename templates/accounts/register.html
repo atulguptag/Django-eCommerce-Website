@@ -1,97 +1,101 @@
 {% extends "base/base.html" %} {% block start %} {% load static %} {% load socialaccount %}
 
-<section class="section-content padding-y-lg">
-  <!-- ============================ COMPONENT SignUp ================================= -->
-  <div class="card-2 mx-auto" style="max-width: 480px;">
-    <div class="card-body">
-      <h4 class="card-title mb-4">Sign Up</h4>
-      <form method="POST">
-        {% csrf_token %} {% include "base/alert.html" %}
+<!-- ============================ COMPONENT Sign-Up ================================= -->
+<section class="section-content padding-bottom">
+  <div class="container-xl d-flex justify-content-center align-items-center mt-5">
+    <div class="row justify-content-center w-100">
+      <div class="col-xl-4">
+        <div class="card mb-4">
+          <div class="card-header" style="text-align: center; font-size: 25px;">Sign Up</div>
+          <div class="card-body">
+            <form method="POST">
+              {% csrf_token %} {% include "base/alert.html" %}
 
-        <div class="form-group">
-          <input
-            class="form-control"
-            required
-            placeholder="Username"
-            name="username"
-            type="text"
-            autocomplete="username"/>
-        </div>
+              <!-- form-group// -->
+              <div class="form-group">
+                <input
+                  class="form-control"
+                  required
+                  placeholder="Username"
+                  name="username"
+                  type="text"
+                  autocomplete="username"/>
+              </div>
 
-        <div class="form-group">
-          <input
-            class="form-control"
-            required
-            placeholder="First Name"
-            name="first_name"
-            type="text"
-            autocomplete="given-name"/>
-        </div>
+              <div class="form-group">
+                <input
+                  class="form-control"
+                  required
+                  placeholder="First Name"
+                  name="first_name"
+                  type="text"
+                  autocomplete="given-name"/>
+              </div>
 
-        <div class="form-group">
-          <input
-            class="form-control"
-            required
-            placeholder="Last Name"
-            name="last_name"
-            type="text"
-            autocomplete="family-name"/>
-        </div>
+              <div class="form-group">
+                <input
+                  class="form-control"
+                  required
+                  placeholder="Last Name"
+                  name="last_name"
+                  type="text"
+                  autocomplete="family-name"/>
+              </div>
 
-        <div class="form-group">
-          <input
-            class="form-control"
-            required
-            placeholder="Email"
-            name="email"
-            type="text"
-            autocomplete="email"/>
-        </div>
+              <div class="form-group">
+                <input
+                  class="form-control"
+                  required
+                  placeholder="Email"
+                  name="email"
+                  type="text"
+                  autocomplete="email"/>
+              </div>
+              
+              <div class="form-group">
+                <input
+                  class="form-control"
+                  required
+                  placeholder="Password"
+                  name="password"
+                  type="password"
+                />
+              </div>
+              
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">
+                  Register
+                </button>
 
-        <!-- form-group// -->
-        <div class="form-group">
-          <input
-            class="form-control"
-            required
-            placeholder="Password"
-            name="password"
-            type="password"
-          />
-        </div>
-        
-        <!-- form-group// -->
-        <div class="form-group">
-          <button type="submit" class="btn btn-primary btn-block">
-            Register
-          </button>
+              <!-- form-group end -->
+               
+                <p class="text-center mt-4">
+                  Already have account? <a href="{% url 'login' %}">Sign in</a>
+                </p>
 
-          <p class="text-center mt-4">
-            Already have account? <a href="{% url 'login' %}">Sign in</a>
-          </p>
+                <div class="line"></div>
 
-          <div class="line"></div>
+                <div class="media-options">
+                  <a href="{% provider_login_url 'facebook' %}" class="field facebook">
+                    <i class="bx bxl-facebook facebook-icon"></i>
+                    <span>Login with Facebook</span>
+                  </a>
+                </div>
 
-          <div class="media-options">
-            <a href="{% provider_login_url 'facebook' %}" class="field facebook">
-              <i class="bx bxl-facebook facebook-icon"></i>
-              <span>Login with Facebook</span>
-            </a>
+                <div class="media-options">
+                  <a href="{% provider_login_url 'google' %}?next=/" class="field google">
+                    <img src="{% static 'images/google.png' %}" alt="" class="google-img" />
+                    <span>Login with Google</span>
+                  </a>
+                </div>
+              </div>
+            </form>
           </div>
-
-          <div class="media-options">
-            <a href="{% provider_login_url 'google' %}?next=/" class="field google">
-              <img src="{% static 'images/google.png' %}" alt="" class="google-img" />
-              <span>Login with Google</span>
-            </a>
-          </div>
         </div>
-        <!-- form-group// -->
-      </form>
+      </div>
     </div>
-    <!-- card-body.// -->
   </div>
-  <!-- card .// -->
-  <!-- ============================ COMPONENT SignUp END ================================= -->
 </section>
+<!-- ============================ COMPONENT Sign-Up END ================================= -->
 
 {% endblock %}
