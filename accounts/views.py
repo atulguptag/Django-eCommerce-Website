@@ -1,27 +1,27 @@
+import json
+import uuid
+import razorpay
+from io import BytesIO
+from products.models import *
+import xhtml2pdf.pisa as pisa
+from django.urls import reverse
+from django.conf import settings
 from django.contrib import messages
+from django.http import JsonResponse
+from home.models import ShippingAddress
 from django.contrib.auth.models import User
-from django.shortcuts import redirect, render, get_object_or_404
+from django.template.loader import get_template
+from django.core.validators import validate_email
+from accounts.models import Profile, Cart, CartItem
+from base.emails import send_account_activation_email
+from django.views.decorators.http import require_POST
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
-from products.models import *
-from accounts.models import Profile, Cart, CartItem
-import razorpay
-from django.conf import settings
-from django.contrib.auth.decorators import login_required
-
-import uuid
-from io import BytesIO
-import xhtml2pdf.pisa as pisa
-from django.template.loader import get_template
-from django.contrib.auth import update_session_auth_hash
-from accounts.forms import UserUpdateForm, UserProfileForm, ShippingAddressForm, CustomPasswordChangeForm
-from home.models import ShippingAddress
-from django.http import JsonResponse
-from django.views.decorators.http import require_POST
-import json
-from base.emails import send_account_activation_email
 from django.utils.http import url_has_allowed_host_and_scheme
-from django.urls import reverse
+from django.shortcuts import redirect, render, get_object_or_404
+from accounts.forms import UserUpdateForm, UserProfileForm, ShippingAddressForm, CustomPasswordChangeForm
 
 
 # Create your views here.
@@ -61,31 +61,36 @@ def login_page(request):
 
 
 def register_page(request):
+    try:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            first_name = request.POST.get('first_name')
+            last_name = request.POST.get('last_name')
+            email = request.POST.get('email')
+            password = request.POST.get('password')
+            validate_email(email)
 
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        email = request.POST.get('email')
-        password = request.POST.get('password')
+            user_obj = User.objects.filter(username=username, email=email)
 
-        user_obj = User.objects.filter(username=username, email=email)
+            if user_obj.exists():
+                messages.info(request, 'Account already exists.')
+                return HttpResponseRedirect(request.path_info)
 
-        if user_obj.exists():
-            messages.info(request, 'Account already exists.')
+            # if user not registered
+            user_obj = User.objects.create(
+                first_name=first_name, last_name=last_name, email=email, username=username)
+            user_obj.set_password(password)
+            user_obj.save()
+
+            email_token = str(uuid.uuid4())
+            Profile.objects.create(user=user_obj, email_token=email_token)
+
+            send_account_activation_email(email, email_token)
+            messages.success(request, "An email has been sent to your mail.")
             return HttpResponseRedirect(request.path_info)
-
-        # if user not registered
-        user_obj = User.objects.create(
-            first_name=first_name, last_name=last_name, email=email, username=username)
-        user_obj.set_password(password)
-        user_obj.save()
-
-        email_token = str(uuid.uuid4())
-        Profile.objects.create(user=user_obj, email_token=email_token)
-
-        send_account_activation_email(email, email_token)
-        messages.success(request, "An email has been sent to your mail.")
+        
+    except Exception:
+        messages.error(request, 'Invalid Email Address!')
         return HttpResponseRedirect(request.path_info)
 
     return render(request, 'accounts/register.html')
@@ -190,8 +195,8 @@ def cart(request):
         
         if cart_total_in_paise < 100:
             messages.warning(
-                request, 'Total amount in cart is less than the minimum required amount (1.00 INR) Please add a product to the cart.')
-            return redirect('index') 
+                request, 'Total amount in cart is less than the minimum required amount (1.00 INR). Please add a product to the cart.')
+            return redirect('index')
         
         client = razorpay.Client(auth = (settings.RAZORPAY_KEY_ID, settings.RAZORPAY_SECRET_KEY))
         payment = client.order.create(
