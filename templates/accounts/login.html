@@ -1,76 +1,83 @@
 {% extends "base/base.html" %} {% block start %} {% load static %} {% load socialaccount %}
 
-<section class="section-content padding-y-lg">
-  <!-- ============================ COMPONENT LOGIN   ================================= -->
-  <div class="card-2 mx-auto" style="max-width: 480px;">
-    <div class="card-body">
-      <h4 class="card-title mb-4">Sign in</h4>
-      <form method="POST" action="{% url 'login' %}?next={{ request.GET.next }}">
-        {% csrf_token %} {% include "base/alert.html" %}
+<!-- ============================ COMPONENT LOGIN   ================================= -->
+<section class="section-content padding-bottom">
+  <div class="container-xl d-flex justify-content-center align-items-center mt-5">
+    <div class="row justify-content-center w-100">
+      <div class="col-xl-4">
+        <div class="card mb-4">
+          <div class="card-header" style="text-align: center; font-size: 25px">
+            Sign In
+          </div>
+          <div class="card-body">
+            <form method="POST" action="{% url 'login' %}?next={{ request.GET.next }}">
+              {% csrf_token %} {% include "base/alert.html" %}
 
-        <div class="form-group">
-          <input
-            class="form-control"
-            required
-            placeholder="Username"
-            name="username"
-            type="text"
-            autocomplete="username"/>
+              <div class="form-group">
+                <input
+                  class="form-control"
+                  required
+                  placeholder="Username"
+                  name="username"
+                  type="text"
+                  autocomplete="username"
+                />
+              </div>
+              <!-- form-group// -->
+              <div class="form-group">
+                <input
+                  class="form-control"
+                  required
+                  placeholder="Password"
+                  name="password"
+                  type="password"
+                />
+              </div>
+              <!-- form-group// -->
+
+              <div class="form-group">
+                <a href="{% url 'password_reset' %}" class="float-right">
+                  Forgot password?
+                </a>
+                <label class="float-left custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" checked/>
+                  <div class="custom-control-label">Remember</div>
+                </label>
+              </div>
+
+              <!-- form-group// -->
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">
+                  Login
+                </button>
+              </div>
+
+              <p class="text-center mt-4">
+                Don't have account? <a href="{% url 'register' %}">Sign up</a>
+              </p>
+
+              <div class="line"></div>
+
+              <div class="media-options">
+                <a href="{% provider_login_url 'facebook' %}" class="field facebook">
+                  <i class="bx bxl-facebook facebook-icon"></i>
+                  <span>Login with Facebook</span>
+                </a>
+              </div>
+
+              <div class="media-options">
+                <a href="{% provider_login_url 'google' %}?next=/" class="field google">
+                  <img src="{% static 'images/google.png' %}" alt="" class="google-img"/>
+                  <span>Login with Google</span>
+                </a>
+              </div>
+            </form>
+          </div>
         </div>
-        <!-- form-group// -->
-        <div class="form-group">
-          <input
-            class="form-control"
-            required
-            placeholder="Password"
-            name="password"
-            type="password"
-          />
-        </div>
-        <!-- form-group// -->
-
-        <div class="form-group">
-          <a href="{% url 'password_reset' %}" class="float-right">Forgot password?</a>
-          <label class="float-left custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" checked="" />
-            <div class="custom-control-label">Remember</div>
-          </label>
-        </div>
-
-        <!-- form-group// -->
-        <div class="form-group">
-          <button type="submit" class="btn btn-primary btn-block">Login</button>
-        </div>
-
-        <p class="text-center mt-4">
-          Don't have account? <a href="{% url 'register' %}">Sign up</a>
-        </p>
-
-        <div class="line"></div>
-
-        <div class="media-options">
-          <a href="{% provider_login_url 'facebook' %}" class="field facebook">
-            <i class="bx bxl-facebook facebook-icon"></i>
-            <span>Login with Facebook</span>
-          </a>
-        </div>
-
-        <div class="media-options">
-          <a href="{% provider_login_url 'google' %}?next=/" class="field google">
-            <img
-              src="{% static 'images/google.png' %}"
-              alt=""
-              class="google-img"
-            />
-            <span>Login with Google</span>
-          </a>
-        </div>
-      </form>
+      </div>
     </div>
-    <!-- card-body.// -->
   </div>
-  <!-- card .// -->
-  <!-- ============================ COMPONENT LOGIN  END.// ================================= -->
 </section>
+<!-- ============================ COMPONENT LOGIN END ================================= -->
 
 {% endblock %}
