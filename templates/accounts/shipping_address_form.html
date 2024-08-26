@@ -32,25 +32,6 @@
     border-bottom: 1px solid rgba(33, 40, 50, 0.125);
   }
   
-  .form-control,
-  .dataTable-input {
-    display: block;
-    width: 100%;
-    padding: 0.875rem 1.125rem;
-    font-size: 0.875rem;
-    font-weight: 400;
-    line-height: 1;
-    color: #69707a;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #c5ccd6;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    border-radius: 0.35rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  }
-  
   .nav-borders .nav-link.active {
     color: #0061f2;
     border-bottom-color: #0061f2;
@@ -81,8 +62,8 @@
     </nav>
 
     <hr class="mt-0 mb-4" />
+    <!--Change Password Detail Section -->
     <div class="row">
-      <!--Change Password Detail Section -->
       <div class="col-xl-20">
         <div class="card mb-4">
           <div class="card-header">Shipping Address</div>
@@ -109,10 +90,13 @@
               
               {{ form.country|as_crispy_field }} {{ form.phone|as_crispy_field }}
 
-              <div class="form-group" style="text-align: -webkit-right">
-                <button class="btn btn-primary" type="submit">Update Shipping Address</button>
-                <a class="btn btn-warning" href="{% url 'index' %}">Back to Home Page</a>
+              <div class="form-group d-flex justify-content-end">
+                <div class="d-sm-flex">
+                  <a class="mb-2 mb-sm-0 mr-0 mr-sm-3 btn btn-warning" href="{% url 'index' %}">Back to Home Page</a>
+                  <button class="btn btn-primary" type="submit">Update Shipping Address</button>
+                </div>
               </div>
+              
             </form>
           </div>
         </div>
