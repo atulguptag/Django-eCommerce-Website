@@ -41,7 +41,7 @@
                       </p>
                       <td class="d-flex justify-content-end">
                         <div class="d-sm-flex mr-2">
-                          <form class="mr-3" method="POST" action="{% url 'move_to_cart' item.product.uid %}">
+                          <form class="mb-2 mb-sm-0 mr-0 mr-sm-3" method="POST" action="{% url 'move_to_cart' item.product.uid %}">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-primary">Move to Cart</button>
                           </form>
