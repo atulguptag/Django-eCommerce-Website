@@ -4817,7 +4817,8 @@ textarea.form-control-lg {
 .alert-error {
     color: #842029;
     background-color: #f8d7da;
-    border-color: #f5c2c7
+    border-color: #f5c2c7;
+    text-align: -webkit-center;
 }
 
 .alert-error .alert-link {
