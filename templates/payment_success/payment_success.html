@@ -1,15 +1,31 @@
-{% extends 'base/base.html' %}
+{% extends 'base/base.html' %} {% block start %}
 
-{% block start %}
-<section class="section-content" style="min-height: 50vh">
-    <div class="card mx-auto" style="max-width: 100vh; margin-top: 100px">
-        <div class="card-body text-center">
-            <h3 class="mb-4">Payment Successful!</h3>
-            <p>Your order with Order ID: <strong>{{ order_id }} </strong> has been successfully processed.</p>
+<!-- ============================ COMPONENT Payment Success ================================= -->
+<section class="section-content padding-bottom">
+  <div class="container-xl d-flex justify-content-center align-items-center mt-5">
+    <div class="row justify-content-center w-100">
+      <div class="col-xl-4">
+        <div class="card mb-4">
+          <div class="card-header" style="text-align: center; font-size: 25px">
+            Payment Successful!
+          </div>
+          <div class="card-body">
+            <p>
+              Your order with Order ID: <strong>{{ order_id }} </strong> has
+              been successfully processed.
+            </p>
             <p>Thank you for shopping with us!</p>
             <a href="{% url 'index' %}" class="btn btn-primary mt-3 mb-3">Continue Shopping</a>
-            <a href="{% url 'download_invoice' razorpay_order_id=order_id %}" class="btn btn-secondary mt-3 mb-3" download="invoice_{{ order_id }}.pdf">Download Invoice</a>
+            <a href="{% url 'download_invoice' razorpay_order_id=order_id %}"
+            class="btn btn-secondary mt-3 mb-3"
+            download="invoice_{{ order_id }}.pdf">
+            Download Invoice
+            </a>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </section>
+<!-- ============================ COMPONENT Payment Success END ================================= -->
 {% endblock %}
