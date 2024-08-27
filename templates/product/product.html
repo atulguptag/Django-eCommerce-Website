@@ -135,18 +135,28 @@
             </div>
 
             <!-- Add to Wishlist Button -->
-            <form method="POST" action="{% url 'add_to_wishlist' product.uid %}" >
-              {% csrf_token %}
-              {% if in_wishlist %}
-                  <button type="submit" class="btn btn-danger">Remove from Wishlist</button>
-              {% else %}
-                  <button type="submit" class="btn btn-outline-primary">Add to Wishlist</button>
-              {% endif %}
-              <a href="{% url 'add_to_cart' product.uid %}?variant={{ select_size }}" 
-              class="btn btn-primary"><span class="text">Add to cart</span>
-              <i class="fas fa-shopping-cart"></i>
-              </a>
-            </form>
+            <div class="form-group d-flex justify-content-start">
+              <div class="d-sm-flex">
+                <div class="mb-2 mb-sm-0 mr-0 mr-sm-3">
+                  <form method="POST" action="{% url 'add_to_wishlist' product.uid %}" >
+                    {% csrf_token %}
+                    {% if in_wishlist %}
+                        <button type="submit" class="btn btn-danger">
+                          <i class="far fa-heart"></i> Remove from Wishlist
+                        </button>
+                    {% else %}
+                        <button type="submit" class="btn btn-outline-primary">
+                          <i class="fas fa-heart"></i> Add to Wishlist
+                        </button>
+                        {% endif %}
+                </div>
+                    <a href="{% url 'add_to_cart' product.uid %}?variant={{ select_size }}" class="btn btn-primary">
+                      <i class="fas fa-shopping-bag mr-1"></i>
+                      <span>Add to cart</span>
+                    </a>
+                  </form>
+              </div>
+            </div>
           </article>
 
         </main>
