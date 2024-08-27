@@ -1,5 +1,40 @@
 {% load static %}
 
+<style>
+  @media (max-width: 992px) {
+    .widgets-wrap {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      text-align: left;
+      flex-wrap: nowrap;
+    }
+
+    .widget-header {
+      margin-right: 10px;
+    }
+
+    .icontext {
+      display: flex;
+      align-items: center;
+    }
+
+    .icontext .text {
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .text span {
+      display: block;
+    }
+
+    .text div {
+      display: inline;
+    }
+}
+</style>
+
 <header class="section-header">
   <nav class="navbar navbar-dark navbar-expand-md bg-dark">
     <div class="container">
@@ -53,6 +88,7 @@
         <div class="col-lg-4 col-sm-6 col-8">
           <div class="widgets-wrap float-md-right">
 
+            <!-- Cart Icon with badge -->
             <div class="widget-header mr-3">
               <a href="{% url 'cart' %}" class="icon icon-sm rounded-circle border">
                 <i class="fa fa-shopping-cart"></i>
@@ -66,6 +102,7 @@
               {% endif %}
             </div>
 
+            <!-- Profile Icon -->
             <div class="widget-header icontext">
               {% if user.is_authenticated %}
                 {% if user.profile.profile_image %}
@@ -92,6 +129,7 @@
                 </a>
               {% endif %}
 
+              <!-- Welcome Text and Logout Link -->
               <div class="text">
                 {% if request.user.is_authenticated %}
                 <span class="text-muted">Welcome, {{ request.user }}!</span>
