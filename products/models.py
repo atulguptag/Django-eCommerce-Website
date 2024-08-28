@@ -96,12 +96,15 @@ class ProductReview(BaseModel):
 class Wishlist(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="wishlist")
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="wishlisted_by")
+    size_variant = models.ForeignKey(SizeVariant, on_delete=models.SET_NULL, null=True, 
+                                     blank=True, related_name="wishlist_items")
 
     added_on = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('user', 'product')
+        unique_together = ('user', 'product', 'size_variant')
 
     def __str__(self) -> str:
-        return f'{self.user.username} - {self.product.product_name}'
+        return f'{self.user.username} - {self.product.product_name} - {self.size_variant.size_name if self.size_variant else "No Size"}'
+
     
