@@ -1,8 +1,8 @@
 {% extends "base/base.html"%} {% block start %}
 {% load crispy_forms_tags %}
 
-<section class="section-content padding-bottom-sm bg">
-  <div class="container">
+<section class="section-content padding-bottom-sm">
+  <div class="container mt-3">
     {% include 'base/alert.html' %}
     <!-- ============================ COMPONENT Product Details ================================= -->
     <div class="card">
@@ -118,9 +118,9 @@
                   {% for size in sorted_size_variants %}
                   
                   <label class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" name="selected_size"
-
-                    onchange="get_correct_price('{{size.size_name}}')" 
+                    <input type="radio" name="selected_size" value="{{ size.size_name }}" 
+                    onchange="get_correct_price('{{size.size_name}}'); updateCartUrl();" 
+                    id="size-{{ size.size_name }}"
                     {% if selected_size == size.size_name %} checked {% endif %}
                     class="custom-control-input" />
 
@@ -138,7 +138,7 @@
             <div class="form-group d-flex justify-content-start">
               <div class="d-sm-flex">
                 <div class="mb-2 mb-sm-0 mr-0 mr-sm-3">
-                  <form method="POST" action="{% url 'add_to_wishlist' product.uid %}" >
+                  <form method="POST" action="{% url 'add_to_wishlist' product.uid %}?size={{ selected_size }}" >
                     {% csrf_token %}
                     {% if in_wishlist %}
                         <button type="submit" class="btn btn-danger">
@@ -150,7 +150,8 @@
                         </button>
                         {% endif %}
                 </div>
-                    <a href="{% url 'add_to_cart' product.uid %}?variant={{ select_size }}" class="btn btn-primary">
+                    <a href="{% url 'add_to_cart' product.uid %}?size={{ selected_size  }}" 
+                    id="add-to-cart-btn" class="btn btn-primary">
                       <i class="fas fa-shopping-bag mr-1"></i>
                       <span>Add to cart</span>
                     </a>
@@ -218,9 +219,11 @@
 </section>
 
 <script>
-  function get_correct_price(size) {
-    window.location.href = window.location.pathname + `?size=${size}`;
-  } 
+  function get_correct_price(selected_size) {
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set('size', selected_size);
+    window.location.search = urlParams.toString();
+  }
 </script>
 
 {% endblock %}
