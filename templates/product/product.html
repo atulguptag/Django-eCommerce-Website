@@ -136,26 +136,19 @@
 
             <!-- Add to Wishlist Button -->
             <div class="form-group d-flex justify-content-start">
-              <div class="d-sm-flex">
+              <div class="d-sm-flex mr-2">
                 <div class="mb-2 mb-sm-0 mr-0 mr-sm-3">
-                  <form method="POST" action="{% url 'add_to_wishlist' product.uid %}?size={{ selected_size }}" >
+                  <form method="POST" action="{% url 'add_to_wishlist' product.uid %}?size={{ selected_size }}">
                     {% csrf_token %}
-                    {% if in_wishlist %}
-                        <button type="submit" class="btn btn-danger">
-                          <i class="far fa-heart"></i> Remove from Wishlist
-                        </button>
-                    {% else %}
-                        <button type="submit" class="btn btn-outline-primary">
-                          <i class="fas fa-heart"></i> Add to Wishlist
-                        </button>
-                        {% endif %}
-                </div>
-                    <a href="{% url 'add_to_cart' product.uid %}?size={{ selected_size  }}" 
-                    id="add-to-cart-btn" class="btn btn-primary">
-                      <i class="fas fa-shopping-bag mr-1"></i>
-                      <span>Add to cart</span>
-                    </a>
+                    <button type="submit" class="btn btn-outline-primary">
+                      <i class="fas fa-heart"></i> Add to Wishlist
+                    </button>
                   </form>
+                </div>
+                <a href="{% url 'add_to_cart' product.uid %}?size={{ selected_size }}" id="add-to-cart-btn" 
+                class="btn btn-primary"><i class="fas fa-shopping-bag mr-1"></i>
+                  <span>Add to cart</span>
+                </a>
               </div>
             </div>
           </article>
@@ -183,8 +176,8 @@
     <h3 class="title padding-bottom-sm">Reviews</h3>
     
     {% for review in product.reviews.all %}
-    <div class="card mb-3" style="background-color: #59ee8d91;">
-      <div class="card-body">
+      <div class="card mb-3">
+        <div class="card-body" style="background-color: #59ee8d91;">
           <div class="form-group">
             <p>
               <strong>Posted on: </strong>{{ review.date_added|date:"Y-m-d" }} by <strong>{{ review.user.get_full_name }}</strong><br>
