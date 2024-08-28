@@ -120,24 +120,22 @@ def activate_email_account(request, email_token):
 @login_required
 def add_to_cart(request, uid):
     try:
-        variant = request.GET.get('variant')
-        color = request.GET.get('color')
+        variant = request.GET.get('size')
+        if not variant:
+            messages.error(request, 'Please select a size variant!')
+            return redirect(request.META.get('HTTP_REFERER'))
+        
         product = get_object_or_404(Product, uid=uid)
 
-        user = request.user
-        cart, _ = Cart.objects.get_or_create(user=user, is_paid=False)
+        cart, _ = Cart.objects.get_or_create(user=request.user, is_paid=False)
+        size_variant = get_object_or_404(SizeVariant, size_name=variant)
 
-        cart_item = CartItem.objects.create(cart=cart, product=product)
-
-        if variant:
-            size_variant = get_object_or_404(SizeVariant, size_name=variant)
-            cart_item.size_variant = size_variant
-
-        if color:
-            color_variant = get_object_or_404(ColorVariant, color_name=color)
-            cart_item.color_variant = color_variant
-
-        cart_item.save()
+        # Check if the cart item already exists in the cart
+        cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product, size_variant=size_variant)
+        
+        if not created:
+            cart_item.quantity += 1
+            cart_item.save()
 
         messages.success(request, 'Item added to cart successfully.')
 
