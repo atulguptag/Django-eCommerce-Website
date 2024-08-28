@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.contrib import messages
 from accounts.models import Cart, CartItem
 from django.contrib.auth.decorators import login_required
-from products.models import Product, ProductReview, Wishlist
+from products.models import Product, SizeVariant, ProductReview, Wishlist
 from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
@@ -74,21 +74,38 @@ def get_product(request, slug):
     return render(request, 'product/product.html', context=context)
 
 
-# Add to Wishlist View
+# Add a product to Wishlist
 @login_required
 def add_to_wishlist(request, uid):
+    variant = request.GET.get('size')
+    if not variant:
+        messages.error(request, 'Please select a size before adding to the wishlist!')
+        return redirect(request.META.get('HTTP_REFERER'))
+    
     product = get_object_or_404(Product, uid=uid)
-    wishlist, created = Wishlist.objects.get_or_create(user=request.user, product=product)
+    size_variant = get_object_or_404(SizeVariant, size_name=variant)
+    wishlist, created = Wishlist.objects.get_or_create(user=request.user, product=product, size_variant=size_variant)
 
     if created:
         messages.success(request, "Product added to Wishlist!")
 
-    if not created:
-        wishlist.delete()
-        messages.success(request, "Product removed from wishlist!")
-
     return redirect(reverse('wishlist'))
 
+
+# Remove product from wishlist
+@login_required
+def remove_from_wishlist(request, uid):
+    product = get_object_or_404(Product, uid=uid)
+    size_variant_name = request.GET.get('size')
+    
+    if size_variant_name:
+        size_variant = get_object_or_404(SizeVariant, size_name=size_variant_name)
+        Wishlist.objects.filter(user=request.user, product=product, size_variant=size_variant).delete()
+    else:
+        Wishlist.objects.filter(user=request.user, product=product).delete()
+
+    messages.success(request, "Product removed from wishlist!")
+    return redirect(reverse('wishlist'))
 
 
 # Wishlist View
@@ -104,14 +121,23 @@ def wishlist_view(request):
 def move_to_cart(request, uid):
     product = get_object_or_404(Product, uid=uid)
 
+    # Find the wishlist item with the corresponding size variant
+    wishlist = Wishlist.objects.filter(user=request.user, product=product).first()
+    
+    if not wishlist:
+        messages.error(request, "Item not found in wishlist.")
+        return redirect('wishlist')
+    
+    size_variant = wishlist.size_variant
+
     # Remove from wishlist
-    Wishlist.objects.filter(user=request.user, product=product).delete()
+    wishlist.delete()
 
     # Get or create the user's cart
     cart, created = Cart.objects.get_or_create(user=request.user, is_paid=False)
 
-    # Add the product to the cart
-    cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
+    # Add the product to the cart with the size variant
+    cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product, size_variant=size_variant)
 
     if not created:
         cart_item.quantity += 1

@@ -46,7 +46,7 @@
                             <button type="submit" class="btn btn-primary">Move to Cart</button>
                           </form>
                           
-                          <form method="POST" action="{% url 'add_to_wishlist' item.product.uid %}">
+                          <form method="POST" action="{% url 'remove_from_wishlist' item.product.uid %}?size={{ item.size_variant.size_name }}">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-danger">Remove</button>
                           </form>
