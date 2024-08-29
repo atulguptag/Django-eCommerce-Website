@@ -1,0 +1,45 @@
+{% extends 'base/base.html' %} 
+{% block title %}Order History{% endblock title %} 
+{% load static %} {% block start %}
+
+<div class="container mt-4">
+  <h3 class="form-group mb-4">Order History</h3>
+  <div class="table-responsive">
+    <table class="table table-striped table-hover text-center">
+      <thead class="thead-dark">
+        <tr>
+          <th>Order ID #</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Total</th>
+          <th>Payment Mode</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.order_id }}</td>
+            <td>{{ order.order_date|date:"F j, Y" }}</td>
+            <td>
+                <span
+                class="badge {% if order.payment_status == 'Paid' %}badge-success{% else %}badge-warning{% endif %}"
+                >
+                {{ order.payment_status }}
+                </span>
+            </td>
+            <td>₹{{ order.grand_total }}</td>
+            <td>{{ order.payment_mode }}</td>
+            <td>
+                <a href="{% url 'order_details' order.order_id %}" class="btn btn-outline-primary btn-sm">
+                View Details
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}
