@@ -1,0 +1,126 @@
+{% extends 'base/base.html' %}
+{% block title %}Order Details{% endblock title%}
+{% load static %} {% block start %}
+
+<section class="section-content padding-y">
+  <div class="container">
+    <div class="row">
+
+      <!-- Order Summary -->
+      <main class="col-md-12">
+        <h3 class="mb-4">Order Summary</h3>
+        <div class="table-responsive mb-4">
+          <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+              <tr>
+                <th>Product</th>
+                <th>Size</th>
+                <th>Color</th>
+                <th>Quantity</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in order_items.all %}
+              <tr>
+                <td><a href="{% url 'get_product' item.product.slug %}" class="title text-dark">
+                  {{ item.product.product_name }}</a></td>
+                <td>{{ item.size_variant.size_name|default:"N/A" }}</td>
+                {% if item.size_variant %}
+                  {% for color in item.product.color_variant.all %}
+                    <td>{{ color.color_name|default:"N/A" }}</td>
+                  {% endfor %}
+                {% endif %}
+                <td>{{ item.quantity }}</td>
+                <td>₹ {{ item.product_price }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </main>
+      <!-- Order Summary End -->
+
+
+      <!-- Order Details Summary -->
+      <main class="col-md-6">
+        <h3 class="mb-4">Order Details</h3>
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title">Order Information</h5>
+            <dl class="dlist-align">
+              <dt style="width: 135px;">Order ID #:</dt>
+              <dd class="text-right">
+                <strong>{{ order.order_id }}</strong>
+              </dd>
+            </dl>
+            <dl class="dlist-align">
+              <dt style="width: 135px;">Place on:</dt>
+              <dd class="text-right">
+                <strong>{{ order.order_date|date:"F j, Y" }}</strong>
+              </dd>
+            </dl>
+            <dl class="dlist-align">
+              <dt style="width: 135px;">Customer:</dt>
+              <dd class="text-right">
+                <strong>{{ order.user.get_full_name }}</strong>
+              </dd>
+            </dl>
+            <dl class="dlist-align">
+              <dt style="width: 135px;">Payment Status:</dt>
+              <dd class="text-right">
+                <strong>{{ order.payment_status }}</strong>
+              </dd>
+            </dl>
+            <dl class="dlist-align">
+              <dt style="width: 135px;">Payment Mode:</dt>
+              <dd class="text-right">
+                <strong>{{ order.payment_mode }}</strong>
+              </dd>
+            </dl>
+            <dl class="dlist-align">
+              <dt style="width: 150px;">Shipping Address:</dt>
+              <dd class="text-right">
+                <strong>{{ order.shipping_address|default:"Not Provided" }}</strong>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </main>
+      <!-- Order Details Summary End-->
+
+
+      <!-- Payment Summary -->
+      <main class="col-md-4">
+        <div class="card" style="margin-top: 59px;">
+          <div class="card-body">
+            <h5 class="card-title">Payment Summary</h5>
+            <dl class="dlist-align">
+              <dt style="width: 135px;">Item(s) Subtotal:</dt>
+              <dd class="text-right">
+                <strong>₹{{ order.order_total_price }}</strong>
+              </dd>
+            </dl>
+
+            <dl class="dlist-align">
+              <dt style="width: 135px;">Coupon Applied:</dt>
+              <dd class="text-right">
+                <strong>₹{{ order.coupon.discount_amount|default:"0" }}</strong>
+              </dd>
+            </dl>
+
+            <dl class="dlist-align">
+              <dt style="width: 135px;">Grand Total:</dt>
+              <dd class="text-right">
+                <strong>₹{{ order.grand_total }}</strong>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </main>
+      <!-- Payment Summary End -->
+
+    </div>
+  </div>
+</section>
+{% endblock %}
