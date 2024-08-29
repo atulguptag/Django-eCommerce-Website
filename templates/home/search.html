@@ -1,9 +1,13 @@
-{% extends "base/base.html"%} {% block start %}
+{% extends "base/base.html"%}
+{% block title %}Search Product{% endblock %}
+{% block start %}
+
 <style>
   h3{
     margin-bottom: 20px;
   }
 </style>
+
 <section class="section-content padding-y">
   <div class="container">
     {% if query %}

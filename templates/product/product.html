@@ -1,5 +1,6 @@
-{% extends "base/base.html"%} {% block start %}
-{% load crispy_forms_tags %}
+{% extends "base/base.html"%}
+{% block title %}{{product.product_name}} {% endblock %}
+{% block start %} {% load crispy_forms_tags %}
 
 <section class="section-content padding-bottom-sm">
   <div class="container mt-3">

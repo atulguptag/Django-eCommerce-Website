@@ -1,7 +1,10 @@
-{% extends "base/base.html" %} {% block start %} {% load static %}
+{% extends "base/base.html" %}
+{% block title %}Shopping Cart{% endblock %}
+{% block start %} {% load static %}
 
 <section class="section-content padding-y">
   <div class="container">
+    {% include 'base/alert.html' %}
     <div class="row">
       <main class="col-md-9">
         <div class="card">
@@ -110,7 +113,7 @@
         <div class="card mb-3">
           <div class="card-body">
             <form method="POST">
-              {% include 'base/alert.html' %} {% csrf_token %}
+              {% csrf_token %}
               <div class="form-group">
                 <label>Have coupon?</label>
                 <div class="input-group">
