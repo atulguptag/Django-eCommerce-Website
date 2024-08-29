@@ -12,7 +12,7 @@ from home.models import ShippingAddress
 from django.contrib.auth.models import User
 from django.template.loader import get_template
 from django.core.validators import validate_email
-from accounts.models import Profile, Cart, CartItem
+from accounts.models import Profile, Cart, CartItem, Order, OrderItem
 from base.emails import send_account_activation_email
 from django.views.decorators.http import require_POST
 from django.contrib.auth import update_session_auth_hash
@@ -246,14 +246,20 @@ def remove_coupon(request, cart_id):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
+# Payment success view
 def success(request):
     order_id = request.GET.get('order_id')
     # cart = Cart.objects.get(razorpay_order_id = order_id)
     cart = get_object_or_404(Cart, razorpay_order_id = order_id)
+
+    # Mark the cart as paid
     cart.is_paid = True
     cart.save()
 
-    context = {'order_id': order_id}
+    # Create the order after payment is confirmed
+    order = create_order(cart)
+
+    context = {'order_id': order_id, 'order': order}
     return render(request, 'payment_success/payment_success.html', context)
 
 
@@ -359,3 +365,53 @@ def update_shipping_address(request):
         form = ShippingAddressForm(instance=shipping_address)
 
     return render(request, 'accounts/shipping_address_form.html', {'form': form})
+
+
+# Order history view
+@login_required
+def order_history(request):
+    orders = Order.objects.filter(user=request.user).order_by('-order_date')
+    return render(request, 'accounts/order_history.html', {'orders': orders})
+
+
+# Create an order view
+def create_order(cart):
+    order, created = Order.objects.get_or_create(
+        user=cart.user,
+        order_id=cart.razorpay_order_id,
+        payment_status="Paid",
+        shipping_address=cart.user.profile.shipping_address,
+        payment_mode="Razorpay",
+        order_total_price=cart.get_cart_total(),
+        coupon=cart.coupon,
+        grand_total=cart.get_cart_total_price_after_coupon(),
+    )
+
+    # Create OrderItem instances for each item in the cart
+    cart_items = CartItem.objects.filter(cart=cart)
+    for cart_item in cart_items:
+        OrderItem.objects.get_or_create(
+            order=order,
+            product=cart_item.product,
+            size_variant=cart_item.size_variant,
+            color_variant=cart_item.color_variant,
+            quantity=cart_item.quantity,
+            product_price=cart_item.get_product_price()
+        )
+
+    return order
+
+
+# Order Details view
+@login_required
+def order_details(request, order_id):
+    order = get_object_or_404(Order, order_id=order_id, user=request.user)
+    order_items = OrderItem.objects.filter(order=order)
+    context = {
+        'order': order,
+        'order_items': order_items,
+        'order_total_price': sum(item.get_total_price() for item in order_items),
+        'coupon_discount': order.coupon.discount_amount if order.coupon else 0,
+        'grand_total': order.get_order_total_price()
+    }
+    return render(request, 'accounts/order_details.html', context)

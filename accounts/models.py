@@ -88,4 +88,41 @@ class CartItem(BaseModel):
         return price
 
 
+class Order(BaseModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="orders")
+    order_id = models.CharField(max_length=100, unique=True)
+    order_date = models.DateTimeField(auto_now_add=True)
+    payment_status = models.CharField(max_length=100)
+    shipping_address = models.TextField(blank=True, null=True)
+    payment_mode = models.CharField(max_length=100)
+    order_total_price = models.DecimalField(max_digits=10, decimal_places=2)
+    coupon = models.ForeignKey(Coupon, on_delete=models.SET_NULL, null=True, blank=True)
+    grand_total = models.DecimalField(max_digits=10, decimal_places=2)
 
+    def __str__(self):
+        return f"Order {self.order_id} by {self.user.username}"
+    
+    def get_order_total_price(self):
+        return self.order_total_price
+
+
+class OrderItem(BaseModel):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="order_items")
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    size_variant = models.ForeignKey(SizeVariant, on_delete=models.SET_NULL, null=True, blank=True)
+    color_variant = models.ForeignKey(ColorVariant, on_delete=models.SET_NULL, null=True, blank=True)
+    quantity = models.PositiveIntegerField(default=1)
+    product_price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+
+    def __str__(self):
+        return f"{self.product.product_name} - {self.quantity}"
+    
+    def get_total_price(self):
+        # Use the get_product_price method from CartItem
+        cart_item = CartItem(
+            product=self.product,
+            size_variant=self.size_variant,
+            color_variant=self.color_variant,
+            quantity=self.quantity
+        )
+        return cart_item.get_product_price()
