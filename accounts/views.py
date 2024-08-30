@@ -1,9 +1,8 @@
-import json
+import os, json
 import uuid
 import razorpay
-from io import BytesIO
+from weasyprint import CSS, HTML
 from products.models import *
-import xhtml2pdf.pisa as pisa
 from django.urls import reverse
 from django.conf import settings
 from django.contrib import messages
@@ -263,41 +262,47 @@ def success(request):
     return render(request, 'payment_success/payment_success.html', context)
 
 
-# HTML to PDF
+# HTML to PDF Conversion
 def render_to_pdf(template_src, context_dict={}):
     template = get_template(template_src)
     html = template.render(context_dict)
-    response = BytesIO()
-    pdf = pisa.pisaDocument(BytesIO(html.encode('UTF-8')), response)
 
-    file_name = uuid.uuid4()
-
-    try:
-        with open(str(settings.BASE_DIR) + f"/public/media/{file_name}.pdf", 'wb+') as output:
-            pdf = pisa.pisaDocument(BytesIO(html.encode('UTF-8')), output)
-    except Exception as e:
-        print(e)
-
-    if pdf.err:
-        return HttpResponse("Invalid PDF", status_code=400, content_type='text/plain')
+    # Path to the staticfiles directory
+    static_root = settings.STATIC_ROOT
     
-    return file_name, True
-    
+    # List all CSS files you need, now collected in STATIC_ROOT
+    css_files = [
+        os.path.join(static_root, 'css', 'bootstrap.css'),
+        os.path.join(static_root, 'css', 'responsive.css'),
+        os.path.join(static_root, 'css', 'ui.css'),
+    ]
 
-def download_invoice(request, razorpay_order_id):
-    order = get_object_or_404(Cart, razorpay_order_id=razorpay_order_id)
+    # Create CSS objects for each file
+    css_objects = [CSS(filename=css_file) for css_file in css_files]
+
+    # Convert HTML to PDF with all CSS stylesheets applied
+    pdf_file = HTML(string=html).write_pdf(stylesheets=css_objects)
+    
+    response = HttpResponse(pdf_file, content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="invoice_{context_dict["order"].order_id}.pdf"'
+
+    return response
+
+
+
+def download_invoice(request, order_id):
+    order = get_object_or_404(Order, order_id=order_id)
+    order_items = order.order_items.all()
+
     context = {
         'order': order,
-        'data': {
-            'order_date': order.created_at,
-            'name': order.user.get_full_name(),
-            'user_email': order.user.email
-        }
+        'order_items': order_items,
     }
-    pdf = render_to_pdf('pdfs/invoice.html', context)
-    response = HttpResponse(pdf, content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename="invoice_{razorpay_order_id}.pdf"'
-    return response
+
+    pdf = render_to_pdf('accounts/order_pdf_generate.html', context)
+    if pdf:
+        return pdf
+    return HttpResponse("Error generating PDF", status=400)
 
 
 

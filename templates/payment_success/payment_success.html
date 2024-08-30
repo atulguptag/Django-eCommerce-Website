@@ -1,5 +1,5 @@
 {% extends 'base/base.html' %}
-{% block title %}Payment Successfully{% endblock %}
+{% block title %}Payment Successful!{% endblock %}
 {% block start %}
 
 <!-- ============================ COMPONENT Payment Success ================================= -->
@@ -17,10 +17,11 @@
               been successfully processed.
             </p>
             <p>Thank you for shopping with us!</p>
-            <a href="{% url 'index' %}" class="btn btn-primary mt-3 mb-3 mr-3">Continue Shopping</a>
-            <a href="{% url 'download_invoice' razorpay_order_id=order_id %}"
-            class="btn btn-secondary mr-3" download="invoice_{{ order_id }}.pdf">
-            Download Invoice
+            <a href="{% url 'index' %}" class="btn btn-primary mt-3 mb-3 mr-3">
+              Continue Shopping
+            </a>
+            <a href="{% url 'order_details' order_id=order_id %}" class="btn btn-warning">
+              View Order Details
             </a>
           </div>
         </div>

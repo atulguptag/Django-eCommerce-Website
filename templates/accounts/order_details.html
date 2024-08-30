@@ -8,7 +8,12 @@
 
       <!-- Order Summary -->
       <main class="col-md-12">
-        <h3 class="mb-4">Order Summary</h3>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="mb-0">Order Summary</h3>
+          <a href="{% url 'download_invoice' order.order_id %}" class="btn btn-success">
+            Download Invoice
+          </a>
+        </div>
         <div class="table-responsive mb-4">
           <table class="table table-striped table-bordered">
             <thead class="thead-dark">

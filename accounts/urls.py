@@ -36,9 +36,9 @@ urlpatterns = [
     
     #Success url after payment is done.
     path('success/', success, name="success"),
-    path('success/download_invoice/<razorpay_order_id>/', download_invoice, name='download_invoice'),
     
     #Order history and details urls
     path('order-history/', order_history, name='order_history'),
     path('order-details/<str:order_id>/', order_details, name='order_details'),
+    path('order-details/<str:order_id>/download/', download_invoice, name='download_invoice'),
 ]
