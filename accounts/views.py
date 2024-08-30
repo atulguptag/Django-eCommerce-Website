@@ -420,3 +420,14 @@ def order_details(request, order_id):
         'grand_total': order.get_order_total_price()
     }
     return render(request, 'accounts/order_details.html', context)
+
+
+# Delete user account feature
+@login_required
+def delete_account(request):
+    if request.method == 'POST':
+        user = request.user
+        logout(request)
+        user.delete()
+        messages.success(request, "Your account has been deleted successfully.")
+        return redirect('index')
