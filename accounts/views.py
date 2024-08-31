@@ -10,7 +10,6 @@ from django.http import JsonResponse
 from home.models import ShippingAddress
 from django.contrib.auth.models import User
 from django.template.loader import get_template
-from django.core.validators import validate_email
 from accounts.models import Profile, Cart, CartItem, Order, OrderItem
 from base.emails import send_account_activation_email
 from django.views.decorators.http import require_POST
@@ -60,36 +59,31 @@ def login_page(request):
 
 
 def register_page(request):
-    try:
-        if request.method == 'POST':
-            username = request.POST.get('username')
-            first_name = request.POST.get('first_name')
-            last_name = request.POST.get('last_name')
-            email = request.POST.get('email')
-            password = request.POST.get('password')
-            validate_email(email)
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
 
-            user_obj = User.objects.filter(username=username, email=email)
+        user_obj = User.objects.filter(username=username, email=email)
 
-            if user_obj.exists():
-                messages.info(request, 'Account already exists.')
-                return HttpResponseRedirect(request.path_info)
-
-            # if user not registered
-            user_obj = User.objects.create(
-                first_name=first_name, last_name=last_name, email=email, username=username)
-            user_obj.set_password(password)
-            user_obj.save()
-
-            email_token = str(uuid.uuid4())
-            Profile.objects.create(user=user_obj, email_token=email_token)
-
-            send_account_activation_email(email, email_token)
-            messages.success(request, "An email has been sent to your mail.")
+        if user_obj.exists():
+            messages.info(request, 'Username or email already exists!')
             return HttpResponseRedirect(request.path_info)
-        
-    except Exception:
-        messages.error(request, 'Invalid Email Address!')
+
+        # if user not registered
+        user_obj = User.objects.create(
+            username=username, first_name=first_name, last_name=last_name, email=email)
+        user_obj.set_password(password)
+        user_obj.save()
+
+        profile = Profile.objects.get(user=user_obj)
+        profile.email_token = str(uuid.uuid4())
+        profile.save()
+
+        send_account_activation_email(email, profile.email_token)
+        messages.success(request, "An email has been sent to your mail.")
         return HttpResponseRedirect(request.path_info)
 
     return render(request, 'accounts/register.html')
