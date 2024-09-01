@@ -2,33 +2,69 @@
 {% block title %}{{product.product_name}} {% endblock %}
 {% block start %} {% load crispy_forms_tags %}
 
-<section class="section-content padding-bottom-sm">
+<style>
+  #mainImage {
+    transition: transform 0.25s ease;
+    cursor: zoom-in;
+  }
+
+  .zoomed-in {
+    transform: scale(2);
+    cursor: zoom-out;
+  }
+</style>
+
+<section class="section-content padding-y">
   <div class="container mt-3">
     {% include 'base/alert.html' %}
     <!-- ============================ COMPONENT Product Details ================================= -->
     <div class="card">
       <div class="row no-gutters">
         <aside class="col-md-6">
+          <!-- Gallery-Wrap -->
           <article class="gallery-wrap">
-            <div class="img-big-wrap">
-              <div class="text-center mt-5" style="transform: scale(1);">
-                  <p>
-                    <img src="/media/{{product.product_images.first.image}}"/>
-                  </p>
+            <div class="text-center mt-5 ml-3 mr-3 img-big-wrap">
+              <div id="productCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+                <div class="carousel-inner">
+                  {% for image in product.product_images.all %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                      <img id="mainImage" src="/media/{{ image.image }}" alt="{{ product.product_name }}"/>
+                    </div>
+                  {% endfor %}
+                </div>
+                <a 
+                  class="carousel-control-prev" 
+                  href="#productCarousel" 
+                  role="button" 
+                  data-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a
+                  class="carousel-control-next"
+                  href="#productCarousel"
+                  role="button"
+                  data-slide="next"
+                >
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Next</span>
+                </a>
               </div>
+              <!-- Thumnbs-Wrap -->
+              <div class="form-row thumbs-wrap mt-5 d-flex justify-content-center">
+                {% for image in product.product_images.all %}
+                  <p class="item-thumb mx-2">
+                    <img 
+                      src="/media/{{image.image}}"
+                      class="img-thumbnail"
+                      onclick="updateMainImage(this.src)"/>
+                  </p>
+                {% endfor %}
+              </div>
+              <!-- Thumnbs-Wrap End.// -->
             </div>
-            <!-- slider-product.// -->
-            <div class="thumbs-wrap">
-              {% for image in product.product_images.all %}
-              <p class="item-thumb">
-                <img src="/media/{{image.image}}"/>
-              </p>
-
-              {% endfor %}
-            </div>
-            <!-- slider-nav.// -->
           </article>
-          <!-- gallery-wrap .end// -->
+          <!-- Gallery-Wrap End.// -->
         </aside>
         <main class="col-md-6 border-left">
           <article class="content-body">
@@ -65,7 +101,7 @@
             </div>
             <!-- price-detail-wrap .// -->
 
-            <p style="line-height: 2rem; margin-top: revert; text-align: justify;">
+            <p style="line-height: 2rem; margin-top: revert; text-align: justify">
               {{product.product_desription}}
             </p>
             <br />
@@ -75,9 +111,8 @@
               
               <dt class="col-sm-3">Color</dt>
               <dd class="col-sm-9">
-                {% for color in product.color_variant.all %}
-                  {{ color.color_name }}
-                  {% if not forloop.last %}, {% endif %}
+                {% for color in product.color_variant.all %} 
+                  {{ color.color_name }} 
                 {% endfor %}
               </dd>
 
@@ -87,7 +122,7 @@
 
             <hr />
             <div class="form-row">
-              <div class="form-group col-md flex-grow-0">
+              <div class="form-group mr-3">
                 <label>Quantity</label>
                 <div class="input-group mb-3 input-spinner">
                   <div class="input-group-prepend">
@@ -117,7 +152,7 @@
                 <label>Select size</label>
                 <div class="mt-1">
                   {% for size in sorted_size_variants %}
-                  
+
                   <label class="custom-control custom-radio custom-control-inline">
                     <input type="radio" name="selected_size" value="{{ size.size_name }}" 
                     onchange="get_correct_price('{{size.size_name}}'); updateCartUrl();" 
@@ -132,57 +167,58 @@
                 </div>
               </div>
               {% endif %}
-
             </div>
 
             <!-- Add to Wishlist Button -->
             <div class="form-group d-flex justify-content-start">
               <div class="d-sm-flex mr-2">
                 <div class="mb-2 mb-sm-0 mr-0 mr-sm-3">
-                  <form method="POST" action="{% url 'add_to_wishlist' product.uid %}?size={{ selected_size }}">
+                  <form method="POST"
+                    action="{% url 'add_to_wishlist' product.uid %}?size={{ selected_size }}"
+                  >
                     {% csrf_token %}
                     <button type="submit" class="btn btn-outline-primary">
                       <i class="fas fa-heart"></i> Add to Wishlist
                     </button>
                   </form>
                 </div>
-                <a href="{% url 'add_to_cart' product.uid %}?size={{ selected_size }}" id="add-to-cart-btn" 
-                class="btn btn-primary"><i class="fas fa-shopping-bag mr-1"></i>
+                <a
+                  href="{% url 'add_to_cart' product.uid %}?size={{ selected_size }}"
+                  id="add-to-cart-btn" class="btn btn-primary">
+                  <i class="fas fa-shopping-bag mr-1"></i>
                   <span>Add to cart</span>
                 </a>
               </div>
             </div>
           </article>
-
         </main>
-
       </div>
-
     </div>
 
     <!-- Related Products Section -->
-    <h3 class="title padding-y-sm" >Related products</h3>
-    {% if related_products%}
-      {% with related_products as list_products %}
-        {% include 'product_parts/product_list.html' %}
+    <h3 class="title padding-y-sm">Related products</h3>
+    {% if related_products%} 
+      {% with related_products as list_products %} 
+        {% include 'product_parts/product_list.html' %} 
       {% endwith %}
     {% else %}
       <p>No related products found.</p>
     {% endif %}
     <!-- Related Products Section End -->
-    
-    <hr>
-    
+
+    <hr />
+
     <!-- Product Review Section -->
     <h3 class="title padding-bottom-sm">Reviews</h3>
-    
+
     {% for review in product.reviews.all %}
       <div class="card mb-3">
-        <div class="card-body" style="background-color: #59ee8d91;">
+        <div class="card-body" style="background-color: #59ee8d91">
           <div class="form-group">
             <p>
-              <strong>Posted on: </strong>{{ review.date_added|date:"Y-m-d" }} by <strong>{{ review.user.get_full_name }}</strong><br>
-              <strong>Rating: </strong>{{ review.stars }}/5<br>
+              <strong>Posted on: </strong>{{ review.date_added|date:"Y-m-d" }} by
+              <strong>{{ review.user.get_full_name }}</strong><br />
+              <strong>Rating: </strong>{{ review.stars }}/5<br />
               <strong>Comment: </strong>{{ review.content }}
             </p>
           </div>
@@ -191,7 +227,7 @@
     {% empty %}
       <p class="padding-bottom-sm">No reviews yet...</p>
     {% endfor %}
-      
+
     <div class="card mb-3">
       <div class="card-body">
         <div class="form-group">
@@ -215,9 +251,25 @@
 <script>
   function get_correct_price(selected_size) {
     const urlParams = new URLSearchParams(window.location.search);
-    urlParams.set('size', selected_size);
+    urlParams.set("size", selected_size);
     window.location.search = urlParams.toString();
   }
+
+  function updateMainImage(src) {
+    document.getElementById('mainImage').src = src;
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    const mainImage = document.getElementById('mainImage');
+  
+    mainImage.addEventListener('click', function() {
+      if (mainImage.classList.contains('zoomed-in')) {
+        mainImage.classList.remove('zoomed-in');
+      } else {
+        mainImage.classList.add('zoomed-in');
+      }
+    });
+  });
 </script>
 
 {% endblock %}
