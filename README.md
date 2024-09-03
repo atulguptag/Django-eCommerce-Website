@@ -24,31 +24,37 @@ This project is a full-fledged eCommerce website built using Django, a high-leve
 ## Screenshots
 
 ### Home Page
-![Homepage Screenshot](Screenshots/Django-Ecommerce-Website-Front-Page.png)
+![Homepage Screenshot](Screenshots/Home-Django-Ecommerce-Site.png)
+
+### Wishlist Page
+![Homepage Screenshot](Screenshots/Your-Wishlist.png)
+
+### Order History Page
+![Homepage Screenshot](Screenshots/Order-History.png)
+
+### Order Details Page
+![Homepage Screenshot](Screenshots/Order-Details.png)
 
 ### Contact-Us Page
-![Contact-Us Screenshot](Screenshots/Django-Ecommerce-Website-Contact-Us-Page.png)
+![Contact-Us Screenshot](Screenshots/Contact-Us.png)
 
 ### About-Us Page
-![About-Us Screenshot](Screenshots/Django-Ecommerce-Website-About-Us-Page.png)
+![About-Us Screenshot](Screenshots/About-Us.png)
 
 ### Product Page
-![Product Page Screenshot](Screenshots/Django-Ecommerce-Website-Product-Page.png)
+![Product Page Screenshot](Screenshots/Product.png)
 
-### Cart Page
-![Cart Page Screenshot](Screenshots/Django-Ecommerce-Website-Cart-Page.png)
-
-### Footer
-![Footer Page Screenshot](Screenshots/Django-Ecommerce-Website-Footer-Page.png)
+### Shopping Cart Page
+![Cart Page Screenshot](Screenshots/Shopping-Cart.png)
 
 ### Login Page
-![Login Page Screenshot](Screenshots/Django-Ecommerce-Website-Login-Page.png)
+![Login Page Screenshot](Screenshots/Login.png)
 
 ### Register Page
-![Register Page Screenshot](Screenshots/Django-Ecommerce-Website-Register-Page.png)
+![Register Page Screenshot](Screenshots/Register.png)
 
 ### Forgot Password Page
-![Forgot Page Screenshot](Screenshots/Django-Ecommerce-Website-ForgotPassword-Page.png)
+![Forgot Page Screenshot](Screenshots/Password-Reset-Form.png)
 
 
 ## Technologies Used
