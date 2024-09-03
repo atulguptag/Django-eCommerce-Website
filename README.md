@@ -56,6 +56,15 @@ This project is a full-fledged eCommerce website built using Django, a high-leve
 ### Forgot Password Page
 ![Forgot Page Screenshot](Screenshots/Password-Reset-Form.png)
 
+### Profile Page
+![Forgot Page Screenshot](Screenshots/Profile.png)
+
+### Address Page
+![Forgot Page Screenshot](Screenshots/Shipping-Address.png)
+
+### Change Password View
+![Forgot Page Screenshot](Screenshots/Change-Password-Page.png)
+
 
 ## Technologies Used
 - **Django:** Python-based web framework for backend development.
