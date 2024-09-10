@@ -77,7 +77,7 @@ To run this project locally, follow these steps:
 
 1. **Clone the repository:**
    ```bash
-   https://github.com/atulguptag/Django-eCommerce-Website.git
+   git clone https://github.com/atulguptag/Django-eCommerce-Website.git
    cd Django-eCommerce-Website
    ```
 
