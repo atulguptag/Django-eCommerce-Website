@@ -5,10 +5,8 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from home.models import ShippingAddressForm
-from home.models import ShippingAddress
 from django.core.validators import validate_email
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 # Create your views here.
 
@@ -18,6 +16,17 @@ def index(request):
     categories = Category.objects.all()
     selected_sort = request.GET.get('sort')
     selected_category = request.GET.get('category')
+
+    # Pagination Configuration
+    page = request.GET.get('page', 1)
+    paginator = Paginator(query, 20)
+
+    try:
+        query = paginator.page(page)
+    except PageNotAnInteger:
+        query = paginator.page(1)
+    except EmptyPage:
+        query = paginator.page(paginator.num_pages)
 
     if selected_category:
         query = query.filter(category__category_name=selected_category)
