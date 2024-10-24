@@ -1,16 +1,10 @@
-{% extends "base/base.html" %} {% load static%}
-{% block title %}About Us{% endblock %}
-{% block start %}
+{% extends "base/base.html" %} {% load static%} 
+{% block title %}About Us{% endblock %} {% block start %}
 
 <style>
-  p,
-  li {
+  .para-text {
     line-height: 2rem;
-    margin-top: revert;
     text-align: justify;
-  }
-  .values-list {
-    margin-top: revert;
   }
 </style>
 
@@ -20,9 +14,13 @@
       <div class="container">
         <div class="row">
           <div class="col-md-12">
-            <img src="{% static 'images/about-us.png' %}" alt="About Logo" class="img-fluid mb-4"/>
+            <img
+              src="{% static 'images/about-us.png' %}"
+              alt="About Logo"
+              class="img-fluid mb-4"
+            />
             <h2>About Us</h2>
-            <p class="about-description">
+            <p class="para-text">
               Welcome to our e-Commerce website! We are dedicated to providing
               you with the best online shopping experience. Our journey began
               with a simple idea: to make shopping easy, accessible, and
@@ -35,7 +33,7 @@
         <div class="row mt-3">
           <div class="col-md-6">
             <h3>Our Mission</h3>
-            <p>
+            <p class="para-text">
               Our mission is to provide our customers with high-quality products
               at competitive prices, backed by exceptional customer service. We
               strive to create a seamless shopping experience, from browsing to
@@ -45,7 +43,7 @@
           </div>
           <div class="col-md-6">
             <h3>Our Vision</h3>
-            <p>
+            <p class="para-text">
               Our vision is to be the leading online retailer, known for our
               commitment to quality, innovation, and customer satisfaction. We
               aim to continuously expand our product range and improve our
@@ -56,28 +54,31 @@
         <div class="row mt-3">
           <div class="col-md-12">
             <h3>Our Values</h3>
-            <ul class="values-list">
-              <li>
-                <i class="fas fa-check-circle" style="color:green"></i>
-                <strong>Customer First:</strong> We prioritize our customers'
-                needs and strive to exceed their expectations with every
-                interaction.
-              </li>
-              <li>
-                <i class="fas fa-check-circle" style="color:green"></i>
-                <strong>Quality:</strong> We are committed to offering products
-                of the highest quality and stand behind everything we sell.
-              </li>
-              <li>
-                <i class="fas fa-check-circle" style="color:green"></i>
-                <strong>Integrity:</strong> We conduct our business with honesty
-                and transparency
-              </li>
-            </ul>
+            <i
+              class="fas fa-check-circle"
+              style="color: green; line-height: 2rem; text-align: justify"
+            ></i>
+            <strong>Customer First:</strong> We prioritize our customers' needs
+            and strive to exceed their expectations with every interaction.
+            <br />
+
+            <i
+              class="fas fa-check-circle"
+              style="color: green; line-height: 2rem; text-align: justify"
+            ></i>
+            <strong>Quality:</strong> We are committed to offering products of
+            the highest quality and stand behind everything we sell.
+            <br />
+            <i
+              class="fas fa-check-circle"
+              style="color: green; line-height: 2rem; text-align: justify"
+            ></i>
+            <strong>Integrity:</strong> We conduct our business with honesty and
+            transparency
           </div>
         </div>
         <div class="row mt-3">
-          <p>
+          <p class="para-text">
             We hope you enjoy our products as much as we enjoy offering them to
             you. If you have any questions or comments, please don't hesitate to
             <a href="{% url 'contact' %}"> contact us. </a>
