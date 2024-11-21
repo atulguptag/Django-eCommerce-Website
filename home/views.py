@@ -65,7 +65,6 @@ def product_search(request):
 
 def contact(request):
     try:
-        message_name = ""
         if request.method == "POST":
             message_name = request.POST.get('message-name')
             message_lname = request.POST.get('message-lname')
@@ -73,26 +72,25 @@ def contact(request):
             message = request.POST.get('message')
             validate_email(message_email)
 
-            subject = f"Message from {message_name} {message_lname}"
+            subject = f"Message from {message_name} {message_lname} - {message_email}"
             email_from = settings.DEFAULT_FROM_EMAIL
 
             send_mail(
                 subject,
                 message,
-                email_from,
-                [message_email],
+                message_email,
+                [email_from],
                 fail_silently=False,
             )
 
             messages.success(
-                request, 'Thank you for your message. We will get back to you soon..')
+                request, f'Hii, {message_name}! Thank you for your message. We will get back to you soon...')
             return HttpResponseRedirect(request.path_info)
 
-        context = {'message_name': message_name}
-        return render(request, 'home/contact.html', context)
+        return render(request, 'home/contact.html')
 
     except Exception:
-        messages.error(request, 'Invalid Email Address!')
+        messages.warning(request, 'Invalid Email Address!')
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
