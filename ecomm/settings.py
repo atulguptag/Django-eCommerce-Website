@@ -14,7 +14,6 @@ import os
 from pathlib import Path
 from decouple import config
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 
@@ -32,7 +31,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-SITE_ID = 2 #added this line
+SITE_ID = 2
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -52,10 +51,10 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.google', # For Google authentication
-    'allauth.socialaccount.providers.facebook', # For Facebook authentication
+    'allauth.socialaccount.providers.google',  # For Google authentication
+    'allauth.socialaccount.providers.facebook',  # For Facebook authentication
 
-    # Added belows line for crispy forms
+    # for crispy forms
     'django_countries',
     'crispy_forms',
     'crispy_bootstrap4',
@@ -76,7 +75,7 @@ SOCIALACCOUNT_PROVIDERS = {
         "AUTH_PARAMS": {"access_type": "online"}
     },
 
-    # Added below lines for facebook authentication
+    # Facebook authentication
     "facebook": {
         'APP': {
             # Facebook API KEYS
@@ -113,7 +112,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'allauth.account.middleware.AccountMiddleware', #added this line
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'ecomm.urls'
@@ -128,7 +127,7 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.request', # Added this line for authentication purpose
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -186,10 +185,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Correctly define STATICFILES_DIRS as a list
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "public/media"),
-]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "public/media")]
 
 # Media files
 MEDIA_ROOT = os.path.join(BASE_DIR, 'public/media')

@@ -1,0 +1,89 @@
+{% load static%}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"
+    />
+    <title>Oh! Noo</title>
+  </head>
+  <style>
+    .page_404 {
+      padding: 40px 0;
+      background: #fff;
+      font-family: "Poppins";
+    }
+
+    .page_404 img {
+      width: 100%;
+    }
+
+    .page_404 .four_zero_four_bg {
+      background: url("{% static 'images/error.gif' %}");
+      height: 400px;
+      background-position: center;
+    }
+
+    .page_404 h1 {
+      font-size: 80px;
+    }
+
+    .page_404 h3 {
+      font-size: 80px;
+    }
+
+    .page_404 a {
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 20px;
+      background: #1c2b57;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    .page_404 a:hover {
+      background: #0056b3;
+    }
+
+    .page_404 .content_box_404 {
+      margin-top: -50px;
+    }
+
+    .page_404 a:hover {
+      text-decoration: none;
+      color: #fff;
+    }
+
+    @media (max-width: 720px) {
+      .page_404 h3 {
+        font-size: 40px;
+      }
+    }
+  </style>
+
+  <body>
+    <section class="page_404">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="col-sm-10 col-sm-offset-1 text-center">
+              <div class="four_zero_four_bg">
+                <h1 class="text-center">404</h1>
+              </div>
+              <div class="content_box_404">
+                <h3 class="h2">Looks Like You're Lost</h3>
+                <p>The page you are looking for not available</p>
+                <a href="/">Go to Home</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
