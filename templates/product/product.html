@@ -24,24 +24,28 @@
           <!-- Gallery-Wrap -->
           <article class="gallery-wrap">
             <div class="text-center mt-5 ml-3 mr-3 img-big-wrap">
-              
               <div class="carousel-inner">
                 {% for image in product.product_images.all %}
                 <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                  <img id="mainImage" src="/media/{{ image.image }}" alt="{{ product.product_name }}"/>
+                  <img
+                    id="mainImage"
+                    src="/media/{{ image.image }}"
+                    alt="{{ product.product_name }}"
+                  />
                 </div>
                 {% endfor %}
               </div>
-              
+
               <!-- Thumnbs-Wrap -->
               <div class="form-row thumbs-wrap mt-5 d-flex justify-content-center">
                 {% for image in product.product_images.all %}
-                  <p class="item-thumb mx-2">
-                    <img 
-                      src="/media/{{image.image}}"
-                      class="img-thumbnail"
-                      onclick="updateMainImage(this.src)"/>
-                  </p>
+                <p class="item-thumb mx-2">
+                  <img
+                    src="/media/{{image.image}}"
+                    class="img-thumbnail"
+                    onclick="updateMainImage(this.src)"
+                  />
+                </p>
                 {% endfor %}
               </div>
               <!-- Thumnbs-Wrap End.// -->
@@ -91,12 +95,10 @@
             <dl class="row">
               <dt class="col-sm-3">Brand</dt>
               <dd class="col-sm-9">Nike</dd>
-              
+
               <dt class="col-sm-3">Color</dt>
               <dd class="col-sm-9">
-                {% for color in product.color_variant.all %} 
-                  {{ color.color_name }} 
-                {% endfor %}
+                {% for color in product.color_variant.all %} {{ color.color_name }} {% endfor %}
               </dd>
 
               <dt class="col-sm-3">Delivery</dt>
@@ -138,11 +140,9 @@
 
                   <label class="custom-control custom-radio custom-control-inline">
                     <input type="radio" name="selected_size" value="{{ size.size_name }}" 
-                    onchange="get_correct_price('{{size.size_name}}'); updateCartUrl();" 
-                    id="size-{{ size.size_name }}"
-                    {% if selected_size == size.size_name %} checked {% endif %}
-                    class="custom-control-input" />
-
+                    onchange="get_correct_price('{{ size.size_name }}'); updateCartUrl();" 
+                    id="size-{{ size.size_name }}" 
+                    {% if selected_size == size.size_name %} checked {% endif %} class="custom-control-input" />
                     <div class="custom-control-label">{{ size.size_name }}</div>
                   </label>
 
@@ -156,9 +156,7 @@
             <div class="form-group d-flex justify-content-start">
               <div class="d-sm-flex mr-2">
                 <div class="mb-2 mb-sm-0 mr-0 mr-sm-3">
-                  <form method="POST"
-                    action="{% url 'add_to_wishlist' product.uid %}?size={{ selected_size }}"
-                  >
+                  <form method="POST" action="{% url 'add_to_wishlist' product.uid %}?size={{ selected_size }}">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-outline-primary">
                       <i class="fas fa-heart"></i> Add to Wishlist
@@ -167,7 +165,9 @@
                 </div>
                 <a
                   href="{% url 'add_to_cart' product.uid %}?size={{ selected_size }}"
-                  id="add-to-cart-btn" class="btn btn-primary">
+                  id="add-to-cart-btn"
+                  class="btn btn-primary"
+                >
                   <i class="fas fa-shopping-bag mr-1"></i>
                   <span>Add to cart</span>
                 </a>
@@ -185,7 +185,7 @@
         {% include 'product_parts/product_list.html' %} 
       {% endwith %}
     {% else %}
-      <p>No related products found.</p>
+    <p>No related products found.</p>
     {% endif %}
     <!-- Related Products Section End -->
 
@@ -195,9 +195,10 @@
     <h3 class="title padding-bottom-sm">Reviews</h3>
 
     {% for review in product.reviews.all %}
-      <div class="card mb-3">
-        <div class="card-body" style="background-color: #59ee8d91">
-          <div class="form-group">
+    <div class="card mb-3">
+      <div class="card-body" style="background-color: #59ee8d91">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
             <p>
               <strong>Posted on: </strong>{{ review.date_added|date:"Y-m-d" }} by
               <strong>{{ review.user.get_full_name }}</strong><br />
@@ -205,29 +206,89 @@
               <strong>Comment: </strong>{{ review.content }}
             </p>
           </div>
+          {% if review.user == request.user %}
+          <form
+            method="POST"
+            action="{% url 'delete_review' product.slug review.uid %}"
+            style="display: inline"
+          >
+            {% csrf_token %}
+            <button
+              class="btn btn-link p-0 text-danger ms-auto"
+              title="Delete Review"
+              data-bs-toggle="modal"
+              data-bs-target="#deleteReviewModal"
+              onclick="setDeleteAction('{% url 'delete_review' product.slug review.uid %}')"
+              type="button"
+            >
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </form>
+          {% endif %}
         </div>
       </div>
+    </div>
     {% empty %}
-      <p class="padding-bottom-sm">No reviews yet...</p>
+    <p class="padding-bottom-sm">No reviews yet...</p>
     {% endfor %}
 
     <div class="card mb-3">
       <div class="card-body">
         <div class="form-group">
           {% if request.user.is_authenticated %}
-            <form method="POST" action="">
-              {% csrf_token %}
-              {{ review_form|crispy }}
-              <button class="btn btn-success">Submit</button>
-            </form>
+          <form method="POST" action="">
+            {% csrf_token %} {{ review_form|crispy }}
+            <button class="btn btn-success">Submit</button>
+          </form>
           {% else %}
-            <p>Please <a href="{% url 'login' %}"> sign in </a> to add review!</p>
+          <p>Please <a href="{% url 'login' %}"> sign in </a> to add review!</p>
           {% endif %}
         </div>
       </div>
     </div>
     <!-- Product Review Section End-->
     <!-- ============================ COMPONENT Product Details End ================================= -->
+  </div>
+
+  <!-- Delete Review Confirmation Modal -->
+  <div
+    class="modal fade"
+    id="deleteReviewModal"
+    tabindex="-1"
+    aria-labelledby="deleteReviewModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteReviewModalLabel">
+            Confirm Delete
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to delete this review?
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Cancel
+          </button>
+          <form id="deleteReviewForm" method="POST" style="display: inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -239,17 +300,22 @@
   }
 
   function updateMainImage(src) {
-    document.getElementById('mainImage').src = src;
+    document.getElementById("mainImage").src = src;
   }
-  
-  document.addEventListener('DOMContentLoaded', function() {
-    const mainImage = document.getElementById('mainImage');
-  
-    mainImage.addEventListener('click', function() {
-      if (mainImage.classList.contains('zoomed-in')) {
-        mainImage.classList.remove('zoomed-in');
+
+  function setDeleteAction(actionUrl) {
+    const deleteForm = document.getElementById("deleteReviewForm");
+    deleteForm.action = actionUrl;
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const mainImage = document.getElementById("mainImage");
+
+    mainImage.addEventListener("click", function () {
+      if (mainImage.classList.contains("zoomed-in")) {
+        mainImage.classList.remove("zoomed-in");
       } else {
-        mainImage.classList.add('zoomed-in');
+        mainImage.classList.add("zoomed-in");
       }
     });
   });

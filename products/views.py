@@ -4,8 +4,8 @@ from django.urls import reverse
 from django.contrib import messages
 from accounts.models import Cart, CartItem
 from django.contrib.auth.decorators import login_required
-from products.models import Product, SizeVariant, ProductReview, Wishlist
 from django.shortcuts import render, redirect, get_object_or_404
+from products.models import Product, SizeVariant, ProductReview, Wishlist
 
 # Create your views here.
 
@@ -17,18 +17,16 @@ def get_product(request, slug):
     # Review product view
     review = None
     if request.user.is_authenticated:
-        # Check if the user has already reviewed the product or not.
         try:
-            review = ProductReview.objects.get(product=product, user=request.user)
-        except ProductReview.DoesNotExist:
-            review = None
-    
-    # Calculate the rating percentage
+            review = ProductReview.objects.filter(product=product, user=request.user)
+        except Exception as e:
+            print("No reviews found for this product", str(e))
+            messages.warning(request, "No reviews found for this product")
+
     rating_percentage = 0
     if product.reviews.exists():
         rating_percentage = (product.get_rating() / 5) * 100
 
-    # Handle form submission
     if request.method == 'POST' and request.user.is_authenticated:
         if review:
             # If review exists, update it
@@ -46,13 +44,12 @@ def get_product(request, slug):
             return redirect('get_product', slug=slug)
     else:
         review_form = ReviewForm()
-    
+
     # Related product view
     if len(related_products) >= 4:
         related_products = random.sample(related_products, 4)
 
-    # Wishlist product to fetch, if the same item/product is present or not.
-    in_wishlist = False  # Default value for anonymous users
+    in_wishlist = False
     if request.user.is_authenticated:
         in_wishlist = Wishlist.objects.filter(user=request.user, product=product).exists()
 
@@ -74,17 +71,35 @@ def get_product(request, slug):
     return render(request, 'product/product.html', context=context)
 
 
+# delete review view
+def delete_review(request, slug, review_uid):
+    if not request.user.is_authenticated:
+        messages.warning(request, "You need to be logged in to delete a review.")
+        return redirect('login')
+
+    review = ProductReview.objects.filter(uid=review_uid, product__slug=slug, user=request.user).first()
+    
+    if not review:
+        messages.error(request, "Review not found.")
+        return redirect('get_product', slug=slug)
+
+    review.delete()
+    messages.success(request, "Your review has been deleted.")
+    return redirect('get_product', slug=slug)
+
+
 # Add a product to Wishlist
 @login_required
 def add_to_wishlist(request, uid):
     variant = request.GET.get('size')
     if not variant:
-        messages.error(request, 'Please select a size before adding to the wishlist!')
+        messages.warning(request, 'Please select a size variant before adding to the wishlist!')
         return redirect(request.META.get('HTTP_REFERER'))
-    
+
     product = get_object_or_404(Product, uid=uid)
     size_variant = get_object_or_404(SizeVariant, size_name=variant)
-    wishlist, created = Wishlist.objects.get_or_create(user=request.user, product=product, size_variant=size_variant)
+    wishlist, created = Wishlist.objects.get_or_create(
+        user=request.user, product=product, size_variant=size_variant)
 
     if created:
         messages.success(request, "Product added to Wishlist!")
@@ -97,10 +112,11 @@ def add_to_wishlist(request, uid):
 def remove_from_wishlist(request, uid):
     product = get_object_or_404(Product, uid=uid)
     size_variant_name = request.GET.get('size')
-    
+
     if size_variant_name:
         size_variant = get_object_or_404(SizeVariant, size_name=size_variant_name)
-        Wishlist.objects.filter(user=request.user, product=product, size_variant=size_variant).delete()
+        Wishlist.objects.filter(
+            user=request.user, product=product, size_variant=size_variant).delete()
     else:
         Wishlist.objects.filter(user=request.user, product=product).delete()
 
@@ -112,32 +128,24 @@ def remove_from_wishlist(request, uid):
 @login_required
 def wishlist_view(request):
     wishlist_items = Wishlist.objects.filter(user=request.user)
-    return render(request, 'product/wishlist.html', 
-                  {'wishlist_items': wishlist_items,}
-                  )
+    return render(request, 'product/wishlist.html', {'wishlist_items': wishlist_items})
 
 
 # Move to cart functionality on wishlist page.
 def move_to_cart(request, uid):
     product = get_object_or_404(Product, uid=uid)
-
-    # Find the wishlist item with the corresponding size variant
     wishlist = Wishlist.objects.filter(user=request.user, product=product).first()
-    
+
     if not wishlist:
         messages.error(request, "Item not found in wishlist.")
         return redirect('wishlist')
-    
-    size_variant = wishlist.size_variant
 
-    # Remove from wishlist
+    size_variant = wishlist.size_variant
     wishlist.delete()
 
-    # Get or create the user's cart
     cart, created = Cart.objects.get_or_create(user=request.user, is_paid=False)
-
-    # Add the product to the cart with the size variant
-    cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product, size_variant=size_variant)
+    cart_item, created = CartItem.objects.get_or_create(
+        cart=cart, product=product, size_variant=size_variant)
 
     if not created:
         cart_item.quantity += 1

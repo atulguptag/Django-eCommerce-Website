@@ -290,6 +290,7 @@ button,
 [type="reset"],
 [type="submit"] {
   -webkit-appearance: button;
+  appearance: button;
 }
 
 button:not(:disabled),
@@ -319,6 +320,7 @@ input[type="time"],
 input[type="datetime-local"],
 input[type="month"] {
   -webkit-appearance: listbox;
+  appearance: listbox;
 }
 
 textarea {
@@ -357,6 +359,7 @@ progress {
 [type="search"] {
   outline-offset: -2px;
   -webkit-appearance: none;
+  appearance: none;
 }
 
 [type="search"]::-webkit-search-decoration {
@@ -5957,15 +5960,15 @@ a.badge-gray-light.focus {
   color: #563108;
 }
 
-.alert-danger {
+.alert-error {
   color: #821b1b;
   background-color: #fed6d6;
   border-color: #fec6c6;
 }
-.alert-danger hr {
+.alert-error hr {
   border-top-color: #feadad;
 }
-.alert-danger .alert-link {
+.alert-error .alert-link {
   color: #581212;
 }
 
