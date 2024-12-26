@@ -112,7 +112,7 @@ def add_to_cart(request, uid):
         variant = request.GET.get('size')
         if not variant:
             messages.warning(request, 'Please select a size variant!')
-            return redirect(reverse('index'))
+            return redirect(request.META.get('HTTP_REFERER'))
 
         product = get_object_or_404(Product, uid=uid)
         cart, _ = Cart.objects.get_or_create(user=request.user, is_paid=False)
