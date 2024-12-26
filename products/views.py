@@ -94,7 +94,7 @@ def add_to_wishlist(request, uid):
     variant = request.GET.get('size')
     if not variant:
         messages.warning(request, 'Please select a size variant before adding to the wishlist!')
-        return redirect(request.META.get('HTTP_REFERER'))
+        return redirect(reverse('index'))
 
     product = get_object_or_404(Product, uid=uid)
     size_variant = get_object_or_404(SizeVariant, size_name=variant)
