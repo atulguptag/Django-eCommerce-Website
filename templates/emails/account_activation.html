@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Account Activation</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+      .email-container {
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: #ffffff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .email-header {
+        background-color: #007bff;
+        color: #ffffff;
+        text-align: center;
+        padding: 20px 0;
+      }
+      .email-header h1 {
+        margin: 0;
+        font-size: 24px;
+      }
+      .email-body {
+        padding: 20px;
+        color: #333333;
+        line-height: 1.6;
+      }
+      .email-body p {
+        margin: 15px 0;
+      }
+      .cta-button {
+        display: block;
+        width: 200px;
+        margin: 20px auto;
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: #ffffff;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        border-radius: 5px;
+      }
+      .cta-button:hover {
+        background-color: #0056b3;
+      }
+      .email-footer {
+        text-align: center;
+        padding: 15px;
+        background-color: #f4f4f4;
+        font-size: 14px;
+        color: #666666;
+      }
+      .email-footer a {
+        color: #007bff;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-container">
+      <div class="email-header">
+        <h1>Welcome to Django eCommerce Platform!</h1>
+      </div>
+      <div class="email-body">
+        <p>Hello,</p>
+        <p>
+          Thank you for signing up with us! To activate your account, please
+          click the button below:
+        </p>
+        <a href="{{ activation_link }}" class="cta-button">Activate Account</a>
+        <p>
+          If the button above doesn’t work, you can copy and paste the following
+          link into your browser:
+        </p>
+        <p><a href="{{ activation_link }}">{{ activation_link }}</a></p>
+        <p>
+          We’re excited to have you on board and can’t wait for you to get
+          started.
+        </p>
+      </div>
+      <div class="email-footer">
+        <p>
+          Need help? <a href="mailto:atulguptag111@gmail.com">Contact Me</a>
+        </p>
+        <p>&copy; 2024 Django eCommerce Platform. All rights reserved.</p>
+      </div>
+    </div>
+  </body>
+</html>
