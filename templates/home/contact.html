@@ -21,7 +21,7 @@
           <ul class="contact-info list-unstyled pl-md-5 mb-5">
             <li class="d-flex text-black mb-2">
               <span class="mr-3"><i class="fas fa-map-marker-alt"></i></span>
-              415, Karmveer Nagar, J.K. Road, Bhopal, Madhya Pradesh, India
+              Bhopal, Madhya Pradesh, India
             </li>
             <li class="d-flex text-black mb-2">
               <span class="mr-3"><i class="fas fa-phone"></i></span>
@@ -34,7 +34,7 @@
           </ul>
         </div>
         <div class="col-md-6">
-          <form method="POST" class="mb-5">
+          <form method="POST" action="https://formspree.io/f/{{ form_id }}" class="mb-5">
             {% csrf_token %} {% include "base/alert.html" %}
             <div class="row">
               <div class="col-md-12 form-group">
@@ -42,7 +42,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  name="message-name"
+                  name="first-name"
                   required
                 />
               </div>
@@ -50,7 +50,7 @@
             <div class="row">
               <div class="col-md-12 form-group">
                 <label for="name" class="col-form-label">Last Name</label>
-                <input type="text" class="form-control" name="message-lname" />
+                <input type="text" class="form-control" name="last-name" />
               </div>
             </div>
             <div class="row">
@@ -59,7 +59,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  name="message-email"
+                  name="email"
                   required
                 />
               </div>

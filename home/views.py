@@ -1,11 +1,6 @@
+from django.db.models import Q
 from django.shortcuts import render
 from products.models import Product, Category
-from django.db.models import Q
-from django.core.mail import send_mail
-from django.conf import settings
-from django.http import HttpResponseRedirect
-from django.contrib import messages
-from django.core.validators import validate_email
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 # Create your views here.
@@ -64,35 +59,8 @@ def product_search(request):
 
 
 def contact(request):
-    try:
-        if request.method == "POST":
-            message_name = request.POST.get('message-name')
-            message_lname = request.POST.get('message-lname')
-            message_email = request.POST.get('message-email')
-            message = request.POST.get('message')
-            validate_email(message_email)
-
-            subject = f"Message from {message_name} {message_lname} - {message_email}"
-            email_from = settings.DEFAULT_FROM_EMAIL
-
-            send_mail(
-                subject,
-                message,
-                message_email,
-                [email_from],
-                fail_silently=False,
-            )
-
-            messages.success(
-                request, f'Hii, {message_name}! Thank you for your message. We will get back to you soon...')
-            return HttpResponseRedirect(request.path_info)
-
-        return render(request, 'home/contact.html')
-
-    except Exception:
-        messages.warning(request, 'Invalid Email Address!')
-
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    context = {"form_id": "xgvvlrvn"}
+    return render(request, 'home/contact.html', context)
 
 
 def about(request):
