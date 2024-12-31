@@ -1,11 +1,13 @@
 from django.urls import path
-from products.views import get_product, wishlist_view, add_to_wishlist, move_to_cart, remove_from_wishlist, delete_review
+from products.views import *
 
 urlpatterns = [
     path('wishlist/', wishlist_view, name='wishlist'),
     path('wishlist/add/<uid>/', add_to_wishlist, name='add_to_wishlist'),
     path('wishlist/move_to_cart/<uid>/', move_to_cart, name='move_to_cart'),
     path('wishlist/remove/<uid>/', remove_from_wishlist, name='remove_from_wishlist'),
+    path('product-reviews/', product_reviews, name='product_reviews'),
+    path('product-reviews/edit/<uuid:review_uid>/', edit_review, name='edit_review'),
     path('<slug>/', get_product, name='get_product'),
     path('<slug>/<review_uid>/delete/', delete_review, name='delete_review'),
 ]

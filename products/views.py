@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.contrib import messages
 from accounts.models import Cart, CartItem
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from products.models import Product, SizeVariant, ProductReview, Wishlist
 
@@ -71,6 +72,33 @@ def get_product(request, slug):
     return render(request, 'product/product.html', context=context)
 
 
+# Product Review view
+@login_required
+def product_reviews(request):
+    reviews = ProductReview.objects.filter(
+        user=request.user).select_related('product').order_by('-date_added')
+    return render(request, 'product/all_product_reviews.html', {'reviews': reviews})
+
+
+# Edit Review view
+@login_required
+def edit_review(request, review_uid):
+    review = ProductReview.objects.filter(uid=review_uid, user=request.user).first()
+    if not review:
+        return JsonResponse({"detail": "Review not found"}, status=404)
+    
+    if request.method == "POST":
+        stars = request.POST.get("stars")
+        content = request.POST.get("content")
+        review.stars = stars
+        review.content = content
+        review.save()
+        messages.success(request, "Your review has been updated successfully.")
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+    return JsonResponse({"detail": "Invalid request"}, status=400)
+
+
 # delete review view
 def delete_review(request, slug, review_uid):
     if not request.user.is_authenticated:
@@ -85,7 +113,7 @@ def delete_review(request, slug, review_uid):
 
     review.delete()
     messages.success(request, "Your review has been deleted.")
-    return redirect('get_product', slug=slug)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 # Add a product to Wishlist
