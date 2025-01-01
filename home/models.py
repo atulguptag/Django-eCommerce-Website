@@ -20,7 +20,7 @@ class ShippingAddress(BaseModel):
     current_address = models.BooleanField(default=False)
 
     def __str__(self):
-        return {self.street}, {self.street_number}, {self.city}, {self.country}, {self.zip_code}, {self.phone}
+        return f'{self.street}, {self.street_number}, {self.city}, {self.country}, {self.zip_code}, {self.phone}'
 
     def get_absolute_url(self):
         return reverse('shipping-address')
