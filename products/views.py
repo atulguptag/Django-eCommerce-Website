@@ -98,6 +98,28 @@ def edit_review(request, review_uid):
 
     return JsonResponse({"detail": "Invalid request"}, status=400)
 
+# Like and Dislike review view
+def like_review(request, review_uid):
+    review = ProductReview.objects.filter(uid=review_uid).first()
+
+    if request.user in review.likes.all():
+        review.likes.remove(request.user)
+    else:
+        review.likes.add(request.user)
+        review.dislikes.remove(request.user)
+    return JsonResponse({'likes': review.like_count(), 'dislikes': review.dislike_count()})
+
+
+def dislike_review(request, review_uid):
+    review = ProductReview.objects.filter(uid=review_uid).first()
+
+    if request.user in review.dislikes.all():
+        review.dislikes.remove(request.user)
+    else:
+        review.dislikes.add(request.user)
+        review.likes.remove(request.user)
+    return JsonResponse({'likes': review.like_count(), 'dislikes': review.dislike_count()})
+
 
 # delete review view
 def delete_review(request, slug, review_uid):

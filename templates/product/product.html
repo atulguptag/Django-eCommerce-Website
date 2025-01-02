@@ -12,6 +12,46 @@
     transform: scale(2);
     cursor: zoom-out;
   }
+
+  .like-btn {
+    background-color: #59ee8d; /* Light green for "like" */
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 0.4rem 1rem;
+    transition: all 0.3s ease;
+    font-weight: bold;
+  }
+
+  .like-btn:hover {
+    background-color: #45c16b;
+    transform: scale(1.1); /* Slight zoom on hover */
+    box-shadow: 0 0 10px rgba(89, 238, 141, 0.5);
+  }
+  
+  .dislike-btn {
+    background-color: #ff7675; /* Light red for "dislike" */
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 0.4rem 1rem;
+    transition: all 0.3s ease;
+    font-weight: bold;
+  }
+
+  .dislike-btn:hover {
+    background-color: #d65a5a;
+    transform: scale(1.1); /* Slight zoom on hover */
+    box-shadow: 0 0 10px rgba(255, 118, 117, 0.5);
+  }
+  
+  @media (max-width: 768px) {
+    .like-btn,
+    .dislike-btn {
+      padding: 0.3rem 0.8rem;
+      font-size: 0.9rem;
+    }
+  }
 </style>
 
 <section class="section-content padding-y">
@@ -206,13 +246,40 @@
               <strong>Comment: </strong>{{ review.content }}
             </p>
           </div>
-          {% if review.user == request.user %}
-          <form
-            method="POST"
-            action="{% url 'delete_review' product.slug review.uid %}"
-            style="display: inline"
-          >
-            {% csrf_token %}
+          <div class="d-flex flex-wrap align-items-center gap-2">
+            {% if request.user.is_authenticated %}
+            <!-- Like Button -->
+            <button
+              class="btn like-btn d-flex align-items-center"
+              onclick="toggleLike('{{ review.uid }}')"
+            >
+              <i class="fas fa-thumbs-up me-2"></i>
+              <span id="like-count-{{ review.uid }}">{{ review.like_count }}</span>
+            </button>
+
+            <!-- Dislike Button -->
+            <button
+              class="btn dislike-btn d-flex align-items-center"
+              onclick="toggleDislike('{{ review.uid }}')"
+            >
+              <i class="fas fa-thumbs-down me-2"></i>
+              <span id="dislike-count-{{ review.uid }}">{{ review.dislike_count }}</span>
+            </button>
+            
+            {% else %}
+            <button class="btn like-btn d-flex align-items-center">
+              <i class="fas fa-thumbs-up me-2"></i>
+              <span id="like-count-{{ review.uid }}">{{ review.like_count }}</span>
+            </button>
+
+            <button class="btn dislike-btn d-flex align-items-center">
+              <i class="fas fa-thumbs-down me-2"></i>
+              <span id="dislike-count-{{ review.uid }}">{{ review.dislike_count }}</span>
+            </button>
+            {% endif %}
+
+            <!-- Delete Button -->
+            {% if review.user == request.user %}
             <button
               class="btn btn-link p-0 text-danger ms-auto"
               title="Delete Review"
@@ -223,8 +290,8 @@
             >
               <i class="fas fa-trash-alt"></i>
             </button>
-          </form>
-          {% endif %}
+            {% endif %}
+          </div>
         </div>
       </div>
     </div>
@@ -306,6 +373,44 @@
   function setDeleteAction(actionUrl) {
     const deleteForm = document.getElementById("deleteReviewForm");
     deleteForm.action = actionUrl;
+  }
+
+  function toggleLike(reviewId) {
+    fetch(`/product/like-review/${reviewId}/`, {
+      method: "POST",
+      headers: { "X-CSRFToken": "{{ csrf_token }}" },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const likeElement = document.getElementById(`like-count-${reviewId}`);
+        const dislikeElement = document.getElementById(`dislike-count-${reviewId}`);
+        if (likeElement && dislikeElement) {
+          likeElement.innerText = data.likes;
+          dislikeElement.innerText = data.dislikes;
+        } else {
+          console.error("Like or Dislike element not found in DOM.");
+        }
+      })
+      .catch((error) => console.error("Error:", error));
+  }
+
+  function toggleDislike(reviewId) {
+    fetch(`/product/dislike-review/${reviewId}/`, {
+      method: "POST",
+      headers: { "X-CSRFToken": "{{ csrf_token }}" },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const likeElement = document.getElementById(`like-count-${reviewId}`);
+        const dislikeElement = document.getElementById(`dislike-count-${reviewId}`);
+        if (likeElement && dislikeElement) {
+          likeElement.innerText = data.likes;
+          dislikeElement.innerText = data.dislikes;
+        } else {
+          console.error("Like or Dislike element not found in DOM.");
+        }
+      })
+      .catch((error) => console.error("Error:", error));
   }
 
   document.addEventListener("DOMContentLoaded", function () {

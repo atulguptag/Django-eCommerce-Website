@@ -38,7 +38,8 @@ class SizeVariant(BaseModel):
 
 
 class Product(BaseModel):
-    parent = models.ForeignKey('self', related_name='variants', on_delete=models.CASCADE, blank=True, null=True)
+    parent = models.ForeignKey(
+        'self', related_name='variants', on_delete=models.CASCADE, blank=True, null=True)
     product_name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True, null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="products")
@@ -57,7 +58,7 @@ class Product(BaseModel):
 
     def get_product_price_by_size(self, size):
         return self.price + SizeVariant.objects.get(size_name=size).price
-    
+
     def get_rating(self):
         total = sum(int(review['stars']) for review in self.reviews.values())
 
@@ -86,25 +87,29 @@ class Coupon(BaseModel):
 class ProductReview(BaseModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews')
-
     stars = models.IntegerField(default=3, choices=[(i, i) for i in range(1, 6)])
     content = models.TextField(blank=True, null=True)
-
     date_added = models.DateTimeField(auto_now_add=True)
+    likes = models.ManyToManyField(User, related_name="liked_reviews", blank=True)
+    dislikes = models.ManyToManyField(User, related_name="disliked_reviews", blank=True)
+
+    def like_count(self):
+        return self.likes.count()
+
+    def dislike_count(self):
+        return self.dislikes.count()
 
 
 class Wishlist(BaseModel):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="wishlist")
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="wishlisted_by")
-    size_variant = models.ForeignKey(SizeVariant, on_delete=models.SET_NULL, null=True, 
+    user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="wishlist")
+    product=models.ForeignKey(Product, on_delete=models.CASCADE, related_name="wishlisted_by")
+    size_variant=models.ForeignKey(SizeVariant, on_delete=models.SET_NULL, null=True,
                                      blank=True, related_name="wishlist_items")
 
-    added_on = models.DateTimeField(auto_now_add=True)
+    added_on=models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('user', 'product', 'size_variant')
+        unique_together=('user', 'product', 'size_variant')
 
     def __str__(self) -> str:
         return f'{self.user.username} - {self.product.product_name} - {self.size_variant.size_name if self.size_variant else "No Size"}'
-
-    
