@@ -19,7 +19,7 @@ def get_product(request, slug):
     review = None
     if request.user.is_authenticated:
         try:
-            review = ProductReview.objects.filter(product=product, user=request.user)
+            review = ProductReview.objects.filter(product=product, user=request.user).first()
         except Exception as e:
             print("No reviews found for this product", str(e))
             messages.warning(request, "No reviews found for this product")
