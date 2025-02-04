@@ -139,34 +139,26 @@ To run this project locally, follow these steps:
    pip install -r requirements.txt
    ```
 
-### `Note: If you face any kind of issue while installing the packages or by running the above command, you can follow this step - `
+### `Note`: Before running `python manage.py migrate`, first create `.env` file in your project root, and update it with the same as `.env.example`
 
-- First, run the below pip command into your terminal (make sure your virtual environment is activated, it should be something like that - `(venv) PS C:\Users\asus\Django-eCommerce-Website`)-
-
-  ```bash
-  pip install django python-decouple django-allauth django_countries django-crispy-forms crispy_bootstrap4 jwt
-  ```
-
-- and so on...
-
-- Second, you should create `.env` file in your project root, and update it with the same as `.env.example`
-
-- Then, you should add `SECRET_KEY` and `DEBUG=True` in `.env` file -
+- Then, add `SECRET_KEY` and `DEBUG=True` in `.env` file -
 
 - **How to generate/get the SECRET_KEY?**
 
-- Follow this step - Open your terminal in VS Code, then type `django-admin shell`, and hit enter.
+- Open your terminal (make sure your virtual environment is activated, it should be something like this - `(venv) PS C:\Users\asus\Django-eCommerce-Website`)
 
-- Paste the below code into your shell -
+- then type `django-admin shell`, and hit enter.
+
+- Paste the below code into your shell (use mouse right side button to paste the copied code, `as Ctrl+V may not work`)-
 
   ```bash
   from django.core.management.utils import get_random_secret_key
   get_random_secret_key()
   ```
 
-* Copy the `SECRET_KEY`(whatever you got in the output), and paste it in your `.env` file.
+* Copy the `SECRET_KEY`(whatever you got in the output), and paste it in your `.env` file after `SECRET_KEY=`.
 
-* Now, install as many packages as you want to use, then follow the next steps -
+* Now, you are good to go :) -
 
 5. **Apply database migrations:**
 
@@ -191,6 +183,17 @@ To run this project locally, follow these steps:
    http://127.0.0.1:8000/
    ```
 
+### `Note`: After you navigate to the above url (`http://127.0.0.1:8000/`), and when you try to navigate to the login, signup, or any page which requires login, then you'll see an error coming from the Social Account Model. If you don't want to add google auth functionality in your project, you can simply remove all social account related things in the code. In case, if you want to proceed with the default, then here's how you can fix that error -
+
+- Follow this step: navigate to `http://127.0.0.1:8000/admin/`, enter your `username and password` which you used to create in `Step no: 6`
+- then follow this screenshot for better understanding :) -
+
+- ![Social Application Screenshot](Screenshots/google_auth-Change-social-application-Django-site-admin.png)
+
+- Simply, put your Google Client Id and Secret Id in those two places which I highlighted.
+
+- Now, you are ready to rock 🎉🤘🏻
+
 ## Usage
 
 - **Admin Panel:** Access the admin panel at `http://127.0.0.1:8000/admin/` to manage products, orders, and users.
@@ -204,3 +207,7 @@ Contributions are welcome! Please fork this repository and create a pull request
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
+
+## 💰 You can help me by Donating. Any small amount will help me to create more projects like this in future 😀. Otherwise, it is not necessary.
+
+[![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/atulguptaa)
