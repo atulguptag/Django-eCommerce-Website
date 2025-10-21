@@ -1,11 +1,11 @@
 {% extends "base/base.html"%} {% block start %}
 <style>
   .filter-section {
-      margin-bottom: 20px;
+    margin-bottom: 20px;
   }
 
   .form-group {
-      margin-bottom: 10px;
+    margin-bottom: 10px;
   }
 
   @keyframes appear {
@@ -13,6 +13,7 @@
       opacity: 0;
       scale: 0.5;
     }
+
     to {
       opacity: 1;
       scale: 1;
@@ -35,13 +36,13 @@
         <select id="category" name="category" class="form-control" onchange="this.form.submit()">
           <option value="">All</option>
           {% for category in categories %}
-          <option value="{{ category.category_name }}" {% if selected_category == category.category_name %} selected {% endif %}>
+          <option value="{{ category.category_name }}" {% if selected_category == category.category_name %}selected{%endif %}>
             {{ category.category_name }}
           </option>
           {% endfor %}
         </select>
       </div>
-      
+
       <!-- Sort Section -->
       <div class="form-group col-md-6">
         <label for="sort">Sort by:</label>
@@ -61,7 +62,7 @@
     <div class="col-md-3">
       <figure class="card card-product-grid">
         <div class="img-wrap">
-          <img src="/media/{{product.product_images.first.image}}" />
+          <img src="{{product.product_images.first.image_url}}" />
         </div>
         <figcaption class="info-wrap border-top">
           <a href="{% url 'get_product' product.slug %}" class="title">
@@ -107,7 +108,7 @@
       {% endif %}
     </ul>
   </nav>
-  
+
 </div>
 
 {% endblock %}

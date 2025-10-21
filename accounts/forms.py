@@ -9,6 +9,16 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['profile_image', 'bio']
+        widgets = {
+            'profile_image': forms.URLInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter image URL (e.g., https://example.com/image.jpg)'
+            }),
+            'bio': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 4
+            })
+        }
 
 
 class UserUpdateForm(forms.ModelForm):

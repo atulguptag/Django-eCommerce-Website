@@ -1,5 +1,9 @@
 {% extends "base/base.html" %}
 {% block title %}Shopping Cart{% endblock %}
+
+<!-- Hide footer on cart page -->
+{% block footer %}{% endblock %}
+
 {% block start %} {% load static %}
 
 <section class="section-content padding-y">
@@ -23,33 +27,27 @@
                 <td>
                   <figure class="itemside">
                     <div class="aside">
-                      <img
-                        src="/media/{{ cart_item.product.product_images.first.image }}"
-                        class="img-sm"
-                      />
+                      <img src="{{ cart_item.product.product_images.first.image_url }}" class="img-sm" />
                     </div>
                     <figcaption class="info">
-                      <a
-                        href="{% url 'get_product' cart_item.product.slug %}"
-                        class="title text-dark"
-                      >
+                      <a href="{% url 'get_product' cart_item.product.slug %}" class="title text-dark">
                         {{ cart_item.product.product_name }}
                       </a>
-                      
+
                       <p class="text-muted small">
                         {% if cart_item.size_variant %}
-                          Size: {{ cart_item.size_variant.size_name }}<br />
+                        Size: {{ cart_item.size_variant.size_name }}<br />
                         {% else %}
-                          Size : N/A <br />
-                        {% endif %} 
-                        
+                        Size : N/A <br />
+                        {% endif %}
+
                         {% if cart_item.product.color_variant.exists %}
-                          {% for color in cart_item.product.color_variant.all %}
-                            Color: {{ color.color_name }}<br />
-                          {% endfor %}
+                        {% for color in cart_item.product.color_variant.all %}
+                        Color: {{ color.color_name }}<br />
+                        {% endfor %}
                         {% else %}
-                          Color: N/A<br />
-                        {% endif %} 
+                        Color: N/A<br />
+                        {% endif %}
 
                         Brand: Nike
                       </p>
@@ -59,7 +57,7 @@
                 <td>
                   <select class="form-control" onchange="updateCartItem(this, '{{ cart_item.uid }}')">
                     {% for i in quantity_range %}
-                      <option value="{{ i }}" {% if cart_item.quantity == i %}selected{% endif %}>{{ i }}</option>
+                    <option value="{{ i }}" {% if cart_item.quantity == i %}selected{% endif %}>{{ i }}</option>
                     {% endfor %}
                   </select>
                 </td>
@@ -70,16 +68,7 @@
                   <!-- price-wrap .// -->
                 </td>
                 <td class="text-right">
-                  <a
-                    data-original-title="Save to Wishlist"
-                    title=""
-                    href=""
-                    class="btn btn-light"
-                    data-toggle="tooltip"
-                  >
-                    <i class="fa fa-heart"></i>
-                  </a>
-                  <a href="{% url 'remove_cart' cart_item.uid %}" class="btn btn-danger">
+                  <a href="{% url 'remove_cart' cart_item.uid %}" class="btn btn-outline-primary cart-remove-btn">
                     Remove
                   </a>
                 </td>
@@ -101,9 +90,9 @@
         </div>
         <!-- card.// -->
 
-        <div class="alert alert-success mt-3">
+        <div class="alert delivery-alert mt-3">
           <p class="icontext">
-            <i class="icon text-success fa fa-truck"></i> Free Delivery within
+            <i class="icon delivery-icon fa fa-truck"></i> Free Delivery within
             1-2 weeks
           </p>
         </div>
@@ -117,12 +106,7 @@
               <div class="form-group">
                 <label>Have coupon?</label>
                 <div class="input-group">
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="coupon"
-                    placeholder="Coupon code"
-                  />
+                  <input type="text" class="form-control" name="coupon" placeholder="Coupon code" />
                   <span class="input-group-append">
                     <button type="submit" class="btn btn-primary">Apply</button>
                   </span>
@@ -131,7 +115,7 @@
 
               {% if cart.coupon %}
 
-              <a href="{% url 'remove_coupon' cart.uid %}" class="btn btn-success">
+              <a href="{% url 'remove_coupon' cart.uid %}" class="btn btn-primary coupon-applied-btn">
                 {{ cart.coupon.coupon_code }}
               </a>
 
@@ -222,24 +206,69 @@
     const quantity = selectElement.value;
 
     fetch("{% url 'update_cart_item' %}", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": "{{ csrf_token }}"
-        },
-        body: JSON.stringify({
-            "cart_item_id": cartItemId,
-            "quantity": quantity
-        })
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": "{{ csrf_token }}"
+      },
+      body: JSON.stringify({
+        "cart_item_id": cartItemId,
+        "quantity": quantity
+      })
     })
-    .then(response => response.json())
-    .then(data => {
+      .then(response => response.json())
+      .then(data => {
         if (data.success) {
-            window.location.reload();
+          window.location.reload();
         } else {
-            alert("Error updating cart");
+          alert("Error updating cart");
         }
-    });
-}
+      });
+  }
 </script>
+
+<style>
+  /* Unified Color System for Cart */
+  :root {
+    --primary-color: #6366f1;
+    --accent-color: #fbbf24;
+    --text-dark: #1e293b;
+  }
+
+  .cart-remove-btn {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    transition: all 0.3s ease;
+  }
+
+  .cart-remove-btn:hover {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--text-dark);
+  }
+
+  .coupon-applied-btn {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    transition: all 0.3s ease;
+  }
+
+  .coupon-applied-btn:hover {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--text-dark);
+  }
+
+  /* Delivery Alert */
+  .delivery-alert {
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid var(--primary-color);
+    color: var(--text-dark);
+  }
+
+  .delivery-icon {
+    color: var(--primary-color);
+  }
+</style>
+
 {% endblock %}

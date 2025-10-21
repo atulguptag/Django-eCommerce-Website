@@ -1,92 +1,888 @@
-{% extends "base/base.html" %} {% load static%} 
-{% block title %}About Us{% endblock %} {% block start %}
+{% extends "base/base.html" %} {% load static%}
+{% block title %}About FootFusion{% endblock %} {% block start %}
 
-<style>
-  .para-text {
-    line-height: 2rem;
-    text-align: justify;
-  }
-</style>
-
-<section class="section-content padding-y">
-  <div class="container-xl d-flex justify-content-center align-items-center">
-    <div class="row justify-content-center w-100">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <img
-              src="{% static 'images/about-us.png' %}"
-              alt="About Logo"
-              class="img-fluid mb-4"
-            />
-            <h2>About Us</h2>
-            <p class="para-text">
-              Welcome to our e-Commerce website! We are dedicated to providing
-              you with the best online shopping experience. Our journey began
-              with a simple idea: to make shopping easy, accessible, and
-              enjoyable for everyone. Over the years, we have grown into a
-              trusted online retailer, offering a wide range of products to meet
-              your needs.
-            </p>
-          </div>
-        </div>
-        <div class="row mt-3">
-          <div class="col-md-6">
-            <h3>Our Mission</h3>
-            <p class="para-text">
-              Our mission is to provide our customers with high-quality products
-              at competitive prices, backed by exceptional customer service. We
-              strive to create a seamless shopping experience, from browsing to
-              delivery, ensuring that you receive the best value and
-              satisfaction.
-            </p>
-          </div>
-          <div class="col-md-6">
-            <h3>Our Vision</h3>
-            <p class="para-text">
-              Our vision is to be the leading online retailer, known for our
-              commitment to quality, innovation, and customer satisfaction. We
-              aim to continuously expand our product range and improve our
-              services to meet the evolving needs of our customers.
-            </p>
-          </div>
-        </div>
-        <div class="row mt-3">
-          <div class="col-md-12">
-            <h3>Our Values</h3>
-            <i
-              class="fas fa-check-circle"
-              style="color: green; line-height: 2rem; text-align: justify"
-            ></i>
-            <strong>Customer First:</strong> We prioritize our customers' needs
-            and strive to exceed their expectations with every interaction.
-            <br />
-
-            <i
-              class="fas fa-check-circle"
-              style="color: green; line-height: 2rem; text-align: justify"
-            ></i>
-            <strong>Quality:</strong> We are committed to offering products of
-            the highest quality and stand behind everything we sell.
-            <br />
-            <i
-              class="fas fa-check-circle"
-              style="color: green; line-height: 2rem; text-align: justify"
-            ></i>
-            <strong>Integrity:</strong> We conduct our business with honesty and
-            transparency
-          </div>
-        </div>
-        <div class="row mt-3">
-          <p class="para-text">
-            We hope you enjoy our products as much as we enjoy offering them to
-            you. If you have any questions or comments, please don't hesitate to
-            <a href="{% url 'contact' %}"> contact us. </a>
+<!-- Hero Section -->
+<section class="about-hero position-relative overflow-hidden">
+  <div class="hero-bg"></div>
+  <div class="container position-relative">
+    <div class="row align-items-center min-vh-100">
+      <div class="col-lg-6" data-aos="fade-right">
+        <div class="hero-content">
+          <span class="badge bg-primary-soft text-primary mb-3">About Us</span>
+          <h1 class="hero-title mb-4">Redefining Your Shopping Experience</h1>
+          <p class="hero-subtitle mb-5">
+            We're not just another e-commerce platform. We're your trusted partner in discovering
+            exceptional products, backed by innovation, quality, and an unwavering commitment to
+            your satisfaction.
           </p>
+          <div class="hero-stats d-flex justify-content-start flex-wrap gap-4 mb-4">
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
+              <div class="stat-icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <div class="stat-content">
+                <h3>50K+</h3>
+                <p>Happy Customers</p>
+              </div>
+            </div>
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+              <div class="stat-icon">
+                <i class="fas fa-box"></i>
+              </div>
+              <div class="stat-content">
+                <h3>10K+</h3>
+                <p>Products</p>
+              </div>
+            </div>
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
+              <div class="stat-icon">
+                <i class="fas fa-star"></i>
+              </div>
+              <div class="stat-content">
+                <h3>4.9/5</h3>
+                <p>Rating</p>
+              </div>
+            </div>
+          </div>
+          <div class="hero-actions">
+            <a href="{% url 'index' %}" class="btn btn-primary btn-lg me-3">
+              <i class="fas fa-shopping-bag me-2"></i>Start Shopping
+            </a>
+            <a href="{% url 'contact' %}" class="btn btn-outline-primary btn-lg">
+              <i class="fas fa-arrow-right me-2"></i>Learn More
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6" data-aos="fade-left">
+        <div class="hero-image-wrapper">
+          <div class="hero-image">
+            <img src="{% static 'images/about-us.png' %}" alt="About FootFusion" class="img-fluid" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-wave">
+    <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+      <path
+        d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"
+        opacity=".25" class="shape-fill"></path>
+      <path
+        d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z"
+        opacity=".5" class="shape-fill"></path>
+      <path
+        d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z"
+        class="shape-fill"></path>
+    </svg>
+  </div>
+</section>
+
+<!-- Mission, Vision & Values -->
+<section class="mvv-section py-5 bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center mb-5" data-aos="fade-up">
+        <span class="badge bg-primary-soft text-primary mb-3">Our Foundation</span>
+        <h2 class="section-title">Mission, Vision & Values</h2>
+      </div>
+    </div>
+    <div class="row g-4">
+      <!-- Mission -->
+      <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="mvv-card mission-card h-100">
+          <div class="mvv-icon">
+            <i class="fas fa-bullseye"></i>
+          </div>
+          <div class="mvv-content">
+            <h3>Our Mission</h3>
+            <p>
+              To democratize access to quality products by creating an intuitive, secure, and
+              delightful shopping experience that connects customers with the products they love,
+              backed by exceptional service and competitive pricing.
+            </p>
+          </div>
+          <div class="mvv-decoration"></div>
+        </div>
+      </div>
+
+      <!-- Vision -->
+      <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+        <div class="mvv-card vision-card h-100">
+          <div class="mvv-icon">
+            <i class="fas fa-eye"></i>
+          </div>
+          <div class="mvv-content">
+            <h3>Our Vision</h3>
+            <p>
+              To become the world's most trusted e-commerce platform, setting new standards
+              for innovation, sustainability, and customer satisfaction while empowering
+              businesses and enriching lives globally.
+            </p>
+          </div>
+          <div class="mvv-decoration"></div>
+        </div>
+      </div>
+
+      <!-- Values -->
+      <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
+        <div class="mvv-card values-card h-100">
+          <div class="mvv-icon">
+            <i class="fas fa-heart"></i>
+          </div>
+          <div class="mvv-content">
+            <h3>Our Values</h3>
+            <div class="values-list">
+              <div class="value-item">
+                <i class="fas fa-check-circle"></i>
+                <span><strong>Customer-Centric:</strong> Your success is our priority</span>
+              </div>
+              <div class="value-item">
+                <i class="fas fa-check-circle"></i>
+                <span><strong>Quality First:</strong> Excellence in every interaction</span>
+              </div>
+              <div class="value-item">
+                <i class="fas fa-check-circle"></i>
+                <span><strong>Innovation:</strong> Continuously evolving and improving</span>
+              </div>
+              <div class="value-item">
+                <i class="fas fa-check-circle"></i>
+                <span><strong>Integrity:</strong> Transparent and ethical practices</span>
+              </div>
+            </div>
+          </div>
+          <div class="mvv-decoration"></div>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- Why Choose Us -->
+<section class="features-section py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center mb-5" data-aos="fade-up">
+        <span class="badge bg-primary-soft text-primary mb-3">Why Choose Us</span>
+        <h2 class="section-title">What Sets Us Apart</h2>
+        <p class="section-subtitle">Experience the difference with our premium features and services</p>
+      </div>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+        <div class="feature-card text-center h-100">
+          <div class="feature-icon-wrapper">
+            <i class="fas fa-shipping-fast"></i>
+          </div>
+          <h5>Lightning Fast Delivery</h5>
+          <p>Same-day and next-day delivery options with real-time tracking for your peace of mind.</p>
+          <div class="feature-highlight">Free shipping on orders over $50</div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+        <div class="feature-card text-center h-100">
+          <div class="feature-icon-wrapper">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h5>Bank-Level Security</h5>
+          <p>Advanced encryption and fraud protection ensure your data and transactions are always safe.</p>
+          <div class="feature-highlight">SSL encrypted checkout</div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+        <div class="feature-card text-center h-100">
+          <div class="feature-icon-wrapper">
+            <i class="fas fa-headset"></i>
+          </div>
+          <h5>24/7 Expert Support</h5>
+          <p>Our dedicated support team is always ready to help you with any questions or concerns.</p>
+          <div class="feature-highlight">Average response time: 2 minutes</div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+        <div class="feature-card text-center h-100">
+          <div class="feature-icon-wrapper">
+            <i class="fas fa-undo"></i>
+          </div>
+          <h5>Hassle-Free Returns</h5>
+          <p>30-day return policy with free return shipping and instant refunds for your convenience.</p>
+          <div class="feature-highlight">No questions asked policy</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action -->
+<section class="cta-section position-relative overflow-hidden">
+  <div class="cta-bg"></div>
+  <div class="container position-relative">
+    <div class="row justify-content-center text-center">
+      <div class="col-lg-8" data-aos="fade-up">
+        <div class="cta-content">
+          <h2 class="cta-title mb-4">Ready to Experience the Difference?</h2>
+          <p class="cta-subtitle mb-5">
+            Join our community of satisfied customers and discover why FootFusion is the
+            preferred choice for online shopping. Your journey to exceptional products starts here.
+          </p>
+          <div class="cta-buttons d-flex gap-3 justify-content-center flex-wrap">
+            <a href="{% url 'index' %}" class="btn btn-primary btn-lg">
+              <i class="fas fa-shopping-bag me-2"></i>Start Shopping Now
+            </a>
+            <a href="{% url 'contact' %}" class="btn btn-outline-light btn-lg">
+              <i class="fas fa-envelope me-2"></i>Get in Touch
+            </a>
+          </div>
+          <div class="cta-trust-indicators mt-4">
+            <div class="trust-item">
+              <i class="fas fa-lock"></i>
+              <span>Secure Checkout</span>
+            </div>
+            <div class="trust-item">
+              <i class="fas fa-truck"></i>
+              <span>Free Shipping</span>
+            </div>
+            <div class="trust-item">
+              <i class="fas fa-medal"></i>
+              <span>Quality Guarantee</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  :root {
+    --primary-color: #6366f1;
+    --primary-light: #a5b4fc;
+    --primary-dark: #4f46e5;
+    --accent-color: #fbbf24;
+    --accent-dark: #f59e0b;
+    --secondary-color: #6c757d;
+    --success-color: #10b981;
+    --light-color: #f8fafc;
+    --dark-color: #1e293b;
+    --text-dark: #1e293b;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  }
+
+  /* Hero Section */
+  .about-hero {
+    background: var(--primary-color);
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="20" cy="80" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    opacity: 0.3;
+  }
+
+  .min-vh-100 {
+    min-height: 100vh;
+  }
+
+  .badge.bg-primary-soft {
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-weight: 500;
+  }
+
+  .hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    opacity: 0.9;
+  }
+
+  .stat-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem 1rem;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    min-width: 120px;
+  }
+
+  .stat-item:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .stat-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin: 0 auto 1rem;
+  }
+
+  .stat-content h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .stat-content p {
+    margin: 0;
+    opacity: 0.8;
+    font-size: 0.9rem;
+  }
+
+  .hero-actions .btn {
+    padding: 0.75rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .hero-actions .btn-primary {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+
+  .hero-actions .btn-primary:hover {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--dark-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .hero-actions .btn-outline-primary {
+    border-color: white;
+    color: white;
+  }
+
+  .hero-actions .btn-outline-primary:hover {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--dark-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .hero-image-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-image img {
+    border-radius: 20px;
+    box-shadow: var(--shadow-xl);
+    max-width: 100%;
+    height: auto;
+  }
+
+  .floating-card {
+    position: absolute;
+    background: white;
+    padding: 1rem 1.5rem;
+    border-radius: 15px;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    z-index: 2;
+  }
+
+  .floating-card i {
+    color: var(--primary-color);
+  }
+
+  .card-1 {
+    top: 10%;
+    left: -10%;
+  }
+
+  .card-2 {
+    top: 50%;
+    right: -15%;
+  }
+
+  .card-3 {
+    bottom: 10%;
+    left: -5%;
+  }
+
+  .hero-wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+  }
+
+  .hero-wave svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 60px;
+  }
+
+  .hero-wave .shape-fill {
+    fill: #f8fafc;
+  }
+
+  /* Story Section */
+  .story-section {
+    background: #f8fafc;
+  }
+
+  .section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+  }
+
+  .story-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .story-item {
+    text-align: center;
+    position: relative;
+  }
+
+  .story-year {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+  }
+
+  .story-content-item h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+  }
+
+  .story-content-item p {
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* MVV Section */
+  .mvv-section {
+    background: #f8fafc;
+  }
+
+  .mvv-card {
+    background: white;
+    padding: 2.5rem 2rem;
+    border-radius: 24px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mvv-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .mvv-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin: 0 auto 1.5rem;
+    color: white;
+  }
+
+  .mission-card .mvv-icon {
+    background: var(--primary-color);
+  }
+
+  .vision-card .mvv-icon {
+    background: var(--primary-color);
+  }
+
+  .values-card .mvv-icon {
+    background: var(--accent-color);
+  }
+
+  .mvv-content h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .mvv-content p {
+    color: var(--text-muted);
+    line-height: 1.7;
+    text-align: center;
+  }
+
+  .values-list {
+    text-align: left;
+  }
+
+  .value-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .value-item i {
+    color: var(--success-color);
+    margin-top: 0.25rem;
+    flex-shrink: 0;
+  }
+
+  .mvv-decoration {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--accent-color);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+
+  .mvv-card:hover .mvv-decoration {
+    transform: scaleX(1);
+  }
+
+  /* Features Section */
+  .features-section {
+    background: white;
+  }
+
+  .section-subtitle {
+    font-size: 1.125rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+  }
+
+  .feature-card {
+    background: white;
+    padding: 2.5rem 1.5rem;
+    border-radius: 20px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .feature-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    margin: 0 auto 1.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .feature-card:hover .feature-icon-wrapper {
+    transform: scale(1.1);
+  }
+
+  .feature-card h5 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+  }
+
+  .feature-card p {
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .feature-highlight {
+    background: var(--light-color);
+    color: var(--primary-color);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    display: inline-block;
+  }
+
+  /* CTA Section */
+  .cta-section {
+    background: var(--primary-color);
+    color: white;
+    padding: 100px 0;
+  }
+
+  .cta-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+    opacity: 0.3;
+  }
+
+  .cta-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
+
+  .cta-subtitle {
+    font-size: 1.125rem;
+    opacity: 0.9;
+    line-height: 1.6;
+  }
+
+  .cta-buttons .btn {
+    padding: 0.875rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .cta-buttons .btn-primary {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--dark-color);
+  }
+
+  .cta-buttons .btn-primary:hover {
+    background: white;
+    border-color: white;
+    color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .cta-buttons .btn-outline-light:hover {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--dark-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .cta-trust-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0.8;
+    font-size: 0.9rem;
+  }
+
+  .trust-item i {
+    color: var(--warning-color);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1200px) {
+    .hero-title {
+      font-size: 3rem;
+    }
+
+    .floating-card {
+      position: static;
+      margin: 0.5rem;
+      display: inline-flex;
+    }
+
+    .hero-image-wrapper {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
+
+  @media (max-width: 992px) {
+    .hero-title {
+      font-size: 2.5rem;
+    }
+
+    .section-title {
+      font-size: 2rem;
+    }
+
+    .stat-item {
+      min-width: 100px;
+      padding: 1rem 0.75rem;
+    }
+
+    .mvv-card,
+    .feature-card {
+      margin-bottom: 2rem;
+    }
+
+    .story-grid {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2rem;
+    }
+
+    .section-title {
+      font-size: 1.75rem;
+    }
+
+    .cta-title {
+      font-size: 2rem;
+    }
+
+    .hero-stats {
+      justify-content: center;
+    }
+
+    .hero-actions {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .hero-actions .btn {
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .cta-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .cta-buttons .btn {
+      width: 100%;
+      max-width: 280px;
+    }
+
+    .cta-trust-indicators {
+      gap: 1rem;
+    }
+
+    .floating-card {
+      padding: 0.75rem 1rem;
+      font-size: 0.875rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .hero-title {
+      font-size: 1.75rem;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+    }
+
+    .cta-title {
+      font-size: 1.75rem;
+    }
+
+    .hero-stats {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .stat-item {
+      width: 100%;
+      max-width: 200px;
+      margin: 0 auto;
+    }
+
+    .story-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .mvv-card,
+    .feature-card {
+      padding: 2rem 1.5rem;
+    }
+
+    .cta-trust-indicators {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+
+  /* Animation utilities */
+  [data-aos] {
+    pointer-events: none;
+  }
+
+  [data-aos].aos-animate {
+    pointer-events: auto;
+  }
+</style>
+
+<!-- AOS Animation Library -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({
+    duration: 800,
+    easing: 'ease-out-cubic',
+    once: true,
+    offset: 100
+  });
+</script>
 
 {% endblock %}

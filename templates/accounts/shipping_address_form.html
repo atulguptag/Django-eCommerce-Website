@@ -8,35 +8,35 @@
   .img-account-profile {
     height: 10rem;
   }
-  
+
   .rounded-circle {
     border-radius: 50% !important;
   }
-  
+
   .card {
     box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
   }
-  
+
   .card .card-header {
     font-weight: 500;
   }
-  
+
   .card-header:first-child {
     border-radius: 0.35rem 0.35rem 0 0;
   }
-  
+
   .card-header {
     padding: 1rem 1.35rem;
     margin-bottom: 0;
     background-color: rgba(33, 40, 50, 0.03);
     border-bottom: 1px solid rgba(33, 40, 50, 0.125);
   }
-  
+
   .nav-borders .nav-link.active {
     color: #0061f2;
     border-bottom-color: #0061f2;
   }
-  
+
   .nav-borders .nav-link {
     color: #69707a;
     border-bottom-width: 0.125rem;
@@ -75,28 +75,29 @@
                 <div class="form-group col-md-6">{{ form.first_name|as_crispy_field }}</div>
                 <div class="form-group col-md-6">{{ form.last_name|as_crispy_field }}</div>
               </div>
-              
+
               <div class="form-row">
                 <div class="form-group col-md-8">{{ form.street|as_crispy_field }}</div>
                 <div class="form-group col-md-4">
                   {{ form.street_number|as_crispy_field }}
                 </div>
               </div>
-              
+
               <div class="form-row">
                 <div class="form-group col-md-8">{{ form.city|as_crispy_field }}</div>
                 <div class="form-group col-md-4">{{ form.zip_code|as_crispy_field }}</div>
               </div>
-              
+
               {{ form.country|as_crispy_field }} {{ form.phone|as_crispy_field }}
 
               <div class="form-group d-flex justify-content-end">
                 <div class="d-sm-flex">
-                  <a class="mb-2 mb-sm-0 mr-0 mr-sm-3 btn btn-warning" href="{% url 'index' %}">Back to Home Page</a>
+                  <a class="mb-2 mb-sm-0 mr-0 mr-sm-3 btn btn-outline-primary back-btn" href="{% url 'index' %}">Back to
+                    Home Page</a>
                   <button class="btn btn-primary" type="submit">Update Shipping Address</button>
                 </div>
               </div>
-              
+
             </form>
           </div>
         </div>
@@ -104,5 +105,26 @@
     </div>
   </div>
 </section>
+
+<style>
+  /* Unified Color System */
+  :root {
+    --primary-color: #6366f1;
+    --accent-color: #fbbf24;
+    --text-dark: #1e293b;
+  }
+
+  .back-btn {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    transition: all 0.3s ease;
+  }
+
+  .back-btn:hover {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--text-dark);
+  }
+</style>
 
 {% endblock %}

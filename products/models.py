@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 class Category(BaseModel):
     category_name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True, null=True, blank=True)
-    category_image = models.ImageField(upload_to="catgories")
+    category_image = models.URLField(max_length=500, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.category_name)
@@ -42,7 +42,8 @@ class Product(BaseModel):
         'self', related_name='variants', on_delete=models.CASCADE, blank=True, null=True)
     product_name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True, null=True, blank=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="products")
+    category = models.ForeignKey(
+        Category, on_delete=models.CASCADE, related_name="products")
     price = models.IntegerField()
     product_desription = models.TextField()
     color_variant = models.ManyToManyField(ColorVariant, blank=True)
@@ -71,10 +72,11 @@ class Product(BaseModel):
 class ProductImage(BaseModel):
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name='product_images')
-    image = models.ImageField(upload_to='product')
+    image_url = models.URLField(
+        max_length=500, default='https://via.placeholder.com/500')
 
     def img_preview(self):
-        return mark_safe(f'<img src="{self.image.url}" width="500"/>')
+        return mark_safe(f'<img src="{self.image_url}" width="500"/>')
 
 
 class Coupon(BaseModel):
@@ -85,13 +87,18 @@ class Coupon(BaseModel):
 
 
 class ProductReview(BaseModel):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews')
-    stars = models.IntegerField(default=3, choices=[(i, i) for i in range(1, 6)])
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name='reviews')
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='reviews')
+    stars = models.IntegerField(
+        default=3, choices=[(i, i) for i in range(1, 6)])
     content = models.TextField(blank=True, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
-    likes = models.ManyToManyField(User, related_name="liked_reviews", blank=True)
-    dislikes = models.ManyToManyField(User, related_name="disliked_reviews", blank=True)
+    likes = models.ManyToManyField(
+        User, related_name="liked_reviews", blank=True)
+    dislikes = models.ManyToManyField(
+        User, related_name="disliked_reviews", blank=True)
 
     def like_count(self):
         return self.likes.count()
@@ -101,15 +108,17 @@ class ProductReview(BaseModel):
 
 
 class Wishlist(BaseModel):
-    user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="wishlist")
-    product=models.ForeignKey(Product, on_delete=models.CASCADE, related_name="wishlisted_by")
-    size_variant=models.ForeignKey(SizeVariant, on_delete=models.SET_NULL, null=True,
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="wishlist")
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name="wishlisted_by")
+    size_variant = models.ForeignKey(SizeVariant, on_delete=models.SET_NULL, null=True,
                                      blank=True, related_name="wishlist_items")
 
-    added_on=models.DateTimeField(auto_now_add=True)
+    added_on = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together=('user', 'product', 'size_variant')
+        unique_together = ('user', 'product', 'size_variant')
 
     def __str__(self) -> str:
         return f'{self.user.username} - {self.product.product_name} - {self.size_variant.size_name if self.size_variant else "No Size"}'

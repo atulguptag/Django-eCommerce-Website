@@ -1,96 +1,1056 @@
 {% extends "base/base.html" %}
-{% block title %}Contact Us{% endblock %}
+{% load static %}
+{% block title %}Contact FootFusion{% endblock %}
 {% block start %}
 
-<section class="section-content padding-bottom">
-  <div class="mx-auto" style="max-width: 85rem; margin-top: 50px">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-5 mr-auto">
-          <h2 style="text-align: left">Contact Us</h2>
-          <p
-            class="mb-5"
-            style="margin-top: revert; text-align: justify; line-height: 2rem"
-          >
-            Have questions or need help with your order? Our dedicated support
-            team is here to assist you with any inquiries you may have. Whether
-            you need help tracking an order, have questions about a product, or
-            need assistance with a return, we're here to help. Don't hesitate to
-            reach out to us anytime!
+<!-- Hero Section -->
+<section class="contact-hero position-relative overflow-hidden">
+  <div class="hero-bg"></div>
+  <div class="container position-relative">
+    <div class="row justify-content-center text-center min-vh-50 d-flex align-items-center">
+      <div class="col-lg-8">
+        <div class="hero-content" data-aos="fade-up">
+          <h1 class="hero-title mb-4">Let's Start a Conversation</h1>
+          <p class="hero-subtitle mb-5">
+            We're here to help you succeed. Reach out to our team of experts
+            and let's build something amazing together.
           </p>
-          <ul class="contact-info list-unstyled pl-md-5 mb-5">
-            <li class="d-flex text-black mb-2">
-              <span class="mr-3"><i class="fas fa-map-marker-alt"></i></span>
-              Bhopal, Madhya Pradesh, India
-            </li>
-            <li class="d-flex text-black mb-2">
-              <span class="mr-3"><i class="fas fa-phone"></i></span>
-              +91 7000950845
-            </li>
-            <li class="d-flex text-black">
-              <span class="mr-3"><i class="fas fa-envelope"></i></span>
-              <a href="mailto:support@ecommerce.com">atulguptag111@gmail.com</a>
-            </li>
-          </ul>
+          <div class="hero-stats d-flex justify-content-center flex-wrap gap-4">
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
+              <div class="stat-icon">
+                <i class="fas fa-headset"></i>
+              </div>
+              <div class="stat-content">
+                <h3>24/7</h3>
+                <p>Support</p>
+              </div>
+            </div>
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+              <div class="stat-icon">
+                <i class="fas fa-clock"></i>
+              </div>
+              <div class="stat-content">
+                <h3>&lt;2hrs</h3>
+                <p>Response Time</p>
+              </div>
+            </div>
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
+              <div class="stat-icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <div class="stat-content">
+                <h3>50K+</h3>
+                <p>Happy Customers</p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="col-md-6">
-          <form method="POST" action="https://formspree.io/f/{{ form_id }}" class="mb-5">
-            {% csrf_token %} {% include "base/alert.html" %}
-            <div class="row">
-              <div class="col-md-12 form-group">
-                <label for="name" class="col-form-label">First Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="first-name"
-                  required
-                />
+      </div>
+    </div>
+  </div>
+  <div class="hero-wave">
+    <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+      <path
+        d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"
+        opacity=".25" class="shape-fill"></path>
+      <path
+        d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z"
+        opacity=".5" class="shape-fill"></path>
+      <path
+        d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z"
+        class="shape-fill"></path>
+    </svg>
+  </div>
+</section>
+
+<!-- Contact Methods Grid -->
+<section class="contact-methods-section py-3">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+        <div class="contact-method-card text-center h-100">
+          <div class="method-icon-wrapper">
+            <i class="fas fa-map-marker-alt"></i>
+          </div>
+          <h4>Visit Us</h4>
+          <p class="text-muted">Bhopal, Madhya Pradesh<br>India</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+        <div class="contact-method-card text-center h-100">
+          <div class="method-icon-wrapper">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <h4>Email Us</h4>
+          <p class="text-muted">Get in touch via email</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+        <div class="contact-method-card text-center h-100">
+          <div class="method-icon-wrapper">
+            <i class="fas fa-phone"></i>
+          </div>
+          <h4>Call Us</h4>
+          <p class="text-muted">Speak with our team</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+        <div class="contact-method-card text-center h-100">
+          <div class="method-icon-wrapper">
+            <i class="fas fa-comments"></i>
+          </div>
+          <h4>Live Chat</h4>
+          <p class="text-muted">Chat with support</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Main Contact Section -->
+<section class="main-contact-section py-5 bg-light">
+  <div class="container">
+    <div class="row g-5 align-items-start">
+      <!-- Contact Information -->
+      <div class="col-lg-5" data-aos="fade-right">
+        <div class="contact-info-wrapper">
+          <div class="section-header mb-5">
+            <span class="badge bg-primary-soft text-primary mb-3">Get in Touch</span>
+            <h2 class="section-title">Ready to Get Started?</h2>
+            <p class="section-subtitle">
+              Whether you have questions about our products, need technical support,
+              or want to explore partnership opportunities, we're here to help.
+            </p>
+          </div>
+
+          <div class="contact-details">
+            <div class="detail-item">
+              <div class="detail-icon">
+                <i class="fas fa-clock"></i>
+              </div>
+              <div class="detail-content">
+                <h5>Business Hours</h5>
+                <p>Monday - Friday: 9:00 AM - 6:00 PM<br>
+                  Saturday - Sunday: 10:00 AM - 4:00 PM</p>
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-12 form-group">
-                <label for="name" class="col-form-label">Last Name</label>
-                <input type="text" class="form-control" name="last-name" />
+
+            <div class="detail-item">
+              <div class="detail-icon">
+                <i class="fas fa-globe"></i>
+              </div>
+              <div class="detail-content">
+                <h5>Global Reach</h5>
+                <p>Serving customers worldwide with localized support in multiple languages</p>
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-12 form-group">
-                <label for="email" class="col-form-label">Email</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="email"
-                  pattern="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$"
-                  required
-                />
+          </div>
+
+          <div class="social-connect mt-5">
+            <h5 class="mb-3">Connect With Us</h5>
+            <div class="social-links">
+              <a href="https://www.linkedin.com/in/atulguptag/" class="social-link linkedin" aria-label="LinkedIn">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+              <a href="https://github.com/atulguptag/" class="social-link github" aria-label="GitHub">
+                <i class="fab fa-github"></i>
+              </a>
+              <a href="https://instagram.com/itsatulguptag/" class="social-link instagram" aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a href="https://facebook.com/itsatulguptag/" class="social-link facebook" aria-label="Facebook">
+                <i class="fab fa-facebook"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="col-lg-7" data-aos="fade-left">
+        <div class="contact-form-wrapper">
+          <div class="form-header text-center mb-4">
+            <h3 class="form-title">Send us a Message</h3>
+            <p class="form-subtitle">Fill out the form below and we'll get back to you within 24 hours</p>
+          </div>
+
+          <form method="POST" action="https://formspree.io/f/{{ form_id }}" class="modern-contact-form" id="contactForm"
+            autocomplete="off">
+            {% csrf_token %}
+            {% include "base/alert.html" %}
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="firstName" class="form-label">First Name *</label>
+                  <input type="text" class="form-control" id="firstName" name="first-name" required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="lastName" class="form-label">Last Name</label>
+                  <input type="text" class="form-control" id="lastName" name="last-name">
+                </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-12 form-group">
-                <label for="message" class="col-form-label">Message</label>
-                <textarea
-                  class="form-control"
-                  name="message"
-                  cols="30"
-                  rows="7"
-                >
-                </textarea>
-              </div>
+
+            <div class="form-group">
+              <label for="email" class="form-label">Email Address *</label>
+              <input type="email" class="form-control" id="email" name="email" required>
             </div>
-            <div class="row">
-              <div class="col-md-12">
-                <input
-                  type="submit"
-                  value="Send Message"
-                  class="btn btn-primary rounded-0 py-2 px-4"
-                />
-                <span class="submitting"></span>
-              </div>
+
+            <div class="form-group">
+              <label for="subject" class="form-label">Subject *</label>
+              <select class="form-select" id="subject" name="subject" required>
+                <option value="">Choose a subject</option>
+                <option value="general">General Inquiry</option>
+                <option value="order">Order Support</option>
+                <option value="product">Product Question</option>
+                <option value="return">Return/Exchange</option>
+                <option value="technical">Technical Support</option>
+                <option value="partnership">Partnership</option>
+                <option value="feedback">Feedback</option>
+              </select>
             </div>
+
+            <div class="form-group">
+              <label for="message" class="form-label">Your Message *</label>
+              <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+            </div>
+
+            <div class="form-check mb-4">
+              <input class="form-check-input" type="checkbox" id="newsletter" name="newsletter">
+              <label class="form-check-label" for="newsletter">
+                I'd like to receive updates and promotional emails from FootFusion
+              </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg w-100">
+              <span class="btn-text">Send Message</span>
+              <i class="fas fa-paper-plane ms-2"></i>
+            </button>
           </form>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- FAQ Section -->
+<section class="faq-section py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center mb-5" data-aos="fade-up">
+        <span class="badge bg-primary-soft text-primary mb-3">FAQ</span>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-subtitle">Quick answers to questions you may have</p>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-8" data-aos="fade-up" data-aos-delay="100">
+        <div class="modern-accordion">
+          <div class="accordion-item">
+            <div class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                <span class="accordion-icon">
+                  <i class="fas fa-shipping-fast"></i>
+                </span>
+                <span class="accordion-title">How can I track my order?</span>
+              </button>
+            </div>
+            <div id="faq1" class="accordion-collapse collapse show">
+              <div class="accordion-body">
+                <p>You can track your order by logging into your account and visiting the "Your Orders" section. You'll
+                  find real-time tracking information and delivery updates there. We also send email notifications at
+                  each stage of your order's journey.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <div class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                <span class="accordion-icon">
+                  <i class="fas fa-undo"></i>
+                </span>
+                <span class="accordion-title">What is your return policy?</span>
+              </button>
+            </div>
+            <div id="faq2" class="accordion-collapse collapse">
+              <div class="accordion-body">
+                <p>We offer a hassle-free 30-day return policy for most items. Products must be in original condition
+                  with tags attached. Simply initiate a return through your account dashboard or contact our support
+                  team for assistance.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <div class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                <span class="accordion-icon">
+                  <i class="fas fa-truck"></i>
+                </span>
+                <span class="accordion-title">How long does shipping take?</span>
+              </button>
+            </div>
+            <div id="faq3" class="accordion-collapse collapse">
+              <div class="accordion-body">
+                <p>Standard shipping typically takes 3-5 business days within India. Express shipping options are
+                  available for next-day delivery in major cities. International shipping times vary by destination but
+                  usually take 7-14 business days.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <div class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                <span class="accordion-icon">
+                  <i class="fas fa-credit-card"></i>
+                </span>
+                <span class="accordion-title">What payment methods do you accept?</span>
+              </button>
+            </div>
+            <div id="faq4" class="accordion-collapse collapse">
+              <div class="accordion-body">
+                <p>We accept all major credit cards, debit cards, UPI payments, net banking, and digital wallets. All
+                  transactions are secured with industry-standard encryption to protect your financial information.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Unified Color System */
+  :root {
+    --primary-color: #6366f1;
+    --primary-dark: #4f46e5;
+    --primary-light: #a5b4fc;
+    --accent-color: #fbbf24;
+    --accent-dark: #f59e0b;
+    --secondary-color: #f1f5f9;
+    --text-dark: #1e293b;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --white: #ffffff;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  }
+
+  /* Hero Section */
+  .contact-hero {
+    background: var(--primary-color);
+    color: white;
+    padding: 120px 0 80px;
+    position: relative;
+  }
+
+  .hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="20" cy="60" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="80" cy="40" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    opacity: 0.3;
+  }
+
+  .hero-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    color: #ffffff;
+  }
+
+  .hero-subtitle {
+    font-size: 1.25rem;
+    font-weight: 400;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 3rem;
+  }
+
+  .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+  }
+
+  .stat-item:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .stat-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+  }
+
+  .stat-content h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .stat-content p {
+    margin: 0;
+    opacity: 0.8;
+    font-size: 0.9rem;
+  }
+
+  .hero-wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+  }
+
+  .hero-wave svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 60px;
+  }
+
+  .hero-wave .shape-fill {
+    fill: #f8fafc;
+  }
+
+  /* Contact Methods Section */
+  .contact-methods-section {
+    background: #f8fafc;
+    padding: 80px 0;
+  }
+
+  .contact-method-card {
+    background: white;
+    padding: 2.5rem 2rem;
+    border-radius: 24px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact-method-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--accent-color);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+
+  .contact-method-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .contact-method-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .method-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 1.5rem;
+    color: white;
+    box-shadow: var(--shadow-md);
+  }
+
+  .contact-method-card h4 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+  }
+
+  .contact-method-card p {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  /* Main Contact Section */
+  .main-contact-section {
+    padding: 100px 0;
+  }
+
+  .main-contact-section .section-header .badge {
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-weight: 600;
+  }
+
+  .bg-primary-soft {
+    background-color: rgba(99, 102, 241, 0.1) !important;
+  }
+
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    color: var(--text-dark);
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-subtitle {
+    font-size: 1.125rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    max-width: 500px;
+  }
+
+  .contact-info-wrapper {
+    padding: 2rem 0;
+  }
+
+  .detail-item {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+  }
+
+  .detail-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--primary-color);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  .detail-content h5 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+  }
+
+  .detail-content p {
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .social-link {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 1.25rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .social-link.linkedin {
+    background: var(--primary-color);
+    color: white;
+  }
+
+  .social-link.github {
+    background: var(--primary-color);
+    color: white;
+  }
+
+  .social-link.instagram {
+    background: var(--primary-color);
+    color: white;
+  }
+
+  .social-link.facebook {
+    background: var(--primary-color);
+    color: white;
+  }
+
+  .social-link:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    color: white;
+  }
+
+  /* Contact Form */
+  .contact-form-wrapper {
+    background: white;
+    padding: 3rem;
+    border-radius: 24px;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-color);
+  }
+
+  .form-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+  }
+
+  .form-subtitle {
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+  }
+
+  .modern-contact-form .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .modern-contact-form .form-label {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .modern-contact-form .form-control,
+  .modern-contact-form .form-select {
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #fafafa;
+  }
+
+  .modern-contact-form .form-control:focus,
+  .modern-contact-form .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    background: white;
+  }
+
+  .modern-contact-form .btn-primary {
+    background: var(--primary-color);
+    border: none;
+    border-radius: 12px;
+    padding: 1rem 2rem;
+    font-weight: 600;
+    font-size: 1.125rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .modern-contact-form .btn-primary:hover {
+    background: var(--accent-color);
+    color: var(--text-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .modern-contact-form .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  /* FAQ Section */
+  .faq-section {
+    padding: 100px 0;
+    background: white;
+  }
+
+  .modern-accordion {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+  }
+
+  .modern-accordion .accordion-item {
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .modern-accordion .accordion-item:last-child {
+    border-bottom: none;
+  }
+
+  .modern-accordion .accordion-button {
+    background: white;
+    border: none;
+    padding: 1.5rem 2rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .modern-accordion .accordion-button:not(.collapsed) {
+    background: var(--primary-color);
+    color: white;
+    box-shadow: none;
+  }
+
+  .modern-accordion .accordion-button:hover {
+    background: var(--accent-color);
+    color: var(--text-dark);
+  }
+
+  .modern-accordion .accordion-button:not(.collapsed):hover {
+    background: var(--primary-color);
+    color: white;
+  }
+
+  .modern-accordion .accordion-button:focus {
+    box-shadow: none;
+  }
+
+  .modern-accordion .accordion-button::after {
+    background-image: none;
+    content: '\f107';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+  }
+
+  .modern-accordion .accordion-button:not(.collapsed)::after {
+    transform: rotate(180deg);
+  }
+
+  .accordion-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(99, 102, 241, 0.1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+    font-size: 1rem;
+  }
+
+  .accordion-button:not(.collapsed) .accordion-icon {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+  }
+
+  .accordion-title {
+    font-size: 1.125rem;
+  }
+
+  .modern-accordion .accordion-body {
+    padding: 2rem;
+    background: #fafafa;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .modern-accordion .accordion-body p {
+    margin: 0;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1200px) {
+    .hero-stats {
+      gap: 2rem;
+    }
+
+    .stat-item {
+      padding: 1.25rem;
+    }
+  }
+
+  @media (max-width: 992px) {
+    .contact-hero {
+      padding: 100px 0 60px;
+    }
+
+    .hero-stats {
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .stat-item {
+      max-width: 300px;
+    }
+
+    .contact-methods-section {
+      padding: 60px 0;
+    }
+
+    .main-contact-section {
+      padding: 80px 0;
+    }
+
+    .contact-form-wrapper {
+      padding: 2rem;
+      margin-top: 2rem;
+    }
+
+    .faq-section {
+      padding: 80px 0;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .contact-hero {
+      padding: 80px 0 40px;
+    }
+
+    .hero-wave svg {
+      height: 40px;
+    }
+
+    .hero-stats {
+      margin-top: 2rem;
+    }
+
+    .stat-item {
+      flex-direction: column;
+      text-align: center;
+      padding: 1.5rem 1rem;
+    }
+
+    .stat-icon {
+      width: 50px;
+      height: 50px;
+      font-size: 1.25rem;
+    }
+
+    .contact-methods-section {
+      padding: 40px 0;
+    }
+
+    .contact-method-card {
+      padding: 2rem 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .method-icon-wrapper {
+      width: 60px;
+      height: 60px;
+      font-size: 1.25rem;
+    }
+
+    .main-contact-section {
+      padding: 60px 0;
+    }
+
+    .contact-form-wrapper {
+      padding: 1.5rem;
+    }
+
+    .detail-item {
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .social-links {
+      justify-content: center;
+    }
+
+    .modern-accordion .accordion-button {
+      padding: 1rem 1.5rem;
+      font-size: 1rem;
+    }
+
+    .accordion-title {
+      font-size: 1rem;
+    }
+
+    .modern-accordion .accordion-body {
+      padding: 1.5rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .contact-hero {
+      padding: 60px 0 30px;
+    }
+
+    .hero-title {
+      font-size: 2rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+    }
+
+    .stat-item {
+      padding: 1rem;
+    }
+
+    .contact-method-card {
+      padding: 1.5rem 1rem;
+    }
+
+    .contact-form-wrapper {
+      padding: 1rem;
+    }
+
+    .form-title {
+      font-size: 1.5rem;
+    }
+
+    .section-title {
+      font-size: 1.75rem;
+    }
+
+    .detail-item {
+      flex-direction: column;
+      text-align: center;
+      gap: 1rem;
+    }
+
+    .social-link {
+      width: 45px;
+      height: 45px;
+      font-size: 1.125rem;
+    }
+
+    .modern-accordion .accordion-button {
+      padding: 1rem;
+      flex-direction: column;
+      text-align: center;
+      gap: 0.5rem;
+    }
+
+    .accordion-icon {
+      width: 35px;
+      height: 35px;
+      font-size: 0.875rem;
+    }
+  }
+
+  /* Animation utilities */
+  [data-aos] {
+    pointer-events: none;
+  }
+
+  [data-aos].aos-animate {
+    pointer-events: auto;
+  }
+
+  /* Custom scrollbar for webkit browsers */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-dark);
+  }
+</style>
+
+<!-- AOS Animation Library -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({
+    duration: 800,
+    easing: 'ease-out-cubic',
+    once: true,
+    offset: 100
+  });
+
+  // Clear form data when page loads (handles back button from Formspree)
+  window.addEventListener('load', function () {
+    // Check if we're coming back from a form submission
+    if (document.referrer.includes('formspree.io') ||
+      performance.navigation.type === performance.navigation.TYPE_BACK_FORWARD) {
+      const form = document.querySelector('.modern-contact-form');
+      if (form) {
+        form.reset();
+
+        // Also clear any custom styling that might persist
+        const inputs = form.querySelectorAll('input, textarea, select');
+        inputs.forEach(input => {
+          input.value = '';
+          input.classList.remove('is-valid', 'is-invalid');
+        });
+
+        // Clear checkbox
+        const checkbox = form.querySelector('#newsletter');
+        if (checkbox) {
+          checkbox.checked = false;
+        }
+      }
+    }
+  });
+
+  // Optional: Clear form on successful submission (before redirect)
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('.modern-contact-form');
+    if (form) {
+      form.addEventListener('submit', function () {
+        // Small delay to ensure form submission, then clear
+        setTimeout(() => {
+          form.reset();
+        }, 100);
+      });
+    }
+  });
+</script>
+
 {% endblock %}

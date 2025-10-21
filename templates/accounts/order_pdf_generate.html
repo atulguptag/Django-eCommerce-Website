@@ -2,139 +2,410 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <title>{% block title %}Order Information{% endblock %}</title>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}" />
+  <title>{% block title %}Invoice - Order #{{ order.order_id }}{% endblock %}</title>
 
-    <style>
-      .dlist-align dd {
-        text-align: right;
-        max-width: 800px;
+  <style>
+    /* Modern Color System */
+    :root {
+      --primary-color: #6366f1;
+      --accent-color: #fbbf24;
+      --text-dark: #1e293b;
+      --text-muted: #64748b;
+      --bg-light: #f8fafc;
+      --border-light: #e2e8f0;
+      --success-color: #10b981;
+      --warning-color: #f59e0b;
+      --white: #ffffff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: var(--text-dark);
+      background: var(--white);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    /* Header Section */
+    .invoice-header {
+      background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+      color: white;
+      padding: 2rem;
+      border-radius: 16px;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .invoice-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .invoice-subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      font-weight: 500;
+    }
+
+    /* Modern Card Styles */
+    .modern-card {
+      background: var(--white);
+      border-radius: 16px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .card-header {
+      background: var(--bg-light);
+      padding: 1.5rem;
+      border-bottom: 2px solid var(--border-light);
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card-body {
+      padding: 1.5rem;
+    }
+
+    /* Table Styles */
+    .table-container {
+      overflow-x: auto;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .modern-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--white);
+    }
+
+    .modern-table thead {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .modern-table th {
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .modern-table td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .modern-table tbody tr:hover {
+      background: var(--bg-light);
+    }
+
+    .modern-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Badge Styles */
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .badge-primary {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .badge-accent {
+      background: var(--accent-color);
+      color: var(--text-dark);
+    }
+
+    .badge-success {
+      background: var(--success-color);
+      color: white;
+    }
+
+    /* Info Grid */
+    .info-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .info-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .info-item:last-child {
+      border-bottom: none;
+    }
+
+    .info-label {
+      font-weight: 600;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .info-value {
+      font-weight: 700;
+      color: var(--text-dark);
+      text-align: right;
+    }
+
+    /* Summary Styles */
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+    }
+
+    .summary-divider {
+      border: none;
+      height: 2px;
+      background: var(--border-light);
+      margin: 1rem 0;
+    }
+
+    .total-item {
+      background: var(--bg-light);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+    }
+
+    .total-item .info-label,
+    .total-item .info-value {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .discount-value {
+      color: var(--success-color);
+    }
+
+    /* Layout */
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      margin: -1rem;
+    }
+
+    .col-12 {
+      flex: 0 0 100%;
+      max-width: 100%;
+      padding: 1rem;
+    }
+
+    .col-8 {
+      flex: 0 0 66.666667%;
+      max-width: 66.666667%;
+      padding: 1rem;
+    }
+
+    .col-4 {
+      flex: 0 0 33.333333%;
+      max-width: 33.333333%;
+      padding: 1rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+
+      .col-8,
+      .col-4 {
+        flex: 0 0 100%;
+        max-width: 100%;
       }
-    </style>
-  </head>
-  <body>
-    <section class="section-content padding-y">
-      <div class="container">
-        <div class="row">
-          <!-- Order Summary -->
-          <main class="col-md-12">
-            <h3 class="mb-4">Order Summary</h3>
-            <div class="table-responsive mb-4">
-              <table class="table table-striped table-bordered">
-                <thead class="thead-dark">
-                  <tr>
-                    <th>Product</th>
-                    <th>Size</th>
-                    <th>Color</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for item in order_items.all %}
-                  <tr>
-                    <td>{{ item.product.product_name }}</td>
-                    <td>{{ item.size_variant.size_name|default:"N/A" }}</td>
-                    {% if item.size_variant %} 
-                      {% for color in item.product.color_variant.all %}
-                        <td>{{ color.color_name|default:"N/A" }}</td>
-                      {% endfor %} 
-                    {% endif %}
-                    <td>{{ item.quantity }}</td>
-                    <td>₹ {{ item.product_price }}</td>
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-            </div>
-          </main>
-          <!-- Order Summary End -->
 
-          <!-- Order Details Summary -->
-          <main class="col-md-6">
-            <h3 class="mb-4">Order Details</h3>
-            <div class="card mb-4">
-              <div class="card-body">
-                <h5 class="card-title">Order Information</h5>
-                <dl class="dlist-align">
-                  <dt style="width: 135px">Order ID #:</dt>
-                  <dd class="text-right">
-                    <strong>{{ order.order_id }}</strong>
-                  </dd>
-                </dl>
-                <dl class="dlist-align">
-                  <dt style="width: 135px">Place on:</dt>
-                  <dd class="text-right">
-                    <strong>{{ order.order_date|date:"F j, Y" }}</strong>
-                  </dd>
-                </dl>
-                <dl class="dlist-align">
-                  <dt style="width: 135px">Customer:</dt>
-                  <dd class="text-right">
-                    <strong>{{ order.user.get_full_name }}</strong>
-                  </dd>
-                </dl>
-                <dl class="dlist-align">
-                  <dt style="width: 135px">Payment Status:</dt>
-                  <dd class="text-right">
-                    <strong>{{ order.payment_status }}</strong>
-                  </dd>
-                </dl>
-                <dl class="dlist-align">
-                  <dt style="width: 135px">Payment Mode:</dt>
-                  <dd class="text-right">
-                    <strong>{{ order.payment_mode }}</strong>
-                  </dd>
-                </dl>
-                <dl class="dlist-align">
-                  <dt style="width: 136px">Shipping Address:</dt>
-                  <dd class="text-right">
-                    <strong>{{ order.shipping_address|default:"Not Provided" }}</strong>
-                  </dd>
-                </dl>
-              </div>
-            </div>
-          </main>
-          <!-- Order Details Summary End-->
+      .container {
+        padding: 1rem;
+      }
 
-          <!-- Payment Summary -->
-          <main class="col-md-4">
-            <div class="card" style="margin-top: 59px">
-              <div class="card-body">
-                <h5 class="card-title">Payment Summary</h5>
-                <dl class="dlist-align">
-                  <dt style="width: 135px">Item(s) Subtotal:</dt>
-                  <dd class="text-right">
-                    <strong>₹{{ order.order_total_price }}</strong>
-                  </dd>
-                </dl>
+      .invoice-title {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
 
-                <dl class="dlist-align">
-                  <dt style="width: 135px">Coupon Applied:</dt>
-                  <dd class="text-right">
-                    <strong
-                      >₹{{ order.coupon.discount_amount|default:"0" }}</strong
-                    >
-                  </dd>
-                </dl>
+<body>
+  <div class="container">
+    <!-- Invoice Header -->
+    <div class="invoice-header">
+      <h1 class="invoice-title">INVOICE</h1>
+      <p class="invoice-subtitle">Order #{{ order.order_id }}</p>
+    </div>
 
-                <dl class="dlist-align">
-                  <dt style="width: 135px">Grand Total:</dt>
-                  <dd class="text-right">
-                    <strong>₹{{ order.grand_total }}</strong>
-                  </dd>
-                </dl>
-              </div>
-            </div>
-          </main>
-          <!-- Payment Summary End -->
+    <!-- Order Items Section -->
+    <div class="modern-card">
+      <div class="card-header">
+        <h2 class="card-title">
+          Order Items
+        </h2>
+      </div>
+      <div class="card-body">
+        <div class="table-container">
+          <table class="modern-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Size</th>
+                <th>Color</th>
+                <th>Quantity</th>
+                <th style="text-align: right;">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in order_items.all %}
+              <tr>
+                <td>
+                  <strong>{{ item.product.product_name }}</strong>
+                </td>
+                <td>
+                  <span class="badge badge-primary">{{ item.size_variant.size_name|default:"N/A" }}</span>
+                </td>
+                {% if item.size_variant %}
+                {% for color in item.product.color_variant.all %}
+                <td>
+                  <span class="badge badge-primary">{{ color.color_name|default:"N/A" }}</span>
+                </td>
+                {% endfor %}
+                {% endif %}
+                <td>
+                  <span class="badge badge-accent">{{ item.quantity }}</span>
+                </td>
+                <td style="text-align: right;">
+                  <strong>₹{{ item.product_price }}</strong>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
       </div>
-    </section>
-  </body>
+    </div>
+
+    <div class="row">
+      <!-- Order Information -->
+      <div class="col-8">
+        <div class="modern-card">
+          <div class="card-header">
+            <h2 class="card-title">
+              Order Information
+            </h2>
+          </div>
+          <div class="card-body">
+            <div class="info-grid">
+              <div class="info-item">
+                <span class="info-label">Order ID</span>
+                <span class="info-value">{{ order.order_id }}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Order Date</span>
+                <span class="info-value">{{ order.order_date|date:"F j, Y" }}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Customer</span>
+                <span class="info-value">
+                  {% if order.user.first_name or order.user.last_name %}
+                  {{ order.user.first_name }} {{ order.user.last_name }}
+                  {% elif order.user.get_full_name %}
+                  {{ order.user.get_full_name }}
+                  {% else %}
+                  {{ order.user.username }}
+                  {% endif %}
+                </span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Payment Status</span>
+                <span class="info-value">
+                  <span
+                    class="badge {% if order.payment_status == 'Paid' %}badge-success{% else %}badge-accent{% endif %}">
+                    {{ order.payment_status }}
+                  </span>
+                </span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Payment Mode</span>
+                <span class="info-value">{{ order.payment_mode }}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Shipping Address</span>
+                <span class="info-value">{{ order.shipping_address|default:"Not Provided" }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment Summary -->
+      <div class="col-4">
+        <div class="modern-card">
+          <div class="card-header">
+            <h2 class="card-title">
+              Payment Summary
+            </h2>
+          </div>
+          <div class="card-body">
+            <div class="summary-item">
+              <span class="info-label">Subtotal</span>
+              <span class="info-value">₹{{ order.order_total_price }}</span>
+            </div>
+            <div class="summary-item">
+              <span class="info-label">Coupon Discount</span>
+              <span class="info-value discount-value">-₹{{ order.coupon.discount_amount|default:"0" }}</span>
+            </div>
+            <hr class="summary-divider">
+            <div class="total-item">
+              <div class="summary-item">
+                <span class="info-label">Grand Total</span>
+                <span class="info-value">₹{{ order.grand_total }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
 </html>

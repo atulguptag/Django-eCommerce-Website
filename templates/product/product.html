@@ -13,8 +13,15 @@
     cursor: zoom-out;
   }
 
+  /* Unified Color System */
+  :root {
+    --primary-color: #6366f1;
+    --accent-color: #fbbf24;
+    --text-dark: #1e293b;
+  }
+
   .like-btn {
-    background-color: #59ee8d;
+    background-color: var(--primary-color);
     color: #fff;
     border: none;
     border-radius: 20px;
@@ -24,13 +31,14 @@
   }
 
   .like-btn:hover {
-    background-color: #45c16b;
+    background-color: var(--accent-color);
+    color: var(--text-dark);
     transform: scale(1.1);
-    box-shadow: 0 0 10px rgba(89, 238, 141, 0.5);
+    box-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
   }
-  
+
   .dislike-btn {
-    background-color: #ff7675;
+    background-color: var(--primary-color);
     color: #fff;
     border: none;
     border-radius: 20px;
@@ -40,12 +48,41 @@
   }
 
   .dislike-btn:hover {
-    background-color: #d65a5a;
+    background-color: var(--accent-color);
+    color: var(--text-dark);
     transform: scale(1.1);
-    box-shadow: 0 0 10px rgba(255, 118, 117, 0.5);
+    box-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
   }
-  
+
+  /* Review Card Background */
+  .review-card-body {
+    background: rgba(99, 102, 241, 0.1);
+  }
+
+  /* Delete Review Button */
+  .delete-review-btn {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    transition: all 0.3s ease;
+  }
+
+  .delete-review-btn:hover {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--text-dark);
+  }
+
+  .delete-review-link {
+    color: var(--primary-color);
+    transition: all 0.3s ease;
+  }
+
+  .delete-review-link:hover {
+    color: var(--accent-color);
+  }
+
   @media (max-width: 768px) {
+
     .like-btn,
     .dislike-btn {
       padding: 0.3rem 0.8rem;
@@ -67,11 +104,7 @@
               <div class="carousel-inner">
                 {% for image in product.product_images.all %}
                 <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                  <img
-                    id="mainImage"
-                    src="/media/{{ image.image }}"
-                    alt="{{ product.product_name }}"
-                  />
+                  <img id="mainImage" src="{{ image.image_url }}" alt="{{ product.product_name }}" />
                 </div>
                 {% endfor %}
               </div>
@@ -80,11 +113,7 @@
               <div class="form-row thumbs-wrap mt-5 d-flex justify-content-center">
                 {% for image in product.product_images.all %}
                 <p class="item-thumb mx-2">
-                  <img
-                    src="/media/{{image.image}}"
-                    class="img-thumbnail"
-                    onclick="updateMainImage(this.src)"
-                  />
+                  <img src="{{image.image_url}}" class="img-thumbnail" onclick="updateMainImage(this.src)" />
                 </p>
                 {% endfor %}
               </div>
@@ -113,9 +142,6 @@
                 </li>
               </ul>
               <small class="label-rating text-muted">{{ product.reviews.count }} reviews</small>
-              <small class="label-rating text-success">
-                <i class="fa fa-clipboard-check"></i> 154 orders
-              </small>
             </div>
             <!-- rating-wrap.// -->
 
@@ -147,31 +173,6 @@
 
             <hr />
             <div class="form-row">
-              <div class="form-group mr-3">
-                <label>Quantity</label>
-                <div class="input-group mb-3 input-spinner">
-                  <div class="input-group-prepend">
-                    <button
-                      class="btn btn-light"
-                      type="button"
-                      id="button-plus"
-                    >
-                      +
-                    </button>
-                  </div>
-                  <input type="text" class="form-control" value="1" />
-                  <div class="input-group-append">
-                    <button
-                      class="btn btn-light"
-                      type="button"
-                      id="button-minus"
-                    >
-                      -
-                    </button>
-                  </div>
-                </div>
-              </div>
-
               {% if sorted_size_variants %}
               <div class="form-group col-md">
                 <label>Select size</label>
@@ -179,10 +180,10 @@
                   {% for size in sorted_size_variants %}
 
                   <label class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" name="selected_size" value="{{ size.size_name }}" 
-                    onchange="get_correct_price('{{ size.size_name }}'); updateCartUrl();" 
-                    id="size-{{ size.size_name }}" 
-                    {% if selected_size == size.size_name %} checked {% endif %} class="custom-control-input" />
+                    <input type="radio" name="selected_size" value="{{ size.size_name }}"
+                      onchange="get_correct_price('{{ size.size_name }}'); updateCartUrl();"
+                      id="size-{{ size.size_name }}" {% if selected_size == size.size_name %} checked {% endif %}
+                      class="custom-control-input" />
                     <div class="custom-control-label">{{ size.size_name }}</div>
                   </label>
 
@@ -203,11 +204,8 @@
                     </button>
                   </form>
                 </div>
-                <a
-                  href="{% url 'add_to_cart' product.uid %}?size={{ selected_size }}"
-                  id="add-to-cart-btn"
-                  class="btn btn-primary"
-                >
+                <a href="{% url 'add_to_cart' product.uid %}?size={{ selected_size }}" id="add-to-cart-btn"
+                  class="btn btn-primary">
                   <i class="fas fa-shopping-bag mr-1"></i>
                   <span>Add to cart</span>
                 </a>
@@ -220,10 +218,10 @@
 
     <!-- Related Products Section -->
     <h3 class="title padding-y-sm">Related products</h3>
-    {% if related_products%} 
-      {% with related_products as list_products %} 
-        {% include 'product_parts/product_list.html' %} 
-      {% endwith %}
+    {% if related_products%}
+    {% with related_products as list_products %}
+    {% include 'product_parts/product_list.html' %}
+    {% endwith %}
     {% else %}
     <p>No related products found.</p>
     {% endif %}
@@ -236,12 +234,12 @@
 
     {% for review in product.reviews.all %}
     <div class="card mb-3">
-      <div class="card-body" style="background-color: #59ee8d91">
+      <div class="card-body review-card-body">
         <div class="d-flex justify-content-between align-items-center">
           <div>
             <p>
               <strong>Posted on: </strong>{{ review.date_added|date:"Y-m-d" }} by
-              <strong>{{ review.user.get_full_name }}</strong><br />
+              <strong>{{ review.user.get_full_name|default:review.user.username }}</strong><br />
               <strong>Rating: </strong>{{ review.stars }}/5<br />
               <strong>Comment: </strong>{{ review.content }}
             </p>
@@ -249,23 +247,17 @@
           <div class="d-flex flex-wrap align-items-center gap-2">
             {% if request.user.is_authenticated %}
             <!-- Like Button -->
-            <button
-              class="btn like-btn d-flex align-items-center"
-              onclick="toggleLike('{{ review.uid }}')"
-            >
+            <button class="btn like-btn d-flex align-items-center" onclick="toggleLike('{{ review.uid }}')">
               <i class="fas fa-thumbs-up me-2"></i>
               <span id="like-count-{{ review.uid }}">{{ review.like_count }}</span>
             </button>
 
             <!-- Dislike Button -->
-            <button
-              class="btn dislike-btn d-flex align-items-center"
-              onclick="toggleDislike('{{ review.uid }}')"
-            >
+            <button class="btn dislike-btn d-flex align-items-center" onclick="toggleDislike('{{ review.uid }}')">
               <i class="fas fa-thumbs-down me-2"></i>
               <span id="dislike-count-{{ review.uid }}">{{ review.dislike_count }}</span>
             </button>
-            
+
             {% else %}
             <button class="btn like-btn d-flex align-items-center">
               <i class="fas fa-thumbs-up me-2"></i>
@@ -280,14 +272,9 @@
 
             <!-- Delete Button -->
             {% if review.user == request.user %}
-            <button
-              class="btn btn-link p-0 text-danger ms-auto"
-              title="Delete Review"
-              data-bs-toggle="modal"
+            <button class="btn btn-link p-0 delete-review-link ms-auto" title="Delete Review" data-bs-toggle="modal"
               data-bs-target="#deleteReviewModal"
-              onclick="setDeleteAction('{% url 'delete_review' product.slug review.uid %}')"
-              type="button"
-            >
+              onclick="setDeleteAction('{% url 'delete_review' product.slug review.uid %}')" type="button">
               <i class="fas fa-trash-alt"></i>
             </button>
             {% endif %}
@@ -299,65 +286,510 @@
     <p class="padding-bottom-sm">No reviews yet...</p>
     {% endfor %}
 
-    <div class="card mb-3">
-      <div class="card-body">
-        <div class="form-group">
-          {% if request.user.is_authenticated %}
-          <form method="POST" action="">
-            {% csrf_token %} {{ review_form|crispy }}
-            <button class="btn btn-success">Submit</button>
+    <!-- Modern Review Form -->
+    <div class="review-form-section mt-5">
+      <div class="section-header text-center mb-4">
+        <h3 class="section-title">Share Your Experience</h3>
+        <p class="section-subtitle text-muted">Help other customers by writing a review</p>
+      </div>
+
+      {% if request.user.is_authenticated %}
+      <div class="modern-review-form-container">
+        <div class="review-form-card">
+          <form method="POST" action="" class="modern-review-form" id="reviewForm">
+            {% csrf_token %}
+
+            <!-- User Info Section -->
+            <div class="reviewer-info mb-4">
+              <div class="d-flex align-items-center">
+                <div class="reviewer-avatar">
+                  {% if request.user.profile.profile_image %}
+                  <img src="{{ request.user.profile.profile_image.url }}" alt="Your Avatar" class="avatar-img">
+                  {% else %}
+                  <div class="avatar-placeholder">
+                    <i class="fas fa-user"></i>
+                  </div>
+                  {% endif %}
+                </div>
+                <div class="reviewer-details ms-3">
+                  <h5 class="reviewer-name mb-1">{{ request.user.get_full_name|default:request.user.username }}</h5>
+                  <p class="reviewer-label text-muted mb-0">Verified Customer</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Rating Section -->
+            <div class="rating-section mb-4">
+              <label class="form-label fw-semibold mb-3">How would you rate this product?</label>
+              <div class="star-rating-container">
+                <div class="star-rating" id="starRating">
+                  <input type="hidden" name="stars" id="ratingValue" value="0">
+                  <div class="stars">
+                    <i class="fas fa-star star" data-rating="1"></i>
+                    <i class="fas fa-star star" data-rating="2"></i>
+                    <i class="fas fa-star star" data-rating="3"></i>
+                    <i class="fas fa-star star" data-rating="4"></i>
+                    <i class="fas fa-star star" data-rating="5"></i>
+                  </div>
+                  <div class="rating-text">
+                    <span id="ratingText">Click to rate</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Review Content Section -->
+            <div class="review-content-section mb-4">
+              <label for="reviewContent" class="form-label fw-semibold">Write your review</label>
+              <textarea name="content" id="reviewContent" class="form-control review-textarea" rows="4"
+                placeholder="Share your thoughts about this product. What did you like or dislike? How was the quality, fit, and overall experience?"
+                maxlength="500" required></textarea>
+            </div>
+
+            <!-- Submit Section -->
+            <div class="submit-section">
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="recommendProduct">
+                  <label class="form-check-label text-muted" for="recommendProduct">
+                    I would recommend this product to others
+                  </label>
+                </div>
+                <div class="submit-buttons">
+                  <button type="button" class="btn btn-outline-secondary me-2" onclick="resetForm()">
+                    <i class="fas fa-undo me-1"></i>Reset
+                  </button>
+                  <button type="submit" class="btn btn-primary btn-submit" disabled>
+                    <i class="fas fa-paper-plane me-1"></i>Submit Review
+                  </button>
+                </div>
+              </div>
+            </div>
           </form>
-          {% else %}
-          <p>Please <a href="{% url 'login' %}"> sign in </a> to add review!</p>
-          {% endif %}
         </div>
       </div>
+      {% else %}
+      <div class="login-prompt-card">
+        <div class="text-center py-5">
+          <div class="login-icon mb-3">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <h4 class="mb-3">Sign in to Write a Review</h4>
+          <p class="text-muted mb-4">Share your experience and help other customers make informed decisions</p>
+          <div class="login-buttons">
+            <a href="{% url 'login' %}" class="btn btn-primary me-2">
+              <i class="fas fa-sign-in-alt me-1"></i>Sign In
+            </a>
+            <a href="{% url 'register' %}" class="btn btn-outline-primary">
+              <i class="fas fa-user-plus me-1"></i>Create Account
+            </a>
+          </div>
+        </div>
+      </div>
+      {% endif %}
     </div>
     <!-- Product Review Section End-->
     <!-- ============================ COMPONENT Product Details End ================================= -->
   </div>
 
   <!-- Delete Review Confirmation Modal -->
-  <div
-    class="modal fade"
-    id="deleteReviewModal"
-    tabindex="-1"
-    aria-labelledby="deleteReviewModalLabel"
-    aria-hidden="true"
-  >
+  <div class="modal fade" id="deleteReviewModal" tabindex="-1" aria-labelledby="deleteReviewModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="deleteReviewModalLabel">
             Confirm Delete
           </h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           Are you sure you want to delete this review?
         </div>
         <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
             Cancel
           </button>
           <form id="deleteReviewForm" method="POST" style="display: inline">
             {% csrf_token %}
-            <button type="submit" class="btn btn-danger">Delete</button>
+            <button type="submit" class="btn btn-outline-primary delete-review-btn">Delete</button>
           </form>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- Modern Review Form Styles -->
+<style>
+  /* Unified Color System */
+  :root {
+    --primary-color: #6366f1;
+    --primary-dark: #4f46e5;
+    --primary-light: #a5b4fc;
+    --accent-color: #fbbf24;
+    --accent-dark: #f59e0b;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+    --text-dark: #1e293b;
+    --text-muted: #64748b;
+    --text-light: #94a3b8;
+    --bg-light: #f8fafc;
+    --bg-white: #ffffff;
+    --border-color: #e2e8f0;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  }
+
+  /* Review Form Section */
+  .review-form-section {
+    margin: 3rem 0;
+  }
+
+  .section-header .section-title {
+    color: var(--text-dark);
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-header .section-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+  }
+
+  /* Modern Review Form Container */
+  .modern-review-form-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .review-form-card {
+    background: var(--bg-white);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+  }
+
+  .review-form-card:hover {
+    box-shadow: var(--shadow-xl);
+    transform: translateY(-2px);
+  }
+
+  /* Reviewer Info */
+  .reviewer-info {
+    padding: 1.5rem;
+    background: var(--accent-color);
+    border-radius: 12px;
+    margin-bottom: 2rem;
+  }
+
+  .reviewer-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--bg-white);
+    box-shadow: var(--shadow-md);
+  }
+
+  .avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    background: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+  }
+
+  .reviewer-name {
+    color: var(--text-dark);
+    font-weight: 600;
+    font-size: 1.2rem;
+  }
+
+  .reviewer-label {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  /* Star Rating */
+  .rating-section {
+    text-align: center;
+    padding: 1.5rem;
+    background: var(--bg-light);
+    border-radius: 12px;
+    border: 2px dashed var(--border-color);
+    transition: all 0.3s ease;
+  }
+
+  .rating-section:hover {
+    border-color: var(--primary-color);
+    background: rgba(99, 102, 241, 0.05);
+  }
+
+  .star-rating-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .stars {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 2rem;
+  }
+
+  .star {
+    color: #d1d5db;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    transform-origin: center;
+  }
+
+  .star:hover {
+    transform: scale(1.2);
+    color: var(--accent-color);
+  }
+
+  .star.active {
+    color: var(--accent-color);
+    text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+  }
+
+  .star.hover {
+    color: var(--accent-color);
+    transform: scale(1.1);
+  }
+
+  .rating-text {
+    font-weight: 500;
+    color: var(--text-muted);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .rating-text.has-rating {
+    color: var(--primary-color);
+    font-weight: 600;
+  }
+
+  /* Review Content */
+  .review-textarea {
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1rem;
+    font-size: 1rem;
+    line-height: 1.6;
+    resize: vertical;
+    min-height: 120px;
+    transition: all 0.3s ease;
+    width: 100%;
+  }
+
+  .review-textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    outline: none;
+  }
+
+  /* Review Guidelines */
+  .review-guidelines {
+    background: rgba(251, 191, 36, 0.1);
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .guidelines-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    color: var(--text-dark);
+    font-size: 1rem;
+  }
+
+  .guidelines-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .guidelines-list li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+
+  .guidelines-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--success-color);
+    font-weight: bold;
+  }
+
+  /* Submit Section */
+  .submit-section {
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .btn-submit {
+    background: var(--primary-color);
+    border: none;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-submit:hover:not(:disabled) {
+    background: var(--accent-color);
+    color: var(--text-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .btn-submit:disabled {
+    background: var(--text-light);
+    color: var(--bg-white);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .btn-submit::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: left 0.5s;
+  }
+
+  .btn-submit:hover:not(:disabled)::before {
+    left: 100%;
+  }
+
+  /* Login Prompt Card */
+  .login-prompt-card {
+    max-width: 600px;
+    margin: 0 auto;
+    background: var(--bg-white);
+    border-radius: 16px;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-color);
+  }
+
+  .login-icon {
+    font-size: 4rem;
+    color: var(--primary-color);
+  }
+
+  .login-buttons .btn {
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .login-buttons .btn-primary {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+
+  .login-buttons .btn-primary:hover {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--text-dark);
+    transform: translateY(-2px);
+  }
+
+  .login-buttons .btn-outline-primary {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+  }
+
+  .login-buttons .btn-outline-primary:hover {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .review-form-card {
+      padding: 1.5rem;
+      margin: 0 1rem;
+    }
+
+    .reviewer-info {
+      padding: 1rem;
+    }
+
+    .stars {
+      font-size: 1.5rem;
+      gap: 0.25rem;
+    }
+
+    .submit-section .d-flex {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .submit-buttons {
+      width: 100%;
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .submit-buttons .btn {
+      flex: 1;
+    }
+  }
+
+  /* Animation for form submission */
+  @keyframes submitSuccess {
+    0% {
+      transform: scale(1);
+    }
+
+    50% {
+      transform: scale(1.05);
+    }
+
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .form-submitted {
+    animation: submitSuccess 0.3s ease;
+  }
+</style>
 
 <script>
   function get_correct_price(selected_size) {
@@ -424,6 +856,183 @@
       }
     });
   });
+
+  // Modern Review Form JavaScript
+  document.addEventListener('DOMContentLoaded', function () {
+    const stars = document.querySelectorAll('.star');
+    const ratingValue = document.getElementById('ratingValue');
+    const ratingText = document.getElementById('ratingText');
+    const reviewContent = document.getElementById('reviewContent');
+    const submitBtn = document.querySelector('.btn-submit');
+    const reviewForm = document.getElementById('reviewForm');
+
+    // Rating texts for different star values
+    const ratingTexts = {
+      0: 'Click to rate',
+      1: 'Poor - Not satisfied',
+      2: 'Fair - Below expectations',
+      3: 'Good - Meets expectations',
+      4: 'Very Good - Exceeds expectations',
+      5: 'Excellent - Outstanding product!'
+    };
+
+    // Star rating functionality
+    if (stars.length > 0) {
+      stars.forEach((star, index) => {
+        // Mouse enter - show preview
+        star.addEventListener('mouseenter', function () {
+          highlightStars(index + 1, 'hover');
+          updateRatingText(index + 1);
+        });
+
+        // Mouse leave - reset to current rating
+        star.addEventListener('mouseleave', function () {
+          const currentRating = parseInt(ratingValue.value) || 0;
+          highlightStars(currentRating, 'active');
+          updateRatingText(currentRating);
+        });
+
+        // Click - set rating
+        star.addEventListener('click', function () {
+          const rating = index + 1;
+          ratingValue.value = rating;
+          highlightStars(rating, 'active');
+          updateRatingText(rating);
+          validateForm();
+
+          // Add a little animation
+          star.style.transform = 'scale(1.3)';
+          setTimeout(() => {
+            star.style.transform = '';
+          }, 200);
+        });
+      });
+    }
+
+    // Content validation
+    if (reviewContent) {
+      reviewContent.addEventListener('input', validateForm);
+    }
+
+    // Form validation
+    function validateForm() {
+      const rating = parseInt(ratingValue.value) || 0;
+      const content = reviewContent ? reviewContent.value.trim() : '';
+
+      const isValid = rating > 0 && content.length >= 10;
+
+      if (submitBtn) {
+        submitBtn.disabled = !isValid;
+
+        if (isValid) {
+          submitBtn.innerHTML = '<i class="fas fa-paper-plane me-1"></i>Submit Review';
+        } else {
+          if (rating === 0) {
+            submitBtn.innerHTML = '<i class="fas fa-star me-1"></i>Please rate first';
+          } else if (content.length < 10) {
+            submitBtn.innerHTML = '<i class="fas fa-edit me-1"></i>Write more details';
+          }
+        }
+      }
+    }
+
+    // Highlight stars function
+    function highlightStars(rating, className) {
+      stars.forEach((star, index) => {
+        star.classList.remove('active', 'hover');
+        if (index < rating) {
+          star.classList.add(className);
+        }
+      });
+    }
+
+    // Update rating text
+    function updateRatingText(rating) {
+      if (ratingText) {
+        ratingText.textContent = ratingTexts[rating] || ratingTexts[0];
+        ratingText.classList.toggle('has-rating', rating > 0);
+      }
+    }
+
+    // Form submission handling
+    if (reviewForm) {
+      reviewForm.addEventListener('submit', function (e) {
+        const rating = parseInt(ratingValue.value) || 0;
+        const content = reviewContent ? reviewContent.value.trim() : '';
+
+        if (rating === 0) {
+          e.preventDefault();
+          alert('Please select a rating before submitting your review.');
+          return;
+        }
+
+        if (content.length < 10) {
+          e.preventDefault();
+          alert('Please write at least 10 characters in your review.');
+          reviewContent.focus();
+          return;
+        }
+
+        // Add submission animation
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Submitting...';
+        submitBtn.disabled = true;
+
+        // Add success animation to form
+        reviewForm.classList.add('form-submitted');
+      });
+    }
+
+    // Initial validation
+    validateForm();
+  });
+
+  // Reset form function
+  function resetForm() {
+    const reviewForm = document.getElementById('reviewForm');
+    const stars = document.querySelectorAll('.star');
+    const ratingValue = document.getElementById('ratingValue');
+    const ratingText = document.getElementById('ratingText');
+    const reviewContent = document.getElementById('reviewContent');
+    const charCount = document.getElementById('charCount');
+    const submitBtn = document.querySelector('.btn-submit');
+    const recommendCheckbox = document.getElementById('recommendProduct');
+
+    if (reviewForm) {
+      reviewForm.reset();
+    }
+
+    // Reset rating
+    if (ratingValue) {
+      ratingValue.value = '0';
+    }
+
+    // Reset stars
+    stars.forEach(star => {
+      star.classList.remove('active', 'hover');
+    });
+
+    // Reset rating text
+    if (ratingText) {
+      ratingText.textContent = 'Click to rate';
+      ratingText.classList.remove('has-rating');
+    }
+
+    // Reset submit button
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-paper-plane me-1"></i>Submit Review';
+    }
+
+    // Reset checkbox
+    if (recommendCheckbox) {
+      recommendCheckbox.checked = false;
+    }
+
+    // Focus on first star
+    if (stars.length > 0) {
+      stars[0].focus();
+    }
+  }
 </script>
 
 {% endblock %}

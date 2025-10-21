@@ -1,64 +1,557 @@
 {% extends "base/base.html" %}
-{% block title %}Privacy Policy{% endblock %}
+{% block title %}Privacy Policy - FootFusion{% endblock %}
 {% block start %}
 
-<style>
-  .para-text {
-    font-size: 20px;
-    font-family: "Gill Sans", sans-serif;
-    padding-bottom: 30px;
-    text-align: justify;
-  }
-</style>
-
-<section class="section-content padding-bottom">
-  <div class="mx-auto" style="max-width: 85rem; margin-top: 30px">
-    <div class="container my-5">
-      <h2 class="text-center mb-4">Privacy Policy</h2>
-
-      <div class="card p-4">
-        <h4 class="text-left mb-2">1. Introduction</h4>
-        <p class="para-text">
-          We value your privacy and are committed to protecting your personal
-          information. This privacy policy outlines the types of information we
-          collect and how we use, disclose, and protect that information..
-        </p>
-
-        <h4 class="text-left mb-2">2. Information We Collect</h4>
-        <p class="para-text">
-          We collect various types of information, including information that
-          identifies or may identify you as anindividual ("Personal
-          Information"). This includes your name, email address, billing and
-          shipping addresses, and payment information.
-        </p>
-
-        <h4 class="text-left mb-2">3. Third-Party Integration</h4>
-        <p class="para-text">
-          When registering through Google or Facebook, we may collect and store
-          additional information provided by these platforms to enhance your
-          user experience or enable specific features. We handle this
-          information in accordance with their respective privacy policies and
-          take appropriate measures to protect your personal information.
-        </p>
-
-        <h4 class="text-left mb-2">4. Sharing Your Information</h4>
-        <p class="para-text">
-          We do not share your personal information with third parties except as
-          described in this policy. We may disclose your information to our
-          service providers who help us operate our services, but only to the
-          extent necessary to perform their functions.
-        </p>
-
-        <h4 class="text-left mb-2">Contact Us</h4>
-        <p class="para-text">
-          If you have any questions, concerns, or requests regarding this
-          Privacy Policy or the handling of your personal information, please
-          contact us through the contact information provided on our website.
-        </p>
-
-        <!-- Add more sections as needed -->
+<!-- Hero Section -->
+<section class="privacy-hero">
+  <div class="container">
+    <div class="row justify-content-center text-center">
+      <div class="col-lg-8">
+        <div class="hero-content">
+          <div class="hero-icon mb-4">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h1 class="hero-title mb-3">Privacy Policy</h1>
+          <p class="hero-subtitle">
+            Your privacy is important to us. Learn how we collect, use, and protect your personal information.
+          </p>
+          <div class="last-updated mt-4">
+            <i class="fas fa-calendar-alt me-2"></i>
+            Last Updated: January 2025
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- Privacy Content -->
+<section class="privacy-content py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+
+        <!-- Introduction -->
+        <div class="policy-card mb-4">
+          <div class="policy-header">
+            <div class="policy-icon">
+              <i class="fas fa-info-circle"></i>
+            </div>
+            <h3 class="policy-title">1. Introduction</h3>
+          </div>
+          <div class="policy-content">
+            <p>
+              At <strong>FootFusion</strong>, we value your privacy and are committed to protecting your personal
+              information. This privacy policy outlines the types of information we collect, how we use it,
+              and the measures we take to ensure your data remains secure.
+            </p>
+            <p>
+              By using our website and services, you consent to the data practices described in this policy.
+              We encourage you to read this policy carefully to understand how we handle your information.
+            </p>
+          </div>
+        </div>
+
+        <!-- Information We Collect -->
+        <div class="policy-card mb-4">
+          <div class="policy-header">
+            <div class="policy-icon">
+              <i class="fas fa-database"></i>
+            </div>
+            <h3 class="policy-title">2. Information We Collect</h3>
+          </div>
+          <div class="policy-content">
+            <p>We collect various types of information to provide and improve our services:</p>
+
+            <div class="info-section mt-3">
+              <h5 class="info-subtitle">
+                <i class="fas fa-user-circle me-2"></i>Personal Information
+              </h5>
+              <ul class="policy-list">
+                <li>Name and contact details (email address, phone number)</li>
+                <li>Billing and shipping addresses</li>
+                <li>Payment information (processed securely through our payment partners)</li>
+                <li>Account credentials and preferences</li>
+              </ul>
+            </div>
+
+            <div class="info-section mt-3">
+              <h5 class="info-subtitle">
+                <i class="fas fa-chart-line me-2"></i>Usage Information
+              </h5>
+              <ul class="policy-list">
+                <li>Browsing activity and interactions with our website</li>
+                <li>Device information (IP address, browser type, operating system)</li>
+                <li>Purchase history and product preferences</li>
+                <li>Customer reviews and feedback</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Third-Party Integration -->
+        <div class="policy-card mb-4">
+          <div class="policy-header">
+            <div class="policy-icon">
+              <i class="fas fa-plug"></i>
+            </div>
+            <h3 class="policy-title">3. Third-Party Integration</h3>
+          </div>
+          <div class="policy-content">
+            <p>
+              When you register or sign in through third-party services such as <strong>Google</strong> or
+              <strong>Facebook</strong>, we may collect additional information provided by these platforms to
+              enhance your user experience.
+            </p>
+            <div class="alert alert-info mt-3">
+              <i class="fas fa-info-circle me-2"></i>
+              We handle this information in accordance with the respective privacy policies of these platforms
+              and implement appropriate security measures to protect your personal data.
+            </div>
+          </div>
+        </div>
+
+        <!-- How We Use Your Information -->
+        <div class="policy-card mb-4">
+          <div class="policy-header">
+            <div class="policy-icon">
+              <i class="fas fa-cogs"></i>
+            </div>
+            <h3 class="policy-title">4. How We Use Your Information</h3>
+          </div>
+          <div class="policy-content">
+            <p>We use the collected information for the following purposes:</p>
+            <div class="row g-3 mt-2">
+              <div class="col-md-6">
+                <div class="use-case-card">
+                  <i class="fas fa-shopping-bag"></i>
+                  <h6>Order Processing</h6>
+                  <p>To process and fulfill your orders efficiently</p>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="use-case-card">
+                  <i class="fas fa-headset"></i>
+                  <h6>Customer Support</h6>
+                  <p>To provide assistance and respond to inquiries</p>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="use-case-card">
+                  <i class="fas fa-envelope"></i>
+                  <h6>Communications</h6>
+                  <p>To send order updates and promotional offers</p>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="use-case-card">
+                  <i class="fas fa-shield-alt"></i>
+                  <h6>Security</h6>
+                  <p>To protect against fraud and unauthorized access</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sharing Your Information -->
+        <div class="policy-card mb-4">
+          <div class="policy-header">
+            <div class="policy-icon">
+              <i class="fas fa-share-alt"></i>
+            </div>
+            <h3 class="policy-title">5. Sharing Your Information</h3>
+          </div>
+          <div class="policy-content">
+            <p>
+              We respect your privacy and do not sell your personal information to third parties. However,
+              we may share your data with:
+            </p>
+            <ul class="policy-list">
+              <li><strong>Service Providers:</strong> Companies that help us operate our business (e.g., payment
+                processors, shipping carriers)</li>
+              <li><strong>Legal Compliance:</strong> When required by law or to protect our rights</li>
+              <li><strong>Business Transfers:</strong> In the event of a merger, acquisition, or sale of assets</li>
+            </ul>
+            <p class="mt-3">
+              All third-party service providers are required to maintain the confidentiality of your information
+              and use it only for the purposes for which it was disclosed.
+            </p>
+          </div>
+        </div>
+
+        <!-- Data Security -->
+        <div class="policy-card mb-4">
+          <div class="policy-header">
+            <div class="policy-icon">
+              <i class="fas fa-lock"></i>
+            </div>
+            <h3 class="policy-title">6. Data Security</h3>
+          </div>
+          <div class="policy-content">
+            <p>
+              We implement industry-standard security measures to protect your personal information from
+              unauthorized access, disclosure, alteration, or destruction.
+            </p>
+            <div class="security-features mt-3">
+              <div class="security-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Encrypted data transmission (SSL/TLS)</span>
+              </div>
+              <div class="security-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Secure payment processing</span>
+              </div>
+              <div class="security-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Regular security audits and updates</span>
+              </div>
+              <div class="security-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Restricted access to personal data</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Your Rights -->
+        <div class="policy-card mb-4">
+          <div class="policy-header">
+            <div class="policy-icon">
+              <i class="fas fa-user-shield"></i>
+            </div>
+            <h3 class="policy-title">7. Your Rights</h3>
+          </div>
+          <div class="policy-content">
+            <p>You have the following rights regarding your personal information:</p>
+            <ul class="policy-list">
+              <li><strong>Access:</strong> Request a copy of the personal data we hold about you</li>
+              <li><strong>Correction:</strong> Update or correct inaccurate information</li>
+              <li><strong>Deletion:</strong> Request deletion of your personal data (subject to legal requirements)</li>
+              <li><strong>Opt-Out:</strong> Unsubscribe from marketing communications at any time</li>
+              <li><strong>Data Portability:</strong> Receive your data in a structured, machine-readable format</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Contact Us -->
+        <div class="policy-card contact-card">
+          <div class="policy-header">
+            <div class="policy-icon">
+              <i class="fas fa-envelope-open-text"></i>
+            </div>
+            <h3 class="policy-title">Contact Us</h3>
+          </div>
+          <div class="policy-content">
+            <p>
+              If you have any questions, concerns, or requests regarding this Privacy Policy or the handling
+              of your personal information, please don't hesitate to contact us:
+            </p>
+            <div class="contact-methods mt-4">
+              <div class="contact-method">
+                <i class="fas fa-envelope"></i>
+                <span>Email us through our <a href="{% url 'contact' %}">Contact Page</a></span>
+              </div>
+              <div class="contact-method">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Bhopal, Madhya Pradesh, India</span>
+              </div>
+            </div>
+            <div class="alert alert-primary mt-4">
+              <i class="fas fa-clock me-2"></i>
+              We typically respond to privacy-related inquiries within 48 hours.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Unified Color System */
+  :root {
+    --primary-color: #6366f1;
+    --primary-dark: #4f46e5;
+    --primary-light: #a5b4fc;
+    --accent-color: #fbbf24;
+    --accent-dark: #f59e0b;
+    --text-dark: #1e293b;
+    --text-muted: #64748b;
+    --bg-light: #f8fafc;
+    --border-color: #e2e8f0;
+    --success-color: #10b981;
+    --info-color: #3b82f6;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+
+  /* Hero Section */
+  .privacy-hero {
+    background: var(--primary-color);
+    color: white;
+    padding: 80px 0 60px;
+    position: relative;
+  }
+
+  .hero-icon {
+    font-size: 4rem;
+    opacity: 0.9;
+  }
+
+  .hero-title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.25rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .last-updated {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    backdrop-filter: blur(10px);
+  }
+
+  /* Privacy Content */
+  .privacy-content {
+    background: var(--bg-light);
+  }
+
+  .policy-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+  }
+
+  .policy-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+  }
+
+  .policy-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border-color);
+  }
+
+  .policy-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--primary-color);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .policy-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0;
+  }
+
+  .policy-content {
+    color: var(--text-muted);
+    line-height: 1.8;
+    font-size: 1.05rem;
+  }
+
+  .policy-content p {
+    margin-bottom: 1rem;
+  }
+
+  .policy-list {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .policy-list li {
+    position: relative;
+    padding-left: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .policy-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+
+  /* Info Sections */
+  .info-section {
+    background: var(--bg-light);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border-left: 4px solid var(--primary-color);
+  }
+
+  .info-subtitle {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+  }
+
+  /* Alert Styles */
+  .alert {
+    border-radius: 12px;
+    border: none;
+    padding: 1rem 1.5rem;
+  }
+
+  .alert-info {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--text-dark);
+    border-left: 4px solid var(--primary-color);
+  }
+
+  .alert-primary {
+    background: rgba(251, 191, 36, 0.1);
+    color: var(--text-dark);
+    border-left: 4px solid var(--accent-color);
+  }
+
+  /* Use Case Cards */
+  .use-case-card {
+    background: var(--bg-light);
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    transition: all 0.3s ease;
+    height: 100%;
+  }
+
+  .use-case-card:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-4px);
+  }
+
+  .use-case-card i {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 0.75rem;
+    transition: color 0.3s ease;
+  }
+
+  .use-case-card:hover i {
+    color: var(--accent-color);
+  }
+
+  .use-case-card h6 {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+  }
+
+  .use-case-card p {
+    margin: 0;
+    font-size: 0.9rem;
+    opacity: 0.8;
+  }
+
+  /* Security Features */
+  .security-features {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .security-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem;
+    background: var(--bg-light);
+    border-radius: 8px;
+  }
+
+  .security-item i {
+    color: var(--success-color);
+    font-size: 1.25rem;
+  }
+
+  /* Contact Card */
+  .contact-card {
+    border: 2px solid var(--primary-color);
+  }
+
+  .contact-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .contact-method {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--bg-light);
+    border-radius: 8px;
+  }
+
+  .contact-method i {
+    color: var(--primary-color);
+    font-size: 1.25rem;
+  }
+
+  .contact-method a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+
+  .contact-method a:hover {
+    color: var(--accent-color);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2rem;
+    }
+
+    .hero-icon {
+      font-size: 3rem;
+    }
+
+    .policy-card {
+      padding: 1.5rem;
+    }
+
+    .policy-header {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .policy-title {
+      font-size: 1.25rem;
+    }
+  }
+</style>
+
 {% endblock %}

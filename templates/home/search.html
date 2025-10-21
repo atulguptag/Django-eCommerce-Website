@@ -3,7 +3,7 @@
 {% block start %}
 
 <style>
-  h3{
+  h3 {
     margin-bottom: 20px;
   }
 </style>
@@ -21,7 +21,7 @@
       <div class="col-md-3">
         <figure class="card card-product-grid">
           <div class="img-wrap">
-            <img src="/media/{{product.product_images.first.image}}" />
+            <img src="{{product.product_images.first.image_url}}" />
           </div>
           <figcaption class="info-wrap border-top">
             <a href="{% url 'get_product' product.slug %}" class="title">

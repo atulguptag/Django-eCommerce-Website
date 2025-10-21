@@ -1,4 +1,4 @@
-{% extends "base/base.html" %} 
+{% extends "base/base.html" %}
 {% block title %}Profile{% endblock title %}
 {% load crispy_forms_tags %} {% load static %} {% block start %}
 
@@ -6,37 +6,45 @@
   .img-account-profile {
     height: 10rem;
   }
-  
+
   .rounded-circle {
     border-radius: 50% !important;
   }
-  
+
   .card {
     box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
   }
-  
+
   .card .card-header {
     font-weight: 500;
   }
-  
+
   .card-header:first-child {
     border-radius: 0.35rem 0.35rem 0 0;
   }
-  
+
   .card-header {
     padding: 1rem 1.35rem;
     margin-bottom: 0;
     background-color: rgba(33, 40, 50, 0.03);
     border-bottom: 1px solid rgba(33, 40, 50, 0.125);
   }
-  
-  .nav-borders .nav-link.active {
-    color: #0061f2;
-    border-bottom-color: #0061f2;
+
+  /* Unified Color System */
+  :root {
+    --primary-color: #6366f1;
+    --accent-color: #fbbf24;
+    --text-dark: #1e293b;
+    --text-muted: #69707a;
   }
-  
+
+  .nav-borders .nav-link.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+  }
+
   .nav-borders .nav-link {
-    color: #69707a;
+    color: var(--text-muted);
     border-bottom-width: 0.125rem;
     border-bottom-style: solid;
     border-bottom-color: transparent;
@@ -46,6 +54,12 @@
     padding-right: 0;
     margin-left: 1rem;
     margin-right: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .nav-borders .nav-link:hover {
+    color: var(--accent-color);
+    border-bottom-color: var(--accent-color);
   }
 </style>
 
@@ -57,7 +71,7 @@
       <a class="nav-link ms-0" href="{% url 'shipping-address' %}">Address</a>
       <a class="nav-link ms-0" href="{% url 'change_password' %}">Security</a>
     </nav>
-    
+
     <hr class="mt-0 mb-4" />
 
     <!-- Profile Picture Section -->
@@ -70,13 +84,12 @@
               {% csrf_token %}
 
               {% if user.profile.profile_image %}
-              <img class="img-account-profile rounded-circle mb-2"
-                src="{{ user.profile.profile_image.url }}" alt="Profile Picture"/>
+              <img class="img-account-profile rounded-circle mb-2" src="{{ user.profile.profile_image }}"
+                alt="Profile Picture" />
 
               {% else %}
-              <img class="img-account-profile rounded-circle mb-2"
-                src="{% static 'images/default-profile.png' %}"
-                alt="Default Profile Picture"/>
+              <img class="img-account-profile rounded-circle mb-2" src="{% static 'images/default-profile.png' %}"
+                alt="Default Profile Picture" />
               {% endif %}
 
               <div class="small font-italic text-muted mb-4">
@@ -93,8 +106,8 @@
           <div class="card-header">Account Details</div>
           <div class="card-body">
             <form method="POST" enctype="multipart/form-data">
-              {% csrf_token %} 
-              {{ user_form|crispy }} 
+              {% csrf_token %}
+              {{ user_form|crispy }}
               {{ profile_form|crispy }}
               <button class="btn btn-primary" type="submit">
                 Update Profile

@@ -7,21 +7,21 @@
     {% include 'base/alert.html' %}
     <div class="row">
       <main class="col-md-12">
-        {% if wishlist_items %} 
+        {% if wishlist_items %}
         {% for item in wishlist_items %}
         <div class="card mb-3 card-body">
           <table class="table table-borderless table-shopping-cart" style="margin-bottom: 0;">
             <thead class="text-muted">
-                <tr class="small text-capitalize">
-                  <th scope="col">Product</th>
-                </tr>
-              </thead>
+              <tr class="small text-capitalize">
+                <th scope="col">Product</th>
+              </tr>
+            </thead>
             <tbody>
               <tr>
                 <td>
                   <figure class="itemside">
                     <div class="aside">
-                      <img src="/media/{{ item.product.product_images.first.image }}" class="img-sm"/>
+                      <img src="{{ item.product.product_images.first.image_url }}" class="img-sm" />
                     </div>
                     <figcaption class="info">
                       <a href="{% url 'get_product' item.product.slug %}" class="title text-dark">
@@ -29,48 +29,96 @@
                       </a>
 
                       <p class="text-muted small">
-                        {% if item.size_variant %} 
-                            Size: {{ item.size_variant.size_name }}<br />
+                        {% if item.size_variant %}
+                        Size: {{ item.size_variant.size_name }}<br />
                         {% else %} Size : N/A <br />
-                        {% endif %} 
+                        {% endif %}
                         {% if item.product.color_variant.exists %}
-                            {% for color in item.product.color_variant.all %} 
-                              Color: {{ color.color_name }}<br />
-                            {% endfor %}
+                        {% for color in item.product.color_variant.all %}
+                        Color: {{ color.color_name }}<br />
+                        {% endfor %}
                         {% else %} Color: N/A<br />
-                        {% endif %} 
+                        {% endif %}
                         Brand: Nike
                       </p>
-                      <td class="d-flex justify-content-end">
-                        <div class="d-sm-flex mr-2">
-                          <form class="mb-2 mb-sm-0 mr-0 mr-sm-3" method="POST" action="{% url 'move_to_cart' item.product.uid %}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-primary">Move to Cart</button>
-                          </form>
-                          
-                          <form method="POST" action="{% url 'remove_from_wishlist' item.product.uid %}?size={{ item.size_variant.size_name }}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-danger">Remove</button>
-                          </form>
-                        </div>
-                      </td>
-                    </figcaption>
-                  </figure>
+                <td class="d-flex justify-content-end">
+                  <div class="d-sm-flex mr-2">
+                    <form class="mb-2 mb-sm-0 mr-0 mr-sm-3" method="POST"
+                      action="{% url 'move_to_cart' item.product.uid %}">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-primary">Move to Cart</button>
+                    </form>
+
+                    <form method="POST"
+                      action="{% url 'remove_from_wishlist' item.product.uid %}?size={{ item.size_variant.size_name }}">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-outline-primary remove-btn">Remove</button>
+                    </form>
+                  </div>
+                </td>
+                </figcaption>
+                </figure>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
-        {% endfor %} 
+        {% endfor %}
         {% else %}
-          <div class="mb-3">
-            <h4>Your wishlist is empty...</h4>
+        <div class="text-center py-5">
+          <div class="empty-state-container">
+            <div class="empty-state-icon mb-4">
+              <i class="fas fa-heart" style="font-size: 4rem; color: #e2e8f0;"></i>
+            </div>
+            <h3 class="empty-state-title mb-3" style="color: #64748b; font-weight: 600;">Your Wishlist is Empty</h3>
+            <p class="empty-state-subtitle mb-4" style="color: #94a3b8; font-size: 1.1rem;">
+              Discover amazing products and add them to your wishlist to save for later
+            </p>
+            <a href="{% url 'index' %}" class="btn btn-primary btn-lg px-4 py-2 start-shopping-btn">
+              <i class="fas fa-shopping-bag me-2"></i>Start Shopping
+            </a>
           </div>
-          <a class="btn btn-warning" href="{% url 'index' %}">Back to Home Page</a>
+        </div>
         {% endif %}
       </main>
     </div>
   </div>
 </section>
 
+<style>
+  /* Unified Color System for Wishlist */
+  :root {
+    --primary-color: #6366f1;
+    --accent-color: #fbbf24;
+    --text-dark: #1e293b;
+  }
+
+  .remove-btn {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    transition: all 0.3s ease;
+  }
+
+  .remove-btn:hover {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--text-dark);
+    transform: translateY(-2px);
+  }
+
+  .start-shopping-btn {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    transition: all 0.3s ease;
+  }
+
+  .start-shopping-btn:hover {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--text-dark);
+  }
+</style>
+
 {% endblock %}
+
+{% block footer %}{% endblock %}

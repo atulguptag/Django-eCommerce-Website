@@ -20,7 +20,7 @@
             <a href="{% url 'index' %}" class="btn btn-primary mt-3 mb-3 mr-3">
               Continue Shopping
             </a>
-            <a href="{% url 'order_details' order_id=order_id %}" class="btn btn-warning">
+            <a href="{% url 'order_details' order_id=order_id %}" class="btn btn-outline-primary view-order-btn">
               View Order Details
             </a>
           </div>
@@ -30,4 +30,26 @@
   </div>
 </section>
 <!-- ============================ COMPONENT Payment Success END ================================= -->
+
+<style>
+  /* Unified Color System */
+  :root {
+    --primary-color: #6366f1;
+    --accent-color: #fbbf24;
+    --text-dark: #1e293b;
+  }
+
+  .view-order-btn {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    transition: all 0.3s ease;
+  }
+
+  .view-order-btn:hover {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--text-dark);
+  }
+</style>
+
 {% endblock %}
