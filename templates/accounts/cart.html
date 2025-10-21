@@ -57,7 +57,7 @@
                 <td>
                   <select class="form-control" onchange="updateCartItem(this, '{{ cart_item.uid }}')">
                     {% for i in quantity_range %}
-                    <option value="{{ i }}" {% if cart_item.quantity==i %}selected{% endif %}>{{ i }}</option>
+                    <option value="{{ i }}" {% if cart_item.quantity == i %}selected{% endif %}>{{ i }}</option>
                     {% endfor %}
                   </select>
                 </td>
