@@ -26,7 +26,9 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG")
 
-ALLOWED_HOSTS = []
+# Allowed hosts - read from environment variable (comma-separated values)
+ALLOWED_HOSTS = config(
+    "ALLOWED_HOSTS", default="localhost,127.0.0.1").split(",")
 
 
 # Application definition

@@ -80,6 +80,10 @@ To run this project locally, please follow these steps:
 
     - Before running migrations, create a `.env` file in the project root. You can use `.env.example` as a template.
     - Add your `SECRET_KEY` and set `DEBUG=True` in the `.env` file.
+    - Configure `ALLOWED_HOSTS` with your domain names (comma-separated, no spaces):
+      ```
+      ALLOWED_HOSTS=localhost,127.0.0.1,yourdomain.com
+      ```
     - To generate a `SECRET_KEY`, run the following in your activated virtual environment:
       ```bash
       django-admin shell -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
