@@ -57,7 +57,7 @@
                 <td>
                   <select class="form-control" onchange="updateCartItem(this, '{{ cart_item.uid }}')">
                     {% for i in quantity_range %}
-                    <option value="{{ i }}" {% if cart_item.quantity == i %}selected{% endif %}>{{ i }}</option>
+                    <option value="{{ i }}" {% if cart_item.quantity==i %}selected{% endif %}>{{ i }}</option>
                     {% endfor %}
                   </select>
                 </td>
@@ -173,7 +173,7 @@
 
     handler: function (response) {
       console.log("Success");
-      window.location.href = `http://127.0.0.1:8000/accounts/success/?order_id={{ payment.id }}`;
+      window.location.href = `{{ base_url }}/accounts/success/?order_id={{ payment.id }}`;
     },
     prefill: {
       name: "Gaurav Kumar",

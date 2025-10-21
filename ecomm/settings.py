@@ -30,6 +30,9 @@ DEBUG = config("DEBUG")
 ALLOWED_HOSTS = config(
     "ALLOWED_HOSTS", default="localhost,127.0.0.1").split(",")
 
+# Base URL for the website (used in emails and payment callbacks)
+BASE_URL = config("BASE_URL", default="http://127.0.0.1:8000")
+
 
 # Application definition
 

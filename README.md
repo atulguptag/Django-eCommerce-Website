@@ -80,6 +80,11 @@ To run this project locally, please follow these steps:
 
     - Before running migrations, create a `.env` file in the project root. You can use `.env.example` as a template.
     - Add your `SECRET_KEY` and set `DEBUG=True` in the `.env` file.
+    - Configure `BASE_URL` with your website URL (used for emails and payment callbacks):
+      ```
+      BASE_URL=http://127.0.0.1:8000  # For local development
+      BASE_URL=https://yourdomain.com  # For production
+      ```
     - Configure `ALLOWED_HOSTS` with your domain names (comma-separated, no spaces):
       ```
       ALLOWED_HOSTS=localhost,127.0.0.1,yourdomain.com

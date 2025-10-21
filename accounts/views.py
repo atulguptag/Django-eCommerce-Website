@@ -27,7 +27,8 @@ from accounts.forms import UserUpdateForm, UserProfileForm, ShippingAddressForm,
 
 
 def login_page(request):
-    next_url = request.GET.get('next') # Get the next URL from the query parameter
+    # Get the next URL from the query parameter
+    next_url = request.GET.get('next')
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -142,7 +143,8 @@ def cart(request):
         cart_obj = Cart.objects.get(is_paid=False, user=user)
 
     except Exception as e:
-        messages.warning(request, "Your cart is empty. Please add a product to cart.", str(e))
+        messages.warning(
+            request, "Your cart is empty. Please add a product to cart.", str(e))
         return redirect(reverse('index'))
 
     if request.method == 'POST':
@@ -173,7 +175,8 @@ def cart(request):
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     if cart_obj:
-        cart_total_in_paise = int(cart_obj.get_cart_total_price_after_coupon() * 100)
+        cart_total_in_paise = int(
+            cart_obj.get_cart_total_price_after_coupon() * 100)
 
         if cart_total_in_paise < 100:
             messages.warning(
@@ -187,7 +190,12 @@ def cart(request):
         cart_obj.razorpay_order_id = payment['id']
         cart_obj.save()
 
-    context = {'cart': cart_obj, 'payment': payment, 'quantity_range': range(1, 6), }
+    context = {
+        'cart': cart_obj,
+        'payment': payment,
+        'quantity_range': range(1, 6),
+        'base_url': settings.BASE_URL,
+    }
     return render(request, 'accounts/cart.html', context)
 
 
@@ -291,11 +299,13 @@ def profile_view(request, username):
 
     if request.method == 'POST':
         user_form = UserUpdateForm(request.POST, instance=user)
-        profile_form = UserProfileForm(request.POST, request.FILES, instance=profile)
+        profile_form = UserProfileForm(
+            request.POST, request.FILES, instance=profile)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            messages.success(request, 'Your profile has been updated successfully!')
+            messages.success(
+                request, 'Your profile has been updated successfully!')
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     context = {
@@ -314,7 +324,8 @@ def change_password(request):
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
-            messages.success(request, 'Your password was successfully updated!')
+            messages.success(
+                request, 'Your password was successfully updated!')
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         else:
             messages.warning(request, 'Please correct the error below.')
@@ -336,7 +347,8 @@ def update_shipping_address(request):
             shipping_address.current_address = True
             shipping_address.save()
 
-            messages.success(request, "The Address Has Been Successfully Saved/Updated!")
+            messages.success(
+                request, "The Address Has Been Successfully Saved/Updated!")
 
             form = ShippingAddressForm()
         else:
@@ -404,5 +416,6 @@ def delete_account(request):
         user = request.user
         logout(request)
         user.delete()
-        messages.success(request, "Your account has been deleted successfully.")
+        messages.success(
+            request, "Your account has been deleted successfully.")
         return redirect('index')
